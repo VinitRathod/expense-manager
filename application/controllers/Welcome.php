@@ -22,4 +22,29 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
+
+	public function vendorManagement()
+	{
+		$this->load->view('vm');
+	}
+
+	public function employeeManagement()
+	{
+		$this->load->view('em');
+	}
+
+	public function vendorPayout()
+	{
+		$this->load->view('ven_payout');
+	}
+
+	public function employeePayout()
+	{
+		$this->load->view('emp_payout');
+	}
+
+	public function expenseManagement()
+	{
+		$this->load->view('exp_management');
+	}
 }
