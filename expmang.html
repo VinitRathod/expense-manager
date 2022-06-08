@@ -22,7 +22,7 @@
     </h1>
 
     <h4 class="text-blue text-center font-weight-bold" style="font-size: 20px">
-      Employee Management
+      Expense Management
     </h4>
 
     <div class="container">
@@ -31,66 +31,74 @@
       <div class="col-lg-5 m-auto d-block">
         <form action="#" onsubmit="return validation()" class="bg-light">
           <div class="form-group">
-            <label class="font-weight-regular"> Employee ID </label>
+            <label for="expid" class="font-weight-regular"> Expense ID </label>
             <input
               type="text"
-              name="empid"
+              name="expid"
               class="form-control"
-              id="empid"
+              id="expid"
               autocomplete="off"
               required
             />
-            <span id="employeeid" class="text-danger font-weight-regular">
+            <span id="expenseid" class="text-danger font-weight-regular">
             </span>
           </div>
 
           <div class="form-group">
-            <label for="employeename" class="font-weight-regular">
-              Employee Name
+            <label for="expcode" class="font-weight-regular">
+              Expense Code
             </label>
             <input
               type="text"
-              name="employeename"
-              pattern="[a-z A-Z]{3,}"
+              name="expcode"
+              pattern="[a-z A-Z0-9]{1,}"
               class="form-control"
-              id="employeename"
+              id="expcode"
               autocomplete="off"
               required
             />
-            <span id="EName" class="text-danger font-weight-regular"> </span>
+            <span id="expcode" class="text-danger font-weight-regular"> </span>
           </div>
 
           <div class="form-group">
-            <label for="pan" class="font-weight-regular"> PAN Number </label>
-            <input
-              type="text"
-              name="pan"
-              class="form-control"
-              id="pan"
-              autocomplete="off"
-              required
-            />
+            <label for="expcategory"> Select Expense Category :</label>
+            <select id="expcategory" name="course">
+              <option value="expcat1">expcat-1</option>
+              <option value="expcat2">expcat-2</option>
+              <option value="expcat3">expcat-3</option>
+            </select>
+            <span id="expCategory" class="text-danger font-weight-regular"> </span>
           </div>
 
           <div class="form-group">
-            <label class="font-weight-regular"> Mobile Number </label>
-            <input
-              type="number"
-              pattern="[0-9]{10}"
-              maxlength="10"
-              max="9999999999"
-              step="1"
-              name="mobile"
-              class="form-control"
-              id="mobileNumber"
+            <label for="expdesc" class="font-weight-regular"> Expense Description </label>
+            <br />
+            <textarea
+              id="expdesc"
+              rows="4"
+              cols="50"
+              name="expense_desc"
               required
-            />
-            <span id="mobileno" class="text-danger font-weight-regular"> </span>
+            >
+            </textarea>
+
           </div>
 
+          <div class="form-group">
+            <label for="exptype"> Select Expense Type :</label>
+            <select id="exptype" name="course">
+              <option value="vendor">Vendor</option>
+              <option value="employee">Employee</option>
+            </select>
+            <span id="expCategory" class="text-danger font-weight-regular"> </span>
+          </div>
+
+
+
+         
           <!-- ...  -->
 
-          <div class="form-group" id="formField"></div>
+         
 
           <input
             type="submit"
@@ -113,8 +121,7 @@
     </div>
 
     <script type="text/javascript">
-      function validation() {
-          
+         function validation() {
       }
     </script>
   </body>
