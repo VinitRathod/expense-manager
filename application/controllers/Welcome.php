@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Welcome extends CI_Controller
+{
 
 	/**
 	 * Index Page for this controller.
@@ -18,9 +19,16 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
+
+	// public function __construct()
+	// {
+	// 	parent::__construct();
+	// 	$this->load->model('Employees');
+	// }
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$data['emp_details'] = $this->emp->getAllEmp();
+		$this->load->view('welcome_message', $data);
 	}
 
 	public function vendorManagement()
@@ -46,5 +54,26 @@ class Welcome extends CI_Controller {
 	public function expenseManagement()
 	{
 		$this->load->view('exp_management');
+	}
+
+	public function add()
+	{
+		// echo "Hello from add";
+		if ($this->input->post('submit')) {
+			$emp_name = $this->input->post('employeename');
+			$emp_name = explode(" ", $emp_name);
+			// in array key name same as the database column name
+			$data = array(
+				'c_fname' => $emp_name[0],
+				'c_lname' => $emp_name[1],
+				'c_panno' => $this->input->post('pan'),
+				'c_contactno' => $this->input->post('mobile')
+			);
+			$insert = $this->emp->insert($data);
+
+			if ($insert) {
+				redirect('/');
+			}
+		}
 	}
 }
