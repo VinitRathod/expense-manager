@@ -35,6 +35,9 @@
 							<td><?php echo $emps->c_fname; ?> <?php echo $emps->c_lname ?></td>
 							<td><?php echo $emps->c_panno ?></td>
 							<td><?php echo $emps->c_contactno ?></td>
+							<td><a href="<?php echo base_url(); ?>editEmp/<?php echo $emps->c_id ?>" class="btn btn-success">Edit</a>
+								<a href="<?php echo base_url(); ?>delEmp/<?php echo $emps->c_id ?>" class="btn btn-danger">Delete</a>
+							</td>
 						</tr>
 
 					<?php endforeach; ?>
