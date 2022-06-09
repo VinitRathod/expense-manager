@@ -1,27 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<!DOCTYPE html>
-<html>
+<div id="maincontent" class="contentblock" style="width:100%">
 
-<head>
-	<title></title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
 
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-	<!-- Popper JS -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</head>
-
-<body>
-	<h1 class="text-green text-center font-weight-bold" style="font-size: 40px">
-		Expense Management System
-	</h1>
 
 	<h4 class="text-blue text-center font-weight-bold" style="font-size: 20px">
 		Vendor Management
@@ -90,27 +72,28 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<br /><br />
 		</div>
 	</div>
+</div>
 
-	<script type="text/javascript">
-		function validation() {
-			var emails = document.getElementById("emails").value;
+<script type="text/javascript">
+	function validation() {
+		var emails = document.getElementById("emails").value;
 
-			console.log(vendorId);
+		console.log(vendorId);
 
-			if (emails.indexOf("@") <= 0) {
-				document.getElementById("emailids").innerHTML = " ** Invalid Email";
-				return false;
-			}
-
-			if (
-				emails.charAt(emails.length - 4) != "." &&
-				emails.charAt(emails.length - 3) != "."
-			) {
-				document.getElementById("emailids").innerHTML = " ** Invalid Email";
-				return false;
-			}
+		if (emails.indexOf("@") <= 0) {
+			document.getElementById("emailids").innerHTML = " ** Invalid Email";
+			return false;
 		}
-	</script>
+
+		if (
+			emails.charAt(emails.length - 4) != "." &&
+			emails.charAt(emails.length - 3) != "."
+		) {
+			document.getElementById("emailids").innerHTML = " ** Invalid Email";
+			return false;
+		}
+	}
+</script>
 </body>
 
 </html>

@@ -1,28 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<!DOCTYPE html>
-<html>
-
-<head>
-	<title></title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-	<!-- Popper JS -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</head>
-
-<body>
-	<h1 class="text-green text-center font-weight-bold" style="font-size: 40px">
-		Expense Management System
-	</h1>
-
+<div id="maincontent" class="contentblock" style="width:100%">
 	<h4 class="text-blue text-center font-weight-bold" style="font-size: 20px">
 		Expense Management
 	</h4>
@@ -91,10 +70,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<br /><br />
 		</div>
 	</div>
-
-	<script type="text/javascript">
-		function validation() {}
-	</script>
+</div>
+<script type="text/javascript">
+	function validation() {}
+</script>
 </body>
 
 </html>
