@@ -31,23 +31,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<br />
 
 		<div class="col-lg-5 m-auto d-block">
-			<form action="#" onsubmit="return validation()" class="bg-light">
+			<form action="<?php echo base_url(); ?>addExpCat" onsubmit="return validation()" class="bg-light" method="post">
 				<div class="form-group">
-					<label for="expid" class="font-weight-regular"> Expense ID </label>
-					<input type="text" name="expid" class="form-control" id="expid" autocomplete="off" required />
-					<span id="expenseid" class="text-danger font-weight-regular">
+					<label for="expid" class="font-weight-regular"> Expense Code </label>
+					<input type="text" name="expCode" class="form-control" id="expCode" autocomplete="off" required />
+					<span id="warnExpCode" class="text-danger font-weight-regular">
+
 					</span>
 				</div>
 
 				<div class="form-group">
 					<label for="expcode" class="font-weight-regular">
-						Expense Code
+						Expense Category
 					</label>
-					<input type="text" name="expcode" pattern="[a-z A-Z0-9]{1,}" class="form-control" id="expcode" autocomplete="off" required />
-					<span id="expcode" class="text-danger font-weight-regular"> </span>
+					<input type="text" name="expCat" pattern="[a-z A-Z0-9]{1,}" class="form-control" id="expCat" autocomplete="off" required />
+					<span id="warnFExpCat" class="text-danger font-weight-regular">
+
+					</span>
 				</div>
 
-				<div class="form-group">
+				<!-- Can Be Used Later -->
+				<!-- <div class="form-group">
 					<label for="expcategory"> Select Expense Category :</label>
 					<select id="expcategory" name="course">
 						<option value="expcat1">expcat-1</option>
@@ -55,23 +59,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<option value="expcat3">expcat-3</option>
 					</select>
 					<span id="expCategory" class="text-danger font-weight-regular"> </span>
-				</div>
+				</div> -->
 
 				<div class="form-group">
 					<label for="expdesc" class="font-weight-regular"> Expense Description </label>
 					<br />
-					<textarea id="expdesc" rows="4" cols="50" name="expense_desc" required>
-            </textarea>
-
+					<textarea id="expDesc" rows="4" cols="50" name="expDesc" required>
+            		</textarea>
 				</div>
 
 				<div class="form-group">
 					<label for="exptype"> Select Expense Type :</label>
-					<select id="exptype" name="course">
+					<select id="expType" name="expType">
 						<option value="vendor">Vendor</option>
 						<option value="employee">Employee</option>
 					</select>
-					<span id="expCategory" class="text-danger font-weight-regular"> </span>
+					<span id="warnExpType" class="text-danger font-weight-regular"> </span>
 				</div>
 
 

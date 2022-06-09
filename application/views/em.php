@@ -134,7 +134,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 					<br /><br />
 				</div>
-			</div>
+
+				<div class="form-group">
+					<label class="font-weight-regular"> Mobile Number </label>
+					<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="mobile" class="form-control" id="mobileNumber" required />
+					<span id="mobileno" name="mobileno" class="text-danger font-weight-regular"> </span>
+				</div>
+
+
+				<!-- ...  -->
+
+				<div class="form-group" id="formField"></div>
+
+				<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
+				<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
+			</form>
+
+			<br /><br />
 		</div>
 	</div>
 

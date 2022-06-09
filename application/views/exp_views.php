@@ -16,28 +16,25 @@
 	<!-- <h1>Hello from the View</h1> -->
 	<div class="container">
 		<div class="clear-fix">
-			<h3 style="float:left">All Employees</h3>
-			<a href="<?php echo base_url(); ?>employeeManagement" class="btn btn-primary" style="float:right">Add Data</a>
+			<h3 style="float:left">All Expense Types</h3>
+			<a href="<?php echo base_url(); ?>expenseManagement" class="btn btn-primary" style="float:right">Add Data</a>
 		</div>
 		<br>
-		<?php if ($emp_details) : ?>
+		<?php if ($exp_details) : ?>
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Name</th>
-						<th>PAN</th>
-						<th>Mobile Number</th>
+						<th>Category</th>
+						<th>Type</th>
+						<th>Description</th>
 					</tr>
 				<tbody>
-					<?php foreach ($emp_details as $emps) : ?>
+					<?php foreach ($exp_details as $exps) : ?>
 
 						<tr>
-							<td><?php echo $emps->c_fname; ?> <?php echo $emps->c_lname ?></td>
-							<td><?php echo $emps->c_panno ?></td>
-							<td><?php echo $emps->c_contactno ?></td>
-							<td><a href="<?php echo base_url(); ?>editEmp/<?php echo $emps->c_id ?>" class="btn btn-success">Edit</a>
-								<a href="<?php echo base_url(); ?>delEmp/<?php echo $emps->c_id ?>" class="btn btn-danger">Delete</a>
-							</td>
+							<td><?php echo $exps->c_category; ?></td>
+							<td><?php echo $exps->c_type ?></td>
+							<td><?php echo $exps->c_description ?></td>
 						</tr>
 
 					<?php endforeach; ?>
