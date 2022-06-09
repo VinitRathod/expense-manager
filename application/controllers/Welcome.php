@@ -82,5 +82,22 @@ class Welcome extends CI_Controller
 		$data['empID'] = $this->emp->getSingleEmployee($id);
 
 		$this->load->view('edit_emp', $data);
+	public function addExpCat() {
+		if($this->input->post('submit')) {
+			$data = array(
+				'c_category' => $this->input->post('expCat'),
+				'c_type' => $this->input->post('expType'),
+				'c_description' => $this->input->post('expDesc')
+			);
+			$insert = $this->exp->insert($data);
+			if($insert) {
+				redirect('expGetAll');
+			}
+		}
+	}
+
+	public function expGetAll() {
+		$data['exp_details'] = $this->exp->getAll();
+		$this->load->view('exp_views',$data);
 	}
 }
