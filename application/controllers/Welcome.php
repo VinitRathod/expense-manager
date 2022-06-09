@@ -33,6 +33,7 @@ class Welcome extends CI_Controller
 
 	public function vendorManagement()
 	{
+		$this->load->view('header');
 		$this->load->view('vm');
 	}
 
@@ -43,16 +44,19 @@ class Welcome extends CI_Controller
 
 	public function vendorPayout()
 	{
+		$this->load->view('header');
 		$this->load->view('ven_payout');
 	}
 
 	public function employeePayout()
 	{
+		$this->load->view('header');
 		$this->load->view('emp_payout');
 	}
 
 	public function expenseManagement()
 	{
+		$this->load->view('header');
 		$this->load->view('exp_management');
 	}
 
@@ -82,6 +86,8 @@ class Welcome extends CI_Controller
 		$data['empID'] = $this->emp->getSingleEmployee($id);
 
 		$this->load->view('edit_emp', $data);
+
+	}
 	public function addExpCat() {
 		if($this->input->post('submit')) {
 			$data = array(

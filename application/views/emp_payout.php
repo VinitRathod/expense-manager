@@ -1,28 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<!DOCTYPE html>
-<html>
-
-<head>
-	<title></title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-	<!-- Popper JS -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</head>
-
-<body>
-	<h1 class="text-green text-center font-weight-bold" style="font-size: 40px">
-		Expense Management System
-	</h1>
-
+<div id="maincontent" class="contentblock" style="width:100%">
 	<h4 class="text-blue text-center font-weight-bold" style="font-size: 20px">
 		Employee Payout
 	</h4>
@@ -98,43 +77,43 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<br /><br />
 		</div>
 	</div>
+</div>
+<script type="text/javascript">
+	function validation() {
+		var ename = document.getElementById("employeename").value;
+		var mobileNumber = document.getElementById("mobileNumber").value;
+		var amount = document.getElementById("amount").value;
 
-	<script type="text/javascript">
-		function validation() {
-			var ename = document.getElementById("employeename").value;
-			var mobileNumber = document.getElementById("mobileNumber").value;
-			var amount = document.getElementById("amount").value;
-
-			if (ename == "") {
-				document.getElementById("EName").innerHTML =
-					" ** Please fill the Name field";
-				return false;
-			}
-
-			if (amount == "") {
-				document.getElementById("amount-s").innerHTML =
-					" ** Please fill the amount field";
-				return false;
-			}
-
-			if (mobileNumber == "") {
-				document.getElementById("mobileno").innerHTML =
-					" ** Please fill the mobile NUmber field";
-				return false;
-			}
-
-			if (isNaN(mobileNumber)) {
-				document.getElementById("mobileno").innerHTML =
-					" ** user must write digits only not characters";
-				return false;
-			}
-			if (mobileNumber.length != 10) {
-				document.getElementById("mobileno").innerHTML =
-					" ** Mobile Number must be 11 digits only";
-				return false;
-			}
+		if (ename == "") {
+			document.getElementById("EName").innerHTML =
+				" ** Please fill the Name field";
+			return false;
 		}
-	</script>
+
+		if (amount == "") {
+			document.getElementById("amount-s").innerHTML =
+				" ** Please fill the amount field";
+			return false;
+		}
+
+		if (mobileNumber == "") {
+			document.getElementById("mobileno").innerHTML =
+				" ** Please fill the mobile NUmber field";
+			return false;
+		}
+
+		if (isNaN(mobileNumber)) {
+			document.getElementById("mobileno").innerHTML =
+				" ** user must write digits only not characters";
+			return false;
+		}
+		if (mobileNumber.length != 10) {
+			document.getElementById("mobileno").innerHTML =
+				" ** Mobile Number must be 11 digits only";
+			return false;
+		}
+	}
+</script>
 </body>
 
 </html>

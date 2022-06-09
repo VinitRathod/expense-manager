@@ -31,7 +31,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="height:5em;">
-		<a class="navbar-brand" href="#"> <h2>Expense Management System</h2></a>
+		<a class="navbar-brand" href="#">
+			<h2>Expense Management System</h2>
+		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -59,7 +61,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<a href="<?php echo base_url(); ?>expenseManagement" class="w3-bar-item w3-button">Expense Management</a>
 			</div>
 		</div>
-		<div id="maincontent" class="contentblock"  style="width:100%" >
+		<div id="maincontent" class="contentblock" style="width:100%">
 
 			<h2 class="text-blue text-center font-weight-bold" style="font-size: 20px">
 				Employee Management
@@ -123,61 +125,113 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								</table>
 							</div>
 						</div>
+						<div class="form-group">
+							<label for="ContactDetail" class="font-weight-regular"> Contact Details </label>
 
-						<!-- ...  -->
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dynamic_field1">
+									<tr>
+										<td>Name : <input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" required="" /></td>
+									</tr>
+									<tr>
+										<td>
+											Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number" class="form-control name_list" required="" /></td>
+									</tr>
+									<tr>
+										<td>Email: <input type="email" name="email[]" placeholder="Enter your email" class="form-control name_list" required="" /></td>
+									</tr>
+								</table>
+								<table>
+									<tr>
+										<td><button type="button" name="add1" id="add1" class="btn btn-success">Add Another Mobile Number </button></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="Designation" class="font-weight-regular">
+								Designation
+							</label>
+							<input type="text" name="designation" pattern="[a-z A-Z]{3,}" class="form-control" id="designation" autocomplete="off" required />
 
-						<div class="form-group" id="formField"></div>
+						</div>
+						<div class="form-group">
+							<label for="Tag" class="font-weight-regular">
+								Tags
+							</label>
+							<input type="text" name="Tags" pattern="[a-z A-Z]{1,}" class="form-control" id="Tags" autocomplete="off" required />
 
-						<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
-						<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
+							<!-- ...  -->
+
+							<div class="form-group" id="formField"></div>
+
+							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
+							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
 					</form>
 
 					<br /><br />
 				</div>
 
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label class="font-weight-regular"> Mobile Number </label>
 					<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="mobile" class="form-control" id="mobileNumber" required />
 					<span id="mobileno" name="mobileno" class="text-danger font-weight-regular"> </span>
-				</div>
+				</div> -->
 
 
 				<!-- ...  -->
 
-				<div class="form-group" id="formField"></div>
+				<!-- <div class="form-group" id="formField"></div>
 
 				<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
-				<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
-			</form>
+				<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" /> -->
+				</form>
 
-			<br /><br />
+				<br /><br />
+			</div>
 		</div>
-	</div>
 
-	<script type="text/javascript">
-		function validation() {
+		<script type="text/javascript">
+			function validation() {
 
-		}
-	</script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			var postURL = "/addmore.php";
-			var i = 1;
-			//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
-			$('#add').click(function() {
-				i++;
-				$('#dynamic_field').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Bank  Account  Details  </td></tr>',
-					'<tr id="row' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
-					'<tr id="row' + i + '" class="dynamic-added"></tr>',
-					'<tr id="row' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
-					'<tr id="row' + i + '" class="dynamic-added"><td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
-					'<tr id="row' + i + '" class="dynamic-added"><td>Account Status : <input type="text" name="AccStatus[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
+			}
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var postURL = "/addmore.php";
+				var i = 1;
+				//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+				$('#add').click(function() {
+					i++;
+					$('#dynamic_field').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Bank  Account  Details  </td></tr>',
+						'<tr id="row' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
+						'<tr id="row' + i + '" class="dynamic-added"></tr>',
+						'<tr id="row' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
+						'<tr id="row' + i + '" class="dynamic-added"><td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
+						'<tr id="row' + i + '" class="dynamic-added"><td>Account Status : <input type="text" name="AccStatus[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
 
-				);
+					);
+				});
+
 			});
+		</script>
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var postURL = "/addmore.php";
+				var i = 1;
+				//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+				$('#add1').click(function() {
+					i++;
+					$('#dynamic_field1').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
+						'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
 
-		});
-	</script>
+					);
+				});
+
+
+			});
+		</script>
 </body>
 
 </html>
