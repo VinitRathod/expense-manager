@@ -26,28 +26,30 @@ class ExpenseManagement extends CI_Controller
 	// 	$this->load->model('Employees');
 	// }
 	// expanse management code goes here =================================================
-    public function index() {
+	public function index()
+	{
 		$data['exp_details'] = $this->exp->getAll();
-		$this->load->view('exp_views',$data);
+		$this->load->view('exp_views', $data);
 	}
 
-	public function addExpCat() {
-		if($this->input->post('submit')) {
-			$data = array(
-				'c_category' => $this->input->post('expCat'),
-				'c_type' => $this->input->post('expType'),
-				'c_description' => $this->input->post('expDesc')
-			);
-			$insert = $this->exp->insert($data);
-			if($insert) {
-				redirect('expGetAll');
-			}
+	public function addExpCat()
+	{
+
+		$data = array(
+			'c_category' => $this->input->post('expCat'),
+			'c_type' => $this->input->post('expType'),
+			'c_description' => $this->input->post('expDesc')
+		);
+		$insert = $this->exp->insert($data);
+		if ($insert) {
+			
 		}
 	}
 
-	public function edit_Exp($id) {
+	public function edit_Exp($id)
+	{
 		$data['exp_details'] = $this->exp->getSingleExp($id);
-		$this->load->view('edit_Exp',$data);
+		$this->load->view('edit_Exp', $data);
 	}
 
 	// expanse management code ends here =================================================

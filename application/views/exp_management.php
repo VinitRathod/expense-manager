@@ -25,10 +25,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 					<div class="modal-body">
 
-						<form action="<?php echo base_url(); ?>addExpCat" onsubmit="return validation()" name="add_name" id="add_name" class="bg-light" method="post">
+						<form action="<?php echo base_url(); ?>ExpenseManagement/addExpCat" onsubmit="return validation()" id="add_exp" class="bg-light" method="post">
 							<div class="form-group">
 								<label for="expid" class="font-weight-regular"> Expense Code </label>
-								<input type="text" name="expCode" class="form-control" id="expCode" autocomplete="off" required />
+								<input type="text" name="expCode1" class="form-control" id="expCode" autocomplete="off" required />
 								<span id="warnExpCode" class="text-danger font-weight-regular">
 
 								</span>
@@ -74,7 +74,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 
-							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
+							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" data-tw-dismiss="modal" />
 							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
 						</form>
 
@@ -91,9 +91,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	</div>
 </div>
-<script type="text/javascript">
-	function validation() {}
-</script>
 </body>
+<script>
+	function validation() {}
+	
+	$("#add_exp").submit(function(e){
+		e.preventDefault();
+		const form = new FormData(document.getElementById('add_exp'));
+		console.log(...form);
+		$.ajax({
+			method: 'POST',
+			processData: false,
+			contentType: false,
+			cache: false,
+			enctype: 'multipart/form-data',
+			url: "<?php echo base_url() ?>ExpenseManagement/addExpCat",
+			data: form,
+			success: function() {
+				
+			}
+		});
+	});
 
+</script>
 </html>
