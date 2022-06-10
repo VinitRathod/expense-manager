@@ -55,9 +55,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 									Expense category :
 								</label>
 								<select id="category" name="course" required>
-									<option value="sal">SALARY</option>
-									<option value="other">OTHER</option>
+									<option id="salary" value="sal">SALARY</option>
+									<option id="other" value="other">OTHER</option>
 								</select>
+								<div id="expense-category">
+
+								</div>
 							</div>
 
 							<div class="form-group">
@@ -79,10 +82,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<label for="manual">Manual</label><br />
 								<input class="ml-3" type="radio" id="schedule" name="fav_language" value="schedule" />
 								<label for="schedule">Scheduled</label><br />
+								<div id="payment-mode-schedule">
+
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="Tag" class="font-weight-regular">
+									Tags
+								</label>
+								<input type="text" name="Tags" pattern="[a-z A-Z]{1,}" class="form-control" id="Tags" autocomplete="off" required />
+								<br />
+
 							</div>
 
 							<!-- ....  -->
-							
+
 
 							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
 							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
@@ -138,6 +153,53 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		}
 	}
 </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var i = 0;
+		$('#manual').click(function() {
+
+			$('#payment-mode-schedule').empty();
+			i = 0;
+
+		});
+		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+		$('#schedule').click(function() {
+			if (i == 0) {
+				$('#payment-mode-schedule').append('<br/><label class="font-weight-regular"> Payment Processing Date</label><input type="date" name="paypd" class="form-control" id="paypd" autocomplete="off" required />',
+
+				);
+				i++;
+			}
+
+		});
+
+
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var i = 0;
+		$('#salary').select(function() {
+
+			$('#expense-category').empty();
+			i = 0;
+
+		});
+		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+		$('#other').select(function() {
+			if (i == 0) {
+				$('#expense-category').append('<br/><label class="font-weight-regular"> Payment Processing Date</label><input type="date" name="paypd" class="form-control" id="paypd" autocomplete="off" required />',
+
+				);
+				i++;
+			}
+
+		});
+
+
+	});
+</script>
+
 </body>
 
 </html>
