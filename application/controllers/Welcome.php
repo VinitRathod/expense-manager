@@ -81,6 +81,5 @@ class Welcome extends CI_Controller
 		$data['empID'] = $this->emp->getSingleEmployee($id);
 
 		$this->load->view('edit_emp', $data);
-
 	}
 }

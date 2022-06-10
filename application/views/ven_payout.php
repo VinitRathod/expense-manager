@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<div id="maincontent" class="contentblock" style="width:100%">
+<div id="maincontent" class="contentblock" style="width:80%">
 
 	<div id="top-header" style="display:flex; justify-content:space-between">
 		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
@@ -123,37 +123,45 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	</div>
 
-	<div class="table-responsive-md mt-4">
-	<table class="table" >
-    <thead>
-    <tr>
-	<th scope="col">Select Vendor </th>
-	<th scope="col">Amount</th>
-	<th scope="col">Invoice Number</th>
-	<th scope="col">Expense category</th>
-	<th scope="col">Document</th>
-	<th scope = "col">References</th>
-	<th scope="col">Payment Due Date</th>
-	<th scope="col">Payment Mode</th>
-	<th scope="col">Action</th>
-	</tr>
-  </thead>
-  <tbody>
-	  <tr>
-  <td>ff</td>
-  <td>454</td>
-  <td>rfdf</td>
-  <td>fdf</td>
-  <td>dfsdf</td>
-  <td>dfb</td>
- <td>dv</td>
- <td>dwd</td>
-<td><a href="" style ="text-decoration : none">edit</a><a href="" style ="text-decoration : none">delete</a>
-</td>
-  </tr>
-  </tbody>
-</table>	
-</div>
+	<div class="table-responsive-md mt-4" style="overflow-x:auto;">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Select Vendor </th>
+					<th scope="col">Amount</th>
+					<th scope="col">Invoice Number</th>
+					<th scope="col">Expense category</th>
+					<th scope="col">Document</th>
+					<th scope="col">References</th>
+					<th scope="col">Payment Due Date</th>
+					<th scope="col">Payment Mode</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>ff</td>
+					<td>454</td>
+					<td>rfdf</td>
+					<td>fdf</td>
+					<td>dfsdf</td>
+					<td>dfb</td>
+					<td>dv</td>
+					<td>dwd</td>
+					<td><div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    ...
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#">Edit</a>
+    <a class="dropdown-item" href="#">Delete</a>
+   
+  </div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -165,7 +173,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$('#manual').click(function() {
 
 			$('#payment-mode-schedule').empty();
-			i=0;
+			i = 0;
 
 		});
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>

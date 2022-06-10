@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<div id="maincontent" class="contentblock" style="width:100%">
+<div id="maincontent" class="contentblock" style="width:80%">
 	<div id="top-header" style="display:flex; justify-content:space-between">
 		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
 			Employee Payout
@@ -115,35 +115,43 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<!-- modal end  -->
 
 	</div>
-	<div class="table-responsive-md mt-4">
-	<table class="table" >
-    <thead>
-    <tr>
-	<th scope="col">Bulk Upload</th>
-	<th scope="col">Employee ID</th>
-	<th scope="col">Employee Name</th>
-	<th scope="col">Expense category</th>
-	<th scope="col">Amount</th>
-	<th scope="col">Payment Due Date</th>
-	<th scope="col">Payment Mode</th>
-	<th scope="col">Action</th>
-	</tr>
-  </thead>
-  <tbody>
-	  <tr>
-  <td>ff</td>
-  <td>454</td>
-  <td>rfdf</td>
-  <td>fdf</td>
-  <td>dfsdf</td>
-  <td>dfb</td>
- <td>dv</td>
- <td><a href="" style ="text-decoration : none">edit</a><a href="" style ="text-decoration : none">delete</a></td>
+	<div class="table-responsive mt-4" style="overflow-x:auto;">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Bulk Upload</th>
+					<th scope="col">Employee ID</th>
+					<th scope="col">Employee Name</th>
+					<th scope="col">Expense category</th>
+					<th scope="col">Amount</th>
+					<th scope="col">Payment Due Date</th>
+					<th scope="col">Payment Mode</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>ff</td>
+					<td>454</td>
+					<td>rfdf</td>
+					<td>fdf</td>
+					<td>dfsdf</td>
+					<td>dfb</td>
+					<td>dv</td>
+					<td><div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    ...
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#">Edit</a>
+    <a class="dropdown-item" href="#">Delete</a>
+   
+  </div></td>
 
-  </tr>
-  </tbody>
-</table>	
-</div>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -208,14 +216,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script type="text/javascript">
 	$(document).ready(function() {
 		var i = 0;
-		$('#salary').select(function() {
+		$('#salary').selected(function() {
 
 			$('#expense-category').empty();
 			i = 0;
 
 		});
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
-		$('#other').select(function() {
+		$('#other').selected(function() {
 			if (i == 0) {
 				$('#expense-category').append('<br/><label class="font-weight-regular"> Payment Processing Date</label><input type="date" name="paypd" class="form-control" id="paypd" autocomplete="off" required />',
 
