@@ -27,27 +27,15 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="height:5em;">
+	<nav id="top-nav" class="navbar navbar-expand-lg navbar-light bg-light ">
 		<a class="navbar-brand" href="#"> <h2>Expense Management System</h2></a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-			</ul>
-			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-			</form>
-		</div>
 	</nav>
 
 
 	<!-- ... -->
 	<div style="display:flex;">
-		<div class="sidebar" style="width:20%">
-			<div id="sidebar" class=" w3-light-grey w3-bar-block" style="position:auto; width:100%">
+		<div class="sidebar"  >
+			<div id="sidebar" class=" w3-light-grey w3-bar-block"  >
 				<h3 class="w3-bar-item">Menu</h3>
 				<a href="<?php echo base_url(); ?>employeeManagement" class="w3-bar-item w3-button">Employee Management</a>
 				<a href="<?php echo base_url(); ?>vendorManagement" class="w3-bar-item w3-button">Vendor Management</a>
@@ -56,3 +44,7 @@
 				<a href="<?php echo base_url(); ?>expenseManagement" class="w3-bar-item w3-button">Expense Management</a>
 			</div>
 		</div>
+
+		</body>
+
+</html>
