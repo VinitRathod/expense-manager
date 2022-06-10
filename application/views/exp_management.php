@@ -28,7 +28,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<form action="<?php echo base_url(); ?>ExpenseManagement/addExpCat" onsubmit="return validation()" id="add_exp" class="bg-light" method="post">
 							<div class="form-group">
 								<label for="expid" class="font-weight-regular"> Expense Code </label>
-								<input type="text" name="expCode1" class="form-control" id="expCode" autocomplete="off" required />
+								<input type="text" name="expCode" class="form-control" id="expCode" autocomplete="off" required />
 								<span id="warnExpCode" class="text-danger font-weight-regular">
 
 								</span>
@@ -104,35 +104,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td>1656</td>
-					<td>5546sa</td>
-					<td>dddyg</td>
-					<td>vstyf</td>
-					<td><div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    ...
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Edit</a>
-    <a class="dropdown-item" href="#">Delete</a>
-   
-  </div>
-</div>
-</td>
-					<!-- <td><a href="" style="text-decoration : none">edit</a> <a href="" style="text-decoration : none">delete</a></td> -->
-				</tr>
+			<tbody class="tblBody">
+
 			</tbody>
 		</table>
 	</div>
 </div>
-</body>
-
 <script>
 	function validation() {}
-	
-	$("#add_exp").submit(function(e){
+
+	$("#add_exp").submit(function(e) {
 		e.preventDefault();
 		const form = new FormData(document.getElementById('add_exp'));
 		console.log(...form);
@@ -145,10 +126,52 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: "<?php echo base_url() ?>ExpenseManagement/addExpCat",
 			data: form,
 			success: function() {
-				
+				loadExp();
 			}
 		});
 	});
 
+	function loadExp() {
+		$.ajax({
+			url: "<?php echo base_url() ?>ExpenseManagement/index",
+			method: "POST",
+			success: function(data) {
+				$(".tblBody").html(data);
+			}
+		});
+	}
+	loadExp();
+
+	function expDelete(id) {
+		swal({
+				title: "Are you sure?",
+				text: "Once deleted, you will not be able to recover this expense type!",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			})
+			.then((willDelete) => {
+				if (willDelete) {
+					$.ajax({
+						url: `<?php echo base_url(); ?>/ExpenseManagement/expDelete/${id}`,
+						method: "POST",
+						success: function(response) {
+							if (response == "SUCCESS") {
+								swal("Poof! Your expense type has been deleted!", {
+									icon: "success",
+								});
+								loadExp();
+							}
+						}
+					});
+				} else {
+					swal("Your expense type is safe!", {
+						icon: "info",
+					});
+				}
+			});
+	}
 </script>
+</body>
+
 </html>
