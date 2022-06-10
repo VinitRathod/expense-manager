@@ -39,6 +39,7 @@ class Welcome extends CI_Controller
 
 	public function employeeManagement()
 	{
+		$this->load->view('header');
 		$this->load->view('em');
 	}
 
