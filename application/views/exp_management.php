@@ -110,13 +110,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<td>5546sa</td>
 					<td>dddyg</td>
 					<td>vstyf</td>
-					<td><a href="" style="text-decoration : none">edit</a> <a href="" style="text-decoration : none">delete</a></td>
+					<td><div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    ...
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#">Edit</a>
+    <a class="dropdown-item" href="#">Delete</a>
+   
+  </div>
+</div>
+</td>
+					<!-- <td><a href="" style="text-decoration : none">edit</a> <a href="" style="text-decoration : none">delete</a></td> -->
 				</tr>
 			</tbody>
 		</table>
 	</div>
 </div>
 </body>
+
 <script>
 	function validation() {}
 	
