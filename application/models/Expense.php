@@ -23,6 +23,15 @@ class Expense extends CI_Model {
             return $expense->result();
         }
     }
+
+    public function getSingleExp($id) {
+        $this->db->where('c_expid', $id);
+        $query = $this->db->get('t_expcategories');
+
+        if ($query) {
+            return $query->row();
+        }
+    }
 }
 
 ?>

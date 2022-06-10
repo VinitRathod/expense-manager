@@ -35,6 +35,9 @@
 							<td><?php echo $exps->c_category; ?></td>
 							<td><?php echo $exps->c_type ?></td>
 							<td><?php echo $exps->c_description ?></td>
+							<td><a href="<?php echo base_url(); ?>ExpenseManagement/editExp/<?php echo $exps->c_expid; ?>" class="btn btn-success">Edit</a>
+								<a href="<?php echo base_url(); ?>" class="btn btn-danger">Delete</a>
+							</td>
 						</tr>
 
 					<?php endforeach; ?>
