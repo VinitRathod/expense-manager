@@ -100,6 +100,35 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<!-- modal end  -->
 
 	</div>
+	<div class="table-responsive-md mt-4">
+	<table class="table" >
+    <thead>
+    <tr>
+	<th scope="col">Bulk Upload</th>
+	<th scope="col">Employee ID</th>
+	<th scope="col">Employee Name</th>
+	<th scope="col">Expense category</th>
+	<th scope="col">Amount</th>
+	<th scope="col">Payment Due Date</th>
+	<th scope="col">Payment Mode</th>
+	<th scope="col">Action</th>
+	</tr>
+  </thead>
+  <tbody>
+	  <tr>
+  <td>ff</td>
+  <td>454</td>
+  <td>rfdf</td>
+  <td>fdf</td>
+  <td>dfsdf</td>
+  <td>dfb</td>
+ <td>dv</td>
+ <td><a href="" style ="text-decoration : none">edit</a><a href="" style ="text-decoration : none">delete</a></td>
+
+  </tr>
+  </tbody>
+</table>	
+</div>
 </div>
 
 <script type="text/javascript">
