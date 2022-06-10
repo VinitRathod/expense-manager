@@ -15,6 +15,7 @@ html{
 
 .sidebar{
     height: 100%;
+    width: 20%;
 }
 #sidebar {
     position: auto;

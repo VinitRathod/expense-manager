@@ -29,16 +29,13 @@
 <body>
 	<nav id="top-nav" class="navbar navbar-expand-lg navbar-light bg-light ">
 		<a class="navbar-brand" href="#"> <h2>Expense Management System</h2></a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
 	</nav>
 
 
 	<!-- ... -->
 	<div style="display:flex;">
-		<div class="sidebar" style="width:20%">
-			<div id="sidebar" class=" w3-light-grey w3-bar-block" >
+		<div class="sidebar"  >
+			<div id="sidebar" class=" w3-light-grey w3-bar-block"  >
 				<h3 class="w3-bar-item">Menu</h3>
 				<a href="<?php echo base_url(); ?>employeeManagement" class="w3-bar-item w3-button">Employee Management</a>
 				<a href="<?php echo base_url(); ?>vendorManagement" class="w3-bar-item w3-button">Vendor Management</a>
