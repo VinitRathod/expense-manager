@@ -161,6 +161,143 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 		
 	</div>
+		<!-- BEGIN: Main Table  -->
+		<div class="table-responsive-md mt-4 mr-2">
+	<table class="table" >
+    <thead>
+    <tr>
+	<th scope="col">Vendor ID</th>
+	<th scope="col">Vendor Name</th>
+	<th scope="col">Address</th>
+	<th scope="col">GST</th>
+	<th scope="col">PAN Number</th>
+	<th scope="col">Document</th>
+	<th scope="col">Designation</th>
+
+	<th scope="col">Bank Details</th>
+	<th scope="col">Contact Details</th>
+	<th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+	  <tr>
+  <td>1</td>
+  <td>mahi</td>
+
+  <td>Adfff</td>
+  <td>16496495611</td>
+
+  <td>.025.325.355</td>
+  <td>gnfbvhnh</td>
+  <td>bfid</td>
+
+  <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bank">
+  BankDetails
+</button></td>
+  <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contact">
+ContactDetails
+</button></td>
+<td><a href="" style ="text-decoration : none">edit</a><a href="" style ="text-decoration : none">delete</a></td>
+<!-- <td><img src="https://img.icons8.com/material-outlined/24/undefined/edit--v1.png"/><a href="" style ="text-decoration : none">edit</a><img src="https://img.icons8.com/ios-glyphs/30/undefined/filled-trash.png"/><a href="" style ="text-decoration : none">delete</a> -->
+<!-- </td> -->
+  
+  </tr>
+  </tbody>
+</table>	
+</div>
+<!-- END: Main Table  -->
+<!-- BEGIN: Contact Details Table  -->
+<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Contact Details Table</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  <div class="table-responsive-md mt-4">
+	<table class="table" >
+    <thead >
+    <tr>
+	<th scope="col">Name</th>
+	<th scope="col">Mobile Number</th>
+	<th scope="col">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td>dff</td>
+  <td>275425454</td>
+  <td>ghfbgfgf@gg.com</td>
+  </tr>
+  <tr>
+  <td>dff</td>
+  <td>275425454</td>
+  <td>ghfbgfgf@gg.com</td>
+  </tr>
+    
+  </tbody>
+</table>	
+</div>
+      </div>
+      <div class="modal-footer">
+	  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- END: contact Details Table  -->
+<!-- BEGIN: bank Details Table  -->
+<div class="modal fade" id="bank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Bank Details Table</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  <div class="table-responsive-md mt-4">
+	<table class="table" >
+    <thead >
+    <tr>
+	<th scope="col">Bank Name</th>
+	<th scope="col">IFSC Code </th>
+	<th scope="col">Account Number </th>
+	<th scope="col">Account Status </th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td>cdusdgf</td>
+  <td>mahdd4ei</td>
+  <td>16496495611</td>
+  <td>active</td>
+  </tr>
+  <tr>
+  <td>cdusdgf</td>
+  <td>mahdd4ei</td>
+  <td>16496495611</td>
+  <td>active</td>
+  </tr>
+  </tbody>
+</table>	
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- END: bank Details Table  -->
 </div>
 
 <script type="text/javascript">
