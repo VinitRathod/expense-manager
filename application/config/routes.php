@@ -49,5 +49,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
+// This is very important
+// mapping url with function in controller is possible
+$route['ExpenseManagement/editExp/(:any)'] = 'ExpenseManagement/edit_Exp/$1';
 $route['(:any)'] = 'Welcome/$1';
+$route['default_controller'] = 'Welcome';
