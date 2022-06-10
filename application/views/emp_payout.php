@@ -2,82 +2,150 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div id="maincontent" class="contentblock" style="width:100%">
-	<h4 class="text-blue text-center font-weight-bold" style="font-size: 20px">
-		Employee Payout
-	</h4>
+	<div id="top-header" style="display:flex; justify-content:space-between">
+		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
+			Employee Payout
+		</h2>
+		<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#EPModal">
+			Add New Payout
+		</button>
+	</div>
 
 	<div class="container">
 		<br />
 
-		<div class="col-lg-5 m-auto d-block">
-			<form action="#" onsubmit="return validation()" class="bg-light">
-				<div class="form-group">
-					<label for="bulkupload" class="font-weight-regular">
-						Bulk Upload
-					</label>
-					<input type="file" name="bulkupload" class="form-control" id="bulkupload" accept="application/xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required />
+		<!-- Modal -->
+		<div class="modal fade" id="EPModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Employee Payout</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="modal-body">
+
+						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="add_name">
+							<div class="form-group">
+								<label for="bulkupload" class="font-weight-regular">
+									Bulk Upload
+								</label>
+								<input type="file" name="bulkupload" class="form-control" id="bulkupload" accept="application/xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required />
+							</div>
+
+							<div class="form-group">
+								<label class="font-weight-regular"> Employee ID </label>
+								<input type="text" name="empid" class="form-control" id="empid" autocomplete="off" required />
+								<span id="employeeid" class="text-danger font-weight-regular">
+								</span>
+							</div>
+
+							<div class="form-group">
+								<label for="employeename" class="font-weight-regular">
+									Employee Name
+								</label>
+								<input type="text" name="employeename" pattern="[a-z A-Z]{3,}" minlength="3" class="form-control" id="employeename" autocomplete="off" required />
+								<span id="EName" class="text-danger font-weight-regular"> </span>
+							</div>
+
+							<div class="form-group">
+								<label for="category" class="font-weight-regular">
+									Expense category :
+								</label>
+								<select id="category" name="course" required>
+									<option id="salary" value="sal">SALARY</option>
+									<option id="other" value="other">OTHER</option>
+								</select>
+								<div id="expense-category">
+
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="amount" class="font-weight-regular"> Amount </label>
+								<input type="number" name="amount" class="form-control" id="amount" min="0" autocomplete="off" required />
+								<span id="amount-s" class="text-danger font-weight-regular"> </span>
+							</div>
+
+							<div class="form-group">
+								<label class="font-weight-regular"> Payment Due Date</label>
+								<input type="date" name="paydd" class="form-control" id="paydd" autocomplete="off" required />
+								<span id="paymentdd" class="text-danger font-weight-regular">
+								</span>
+							</div>
+
+							<div class="form-group">
+								<label class="font-weight-regular"> Payment Mode</label><br />
+								<input class="ml-3" type="radio" id="manual" name="fav_language" value="manual" />
+								<label for="manual">Manual</label><br />
+								<input class="ml-3" type="radio" id="schedule" name="fav_language" value="schedule" />
+								<label for="schedule">Scheduled</label><br />
+								<div id="payment-mode-schedule">
+
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="Tag" class="font-weight-regular">
+									Tags
+								</label>
+								<input type="text" name="Tags" pattern="[a-z A-Z]{1,}" class="form-control" id="Tags" autocomplete="off" required />
+								<br />
+
+							</div>
+
+							<!-- ....  -->
+
+
+							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
+							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
+						</form>
+
+
+
+
+
+					</div>
+
 				</div>
-
-				<div class="form-group">
-					<label class="font-weight-regular"> Employee ID </label>
-					<input type="text" name="empid" class="form-control" id="empid" autocomplete="off" required />
-					<span id="employeeid" class="text-danger font-weight-regular">
-					</span>
-				</div>
-
-				<div class="form-group">
-					<label for="employeename" class="font-weight-regular">
-						Employee Name
-					</label>
-					<input type="text" name="employeename" pattern="[a-z A-Z]{3,}" minlength="3" class="form-control" id="employeename" autocomplete="off" required />
-					<span id="EName" class="text-danger font-weight-regular"> </span>
-				</div>
-
-				<div class="form-group">
-					<label for="category" class="font-weight-regular">
-						Expense category :
-					</label>
-					<select id="category" name="course" required>
-						<option value="sal">SALARY</option>
-						<option value="other">OTHER</option>
-					</select>
-				</div>
-
-				<div class="form-group">
-					<label for="amount" class="font-weight-regular"> Amount </label>
-					<input type="number" name="amount" class="form-control" id="amount" min="0" autocomplete="off" required />
-					<span id="amount-s" class="text-danger font-weight-regular"> </span>
-				</div>
-
-				<div class="form-group">
-					<label class="font-weight-regular"> Payment Due Date</label>
-					<input type="date" name="paydd" class="form-control" id="paydd" autocomplete="off" required />
-					<span id="paymentdd" class="text-danger font-weight-regular">
-					</span>
-				</div>
-
-				<div class="form-group">
-					<label class="font-weight-regular"> Payment Mode</label><br />
-					<input class="ml-3" type="radio" id="manual" name="fav_language" value="manual" />
-					<label for="manual">Manual</label><br />
-					<input class="ml-3" type="radio" id="schedule" name="fav_language" value="schedule" />
-					<label for="schedule">Scheduled</label><br />
-				</div>
-
-				<!-- ....  -->
-
-
-
-				<div class="form-group" id="formField"></div>
-
-				<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
-				<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
-			</form>
-
-			<br /><br />
+			</div>
 		</div>
+		<!-- modal end  -->
+
 	</div>
+	<div class="table-responsive-md mt-4">
+	<table class="table" >
+    <thead>
+    <tr>
+	<th scope="col">Bulk Upload</th>
+	<th scope="col">Employee ID</th>
+	<th scope="col">Employee Name</th>
+	<th scope="col">Expense category</th>
+	<th scope="col">Amount</th>
+	<th scope="col">Payment Due Date</th>
+	<th scope="col">Payment Mode</th>
+	<th scope="col">Action</th>
+	</tr>
+  </thead>
+  <tbody>
+	  <tr>
+  <td>ff</td>
+  <td>454</td>
+  <td>rfdf</td>
+  <td>fdf</td>
+  <td>dfsdf</td>
+  <td>dfb</td>
+ <td>dv</td>
+ <td><a href="" style ="text-decoration : none">edit</a><a href="" style ="text-decoration : none">delete</a></td>
+
+  </tr>
+  </tbody>
+</table>	
 </div>
+</div>
+
 <script type="text/javascript">
 	function validation() {
 		var ename = document.getElementById("employeename").value;
@@ -114,6 +182,53 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		}
 	}
 </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var i = 0;
+		$('#manual').click(function() {
+
+			$('#payment-mode-schedule').empty();
+			i = 0;
+
+		});
+		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+		$('#schedule').click(function() {
+			if (i == 0) {
+				$('#payment-mode-schedule').append('<br/><label class="font-weight-regular"> Payment Processing Date</label><input type="date" name="paypd" class="form-control" id="paypd" autocomplete="off" required />',
+
+				);
+				i++;
+			}
+
+		});
+
+
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var i = 0;
+		$('#salary').select(function() {
+
+			$('#expense-category').empty();
+			i = 0;
+
+		});
+		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+		$('#other').select(function() {
+			if (i == 0) {
+				$('#expense-category').append('<br/><label class="font-weight-regular"> Payment Processing Date</label><input type="date" name="paypd" class="form-control" id="paypd" autocomplete="off" required />',
+
+				);
+				i++;
+			}
+
+		});
+
+
+	});
+</script>
+
 </body>
 
 </html>
