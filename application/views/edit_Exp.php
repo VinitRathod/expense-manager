@@ -7,12 +7,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	</h4>
 
 	<div class="container">
+		<!-- <?php print_r($exp_details); ?> -->
 		<br />
 		<div class="col-lg-5 m-auto d-block">
-			<form action="<?php echo base_url(); ?>addExpCat" onsubmit="return validation()" class="bg-light" method="post">
+			<form action="<?php echo base_url(); ?>ExpenseManagement/expUpdate/<?php echo $exp_details->c_expid; ?>" onsubmit="return validation()" class="bg-light" method="post">
 				<div class="form-group">
 					<label for="expid" class="font-weight-regular"> Expense Code </label>
-					<input type="text" name="expCode" class="form-control" id="expCode" autocomplete="off" required />
+					<input type="text" name="expCode" class="form-control" id="expCode" autocomplete="off" required value="<?php echo $exp_details->c_expcode; ?>"/>
 					<span id="warnExpCode" class="text-danger font-weight-regular">
 
 					</span>
@@ -22,7 +23,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="expcode" class="font-weight-regular">
 						Expense Category
 					</label>
-					<input type="text" name="expCat" pattern="[a-z A-Z0-9]{1,}" class="form-control" id="expCat" autocomplete="off" required />
+					<input type="text" name="expCat" pattern="[a-z A-Z0-9]{1,}" class="form-control" id="expCat" autocomplete="off" required value="<?php echo $exp_details->c_category; ?>"/>
 					<span id="warnFExpCat" class="text-danger font-weight-regular">
 
 					</span>
@@ -42,15 +43,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<div class="form-group">
 					<label for="expdesc" class="font-weight-regular"> Expense Description </label>
 					<br />
-					<textarea id="expDesc" rows="4" cols="50" name="expDesc" required>
-            		</textarea>
+					<textarea id="expDesc" rows="4" cols="50" name="expDesc" required><?php echo $exp_details->c_description; ?></textarea>
 				</div>
 
 				<div class="form-group">
 					<label for="exptype"> Select Expense Type :</label>
 					<select id="expType" name="expType">
-						<option value="vendor">Vendor</option>
-						<option value="employee">Employee</option>
+						<option value="vendor" <?php if($exp_details->c_type=='vendor') echo "selected"; ?>>Vendor</option>
+						<option value="employee" <?php if($exp_details->c_type=='employee') echo "selected"; ?>>Employee</option>
 					</select>
 					<span id="warnExpType" class="text-danger font-weight-regular"> </span>
 				</div>

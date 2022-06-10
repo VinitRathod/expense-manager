@@ -80,5 +80,20 @@ class ExpenseManagement extends CI_Controller
 		}
 	}
 
+	public function expUpdate($id) {
+		if($this->input->post("submit")) {
+			$data = array(
+				'c_expcode' => $this->input->post('expCode'),
+				'c_category' => $this->input->post('expCat'),
+				'c_type' => $this->input->post('expType'),
+				'c_description' => $this->input->post('expDesc')
+			);
+			$update = $this->exp->update($data,$id);
+			if ($update) {
+				redirect('ExpenseManagement/expManagement');
+			}
+		}
+	}
+
 	// expanse management code ends here =================================================
 }
