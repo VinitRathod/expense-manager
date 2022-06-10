@@ -9,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
 			Employee Management
 		</h2>
-		<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#exampleModal">
+		<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#EMModal">
 			Add Employee
 		</button>
 	</div>
@@ -17,10 +17,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	<div class="container">
 		<!-- Button trigger modal -->
-		
+
 
 		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="EMModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -86,47 +86,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 									</table>
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="ContactDetail" class="font-weight-regular"> Contact Details </label>
+							
+							
 
-								<div class="table-responsive">
-									<table class="table table-bordered" id="dynamic_field1">
-										<tr>
-											<td>Name : <input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" required="" /></td>
-										</tr>
-										<tr>
-											<td>
-												Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number" class="form-control name_list" required="" /></td>
-										</tr>
-										<tr>
-											<td>Email: <input type="email" name="email[]" placeholder="Enter your email" class="form-control name_list" required="" /></td>
-										</tr>
-									</table>
-									<table>
-										<tr>
-											<td><button type="button" name="add1" id="add1" class="btn btn-success">Add Another Mobile Number </button></td>
-										</tr>
-									</table>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="Designation" class="font-weight-regular">
-									Designation
-								</label>
-								<input type="text" name="designation" pattern="[a-z A-Z]{3,}" class="form-control" id="designation" autocomplete="off" required />
+							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
+							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
 
-							</div>
-							<div class="form-group">
-								<label for="Tag" class="font-weight-regular">
-									Tags
-								</label>
-								<input type="text" name="Tags" pattern="[a-z A-Z]{1,}" class="form-control" id="Tags" autocomplete="off" required />
-								<br />
-								<!-- ...  -->
-
-
-								<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
-								<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
 						</form>
 
 						<br /><br />
@@ -171,22 +136,4 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 </script>
 </script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		var postURL = "/addmore.php";
-		var i = 1;
-		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
-		$('#add1').click(function() {
-			i++;
-			$('#dynamic_field1').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
 
-			);
-		});
-
-
-	});
-</script>
-<!-- </body>
-
-</html> -->
