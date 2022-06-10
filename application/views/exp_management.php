@@ -105,7 +105,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</tr>
 			</thead>
 			<tbody class="tblBody">
-				
+
 			</tbody>
 		</table>
 	</div>
@@ -141,6 +141,37 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	}
 	loadExp();
+
+	function expDelete(id) {
+		swal({
+				title: "Are you sure?",
+				text: "Once deleted, you will not be able to recover this expense type!",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			})
+			.then((willDelete) => {
+				if (willDelete) {
+					$.ajax({
+						url: `<?php echo base_url(); ?>/ExpenseManagement/expDelete/${id}`,
+						method: "POST",
+						success: function(response) {
+							if (response == "SUCCESS") {
+								swal("Poof! Your expense type has been deleted!", {
+									icon: "success",
+								});
+								loadExp();
+							}
+						}
+					});
+				} else {
+					swal("Your expense type is safe!", {
+						icon: "info",
+					});
+				}
+			});
+	}
 </script>
 </body>
+
 </html>

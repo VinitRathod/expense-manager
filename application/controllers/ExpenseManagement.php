@@ -39,18 +39,15 @@ class ExpenseManagement extends CI_Controller
 				<td>'.$exps->c_description.'</td>
 				<td>'.$exps->c_type.'</td>
 				<td><a href="'.base_url().'ExpenseManagement/editExp/'.$exps->c_expid.' " class="btn btn-success">Edit</a>
-					<a href="'.base_url().'" class="btn btn-danger">Delete</a>
+					<a href="#" class="btn btn-danger" onclick="expDelete('.$exps->c_expid.')">Delete</a>
 				</td>
 			</tr>';
 
 		}
-		// $this->load->view('header');
-		// $this->load->view('exp_management', $data);
 		echo $output;
 	}
 
 	public function expManagement() {
-		// $data['exp_details'] = $this->exp->getAll();
 		$this->load->view('header');
 		$this->load->view('exp_management');
 	}
@@ -74,6 +71,13 @@ class ExpenseManagement extends CI_Controller
 	{
 		$data['exp_details'] = $this->exp->getSingleExp($id);
 		$this->load->view('edit_Exp', $data);
+	}
+
+	public function expDelete($id) {
+		$result = $this->exp->deleteExp($id);
+		if($result) {
+			echo "SUCCESS";
+		}
 	}
 
 	// expanse management code ends here =================================================
