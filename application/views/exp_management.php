@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<div id="maincontent" class="contentblock" style="width:100%">
+<div id="maincontent" class="contentblock" style="width:80%">
 	<div id="top-header" style="display:flex; justify-content:space-between">
 		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
 			Expense Management
@@ -92,29 +92,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	</div>
 
 
-	<div class="table-responsive-md mt-4">
-	<table class="table" >
-    <thead>
-    <tr>
-	<th scope="col">Expense Code</th>
-	<th scope="col">Expense Category</th>
-	<th scope="col">Expense Description</th>
-	<th scope="col">Select Expense Type</th>
-	<th scope="col">Action</th>
+	<div class="table-responsive-md mt-4" style="overflow-x:auto;">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Expense Code</th>
+					<th scope="col">Expense Category</th>
+					<th scope="col">Expense Description</th>
+					<th scope="col">Select Expense Type</th>
+					<th scope="col">Action</th>
 
-	</tr>
-  </thead>
-  <tbody>
-  <tr>
-  <td>1656</td>
-  <td>5546sa</td>
-  <td>dddyg</td>
-  <td>vstyf</td>
-  <td><a href="" style ="text-decoration : none">edit</a>  <a href="" style ="text-decoration : none">delete</a></td>
-  </tr>
-  </tbody>
-</table>	
-</div>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1656</td>
+					<td>5546sa</td>
+					<td>dddyg</td>
+					<td>vstyf</td>
+					<td><a href="" style="text-decoration : none">edit</a> <a href="" style="text-decoration : none">delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 <script type="text/javascript">
 	function validation() {}

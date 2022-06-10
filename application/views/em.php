@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 
 
-<div id="maincontent" class="contentblock" style="width:100%">
+<div id="maincontent" class="contentblock" style="width:80%">
 
 	<div id="top-header" style="display:flex; justify-content:space-between">
 		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
@@ -110,7 +110,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	</div>
 	<!-- BEGIN: Main Table  -->
-	<div class="table-responsive-md mt-4">
+	<div class="table-responsive-md mt-4" style="overflow-x:auto;">
 	<table class="table" >
     <thead>
     <tr>
