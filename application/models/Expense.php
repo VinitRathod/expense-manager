@@ -17,6 +17,11 @@ class Expense extends CI_Model {
         }
     }
 
+    public function update($data,$id) {
+        $this->db->where("c_expid",$id);
+        return $this->db->update('t_expcategories',$data);
+    }
+
     public function getAll() {
         $expense = $this->db->get('t_expcategories');
         if($expense) {
