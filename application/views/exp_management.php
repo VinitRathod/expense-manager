@@ -28,7 +28,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<form action="<?php echo base_url(); ?>ExpenseManagement/addExpCat" onsubmit="return validation()" id="add_exp" class="bg-light" method="post">
 							<div class="form-group">
 								<label for="expid" class="font-weight-regular"> Expense Code </label>
-								<input type="text" name="expCode1" class="form-control" id="expCode" autocomplete="off" required />
+								<input type="text" name="expCode" class="form-control" id="expCode" autocomplete="off" required />
 								<span id="warnExpCode" class="text-danger font-weight-regular">
 
 								</span>
@@ -93,34 +93,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 	<div class="table-responsive-md mt-4">
-	<table class="table" >
-    <thead>
-    <tr>
-	<th scope="col">Expense Code</th>
-	<th scope="col">Expense Category</th>
-	<th scope="col">Expense Description</th>
-	<th scope="col">Select Expense Type</th>
-	<th scope="col">Action</th>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Expense Code</th>
+					<th scope="col">Expense Category</th>
+					<th scope="col">Expense Description</th>
+					<th scope="col">Select Expense Type</th>
+					<th scope="col">Action</th>
 
-	</tr>
-  </thead>
-  <tbody>
-  <tr>
-  <td>1656</td>
-  <td>5546sa</td>
-  <td>dddyg</td>
-  <td>vstyf</td>
-  <td><a href="" style ="text-decoration : none">edit</a>  <a href="" style ="text-decoration : none">delete</a></td>
-  </tr>
-  </tbody>
-</table>	
+				</tr>
+			</thead>
+			<tbody class="tblBody">
+				
+			</tbody>
+		</table>
+	</div>
 </div>
-</div>
-</body>
 <script>
 	function validation() {}
-	
-	$("#add_exp").submit(function(e){
+
+	$("#add_exp").submit(function(e) {
 		e.preventDefault();
 		const form = new FormData(document.getElementById('add_exp'));
 		console.log(...form);
@@ -133,10 +126,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: "<?php echo base_url() ?>ExpenseManagement/addExpCat",
 			data: form,
 			success: function() {
-				
+				loadExp();
 			}
 		});
 	});
 
+	function loadExp() {
+		$.ajax({
+			url: "<?php echo base_url() ?>ExpenseManagement/index",
+			method: "POST",
+			success: function(data) {
+				$(".tblBody").html(data);
+			}
+		});
+	}
+	loadExp();
 </script>
+</body>
 </html>

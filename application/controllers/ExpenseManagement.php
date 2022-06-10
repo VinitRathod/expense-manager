@@ -29,13 +29,37 @@ class ExpenseManagement extends CI_Controller
 	public function index()
 	{
 		$data['exp_details'] = $this->exp->getAll();
-		$this->load->view('exp_views', $data);
+		
+		$output = "";
+		foreach ($data['exp_details'] as $exps) {
+
+			$output.='<tr>
+				<td>'.$exps->c_expcode.'</td>
+				<td>'.$exps->c_category.'</td>
+				<td>'.$exps->c_description.'</td>
+				<td>'.$exps->c_type.'</td>
+				<td><a href="'.base_url().'ExpenseManagement/editExp/'.$exps->c_expid.' " class="btn btn-success">Edit</a>
+					<a href="'.base_url().'" class="btn btn-danger">Delete</a>
+				</td>
+			</tr>';
+
+		}
+		// $this->load->view('header');
+		// $this->load->view('exp_management', $data);
+		echo $output;
+	}
+
+	public function expManagement() {
+		// $data['exp_details'] = $this->exp->getAll();
+		$this->load->view('header');
+		$this->load->view('exp_management');
 	}
 
 	public function addExpCat()
 	{
 
 		$data = array(
+			'c_expcode' => $this->input->post('expCode'),
 			'c_category' => $this->input->post('expCat'),
 			'c_type' => $this->input->post('expType'),
 			'c_description' => $this->input->post('expDesc')

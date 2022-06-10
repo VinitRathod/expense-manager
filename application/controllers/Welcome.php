@@ -55,12 +55,6 @@ class Welcome extends CI_Controller
 		$this->load->view('emp_payout');
 	}
 
-	public function expenseManagement()
-	{
-		$this->load->view('header');
-		$this->load->view('exp_management');
-	}
-
 	public function add()
 	{
 		// echo "Hello from add";
