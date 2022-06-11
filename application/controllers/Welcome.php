@@ -27,20 +27,15 @@ class Welcome extends CI_Controller
 	// }
 	public function index()
 	{
-		$data['emp_details'] = $this->emp->getAllEmp();
-		$this->load->view('welcome_message', $data);
+		// $data['emp_details'] = $this->emp->getAllEmp();
+		$this->load->view('header');
+		$this->load->view('dashboard');
 	}
 
 	public function vendorManagement()
 	{
 		$this->load->view('header');
 		$this->load->view('vm');
-	}
-
-	public function employeeManagement()
-	{
-		$this->load->view('header');
-		$this->load->view('em');
 	}
 
 	public function vendorPayout()

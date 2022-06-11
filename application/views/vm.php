@@ -6,10 +6,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 	<div id="top-header" style="display:flex; justify-content:space-between">
-		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
+		<h2 class="text-blue text-left font-weight-bold " style="font-size: 20px">
 			Vendor Management
 		</h2>
-		<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#VMModal">
+		<button id="color-x" type="button" class="btn mr-5" data-toggle="modal" data-target="#VMModal">
 			Add Vendor
 		</button>
 	</div>
@@ -187,18 +187,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<td>gnfbvhnh</td>
 						<td>bfid</td>
 
-						<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bank">
+						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#bank">
 								BankDetails
 							</button></td>
-						<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contact">
+						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#contact">
 								ContactDetails
 							</button></td>
 						<td>
 							<div class="dropdown">
+<<<<<<< HEAD
 								<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									...
 								</button>
 								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+=======
+								<button id="color-x" class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									...
+								</button>
+								<div id="border-x" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+>>>>>>> 831a982553c46c0aa4e3528e6938db515ea876f4
 									<a class="dropdown-item" href="#">Edit</a>
 									<a class="dropdown-item" href="#">Delete</a>
 

@@ -30,16 +30,19 @@
 
 <body>
 	<nav id="top-nav" class="navbar navbar-expand-lg navbar-light bg-light ">
-		<a class="navbar-brand" href="#"> <h2>Expense Management System</h2></a>
+		<a id="top-nav1" class="navbar-brand " href="#">
+			<h2>Expense Management System</h2>
+		</a>
 	</nav>
 
 
 	<!-- ... -->
 	<div style="display:flex;">
-		<div class="sidebar"  >
-			<div id="sidebar" class=" w3-light-grey w3-bar-block"  >
+		<div class="sidebar">
+			<div id="sidebar" class=" w3-light-grey w3-bar-block">
 				<h3 class="w3-bar-item">Menu</h3>
-				<a href="<?php echo base_url(); ?>employeeManagement" class="w3-bar-item w3-button">Employee Management</a>
+				<a href="<?php echo base_url(); ?>" class="w3-bar-item w3-button-x">Dashboard</a>
+				<a href="<?php echo base_url(); ?>EmployeesManagement/empManagement" class="w3-bar-item w3-button">Employee Management</a>
 				<a href="<?php echo base_url(); ?>VendorManagement/venManagement" class="w3-bar-item w3-button">Vendor Management</a>
 				<a href="<?php echo base_url(); ?>vendorPayout" class="w3-bar-item w3-button">Vendor Payout</a>
 				<a href="<?php echo base_url(); ?>employeePayout" class="w3-bar-item w3-button">Employee Payout</a>
@@ -47,6 +50,6 @@
 			</div>
 		</div>
 
-		</body>
+</body>
 
 </html>
