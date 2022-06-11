@@ -50,7 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<span id="EName" class="text-danger font-weight-regular"> </span>
 							</div>
 
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label for="category" class="font-weight-regular">
 									Expense category :
 								</label>
@@ -58,6 +58,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 									<option id="salary" value="sal">SALARY</option>
 									<option id="other" value="other">OTHER</option>
 								</select>
+								<div id="expense-category">
+
+								</div>
+							</div> -->
+
+							<div class="form-group">
+								<label for="category" class="font-weight-regular"> Expense category :</label><br />
+								<input class="ml-3" type="radio" id="salary" name="fav_language" value="manual" />
+								<label for="salary">Salary</label><br />
+								<input class="ml-3" type="radio" id="other" name="fav_language" value="schedule" />
+								<label for="other">Other</label><br />
 								<div id="expense-category">
 
 								</div>
@@ -216,16 +227,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script type="text/javascript">
 	$(document).ready(function() {
 		var i = 0;
-		$('#salary').selected(function() {
+		$('#salary').click(function() {
 
 			$('#expense-category').empty();
 			i = 0;
 
 		});
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
-		$('#other').selected(function() {
+		$('#other').click(function() {
 			if (i == 0) {
-				$('#expense-category').append('<br/><label class="font-weight-regular"> Payment Processing Date</label><input type="date" name="paypd" class="form-control" id="paypd" autocomplete="off" required />',
+				$('#expense-category').append('<br/><div class="form-group"><label for="document" class="font-weight-regular"> Upload Approval Image/Document </label><input type="file" name="document" class="form-control" id="document" accept="application/pdf" /></div>',
 
 				);
 				i++;

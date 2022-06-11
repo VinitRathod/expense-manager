@@ -39,11 +39,11 @@
 		<div class="sidebar"  >
 			<div id="sidebar" class="w3-bar-block">
 				<h3 class="w3-bar-item">Menu</h3>
-				<a href="<?php echo base_url(); ?>employeeManagement" class="w3-bar-item w3-button">Employee Management</a>
-				<a href="<?php echo base_url(); ?>vendorManagement" class="w3-bar-item w3-button">Vendor Management</a>
-				<a href="<?php echo base_url(); ?>vendorPayout" class="w3-bar-item w3-button">Vendor Payout</a>
-				<a href="<?php echo base_url(); ?>employeePayout" class="w3-bar-item w3-button">Employee Payout</a>
-				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" class="w3-bar-item w3-button">Expense Management</a>
+				<a href="<?php echo base_url(); ?>employeeManagement" class="w3-bar-item w3-button-x">Employee Management</a>
+				<a href="<?php echo base_url(); ?>vendorManagement" class="w3-bar-item w3-button-x">Vendor Management</a>
+				<a href="<?php echo base_url(); ?>vendorPayout" class="w3-bar-item w3-button-x">Vendor Payout</a>
+				<a href="<?php echo base_url(); ?>employeePayout" class="w3-bar-item w3-button-x">Employee Payout</a>
+				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" class="w3-bar-item w3-button-x">Expense Management</a>
 			</div>
 		</div>
 		</body>
