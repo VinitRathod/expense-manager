@@ -23,7 +23,34 @@ class VendorManagement extends CI_Controller
 	// ajax will take contents from this functions, only select * query...
 	public function index()
 	{
-		
+		$data['ven_details'] = $this->ven->getAllVen();
+
+		$output = "";
+		foreach ($data['ven_details'] as $ven) {
+
+			$output .= '<tr>
+						<td>' . $ven->c_id . '</td>
+						<td>' . $ven->c_fname . ' ' . $ven->c_lname . '</td>
+
+						<td>' . $ven->c_address . '</td>
+						<td>' . $ven->c_gstno . '</td>
+
+						<td>' . $ven->c_panno . '</td>
+						<td>' . $ven->c_document . '</td>
+						<td>' . $ven->c_designation . '</td>
+
+						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#bank">
+								BankDetails
+							</button></td>
+						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#contact">
+								ContactDetails
+							</button></td>
+						<td><a href="" class="btn btn-success">Edit</a>
+							<a href="#" class="btn btn-danger">Delete</a>
+						</td>
+					</tr>';
+		}
+		echo $output;
 	}
 
 	public function venManagement()
@@ -70,7 +97,7 @@ class VendorManagement extends CI_Controller
 			$allowed_exs = array('pdf');
 			if (in_array($doc_ex_lc, $allowed_exs)) {
 				$new_doc_name = uniqid("DOC-", true) . '.' . $doc_ex_lc;
-				$img_upload_path = "DOCS/".$new_doc_name;
+				$img_upload_path = "DOCS/" . $new_doc_name;
 				move_uploaded_file($tmp_name, $img_upload_path);
 				$data = array(
 					'c_fname' => $name[0],

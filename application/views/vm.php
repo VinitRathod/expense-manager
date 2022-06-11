@@ -175,39 +175,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<th scope="col">Action</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>mahi</td>
-
-						<td>Adfff</td>
-						<td>16496495611</td>
-
-						<td>.025.325.355</td>
-						<td>gnfbvhnh</td>
-						<td>bfid</td>
-
-						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#bank">
-								BankDetails
-							</button></td>
-						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#contact">
-								ContactDetails
-							</button></td>
-						<td>
-							<div class="dropdown">
-								<button id="color-x" class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									...
-								</button>
-								<div id="border-x" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									<a class="dropdown-item" href="#">Edit</a>
-									<a class="dropdown-item" href="#">Delete</a>
-
-								</div>
-						</td>
-						<!-- <td><img src="https://img.icons8.com/material-outlined/24/undefined/edit--v1.png"/><a href="" style ="text-decoration : none">edit</a><img src="https://img.icons8.com/ios-glyphs/30/undefined/filled-trash.png"/><a href="" style ="text-decoration : none">delete</a> -->
-						<!-- </td> -->
-
-					</tr>
+				<tbody id="tblBody">
+					
 				</tbody>
 			</table>
 		</div>
@@ -372,7 +341,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		e.preventDefault();
 		const form = new FormData(document.getElementById('addVen'));
 		var add = document.getElementById("c_address").value;
-		form.append("c_address",add);
+		form.append("c_address", add);
 		// console.log(...form);
 		$.ajax({
 			method: 'POST',
@@ -387,4 +356,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			}
 		});
 	});
+
+	function loadVen() {
+		$.ajax({
+			url: "<?php echo base_url() ?>VendorManagement/index",
+			method: "POST",
+			success: function(data) {
+				// alert(data);
+				$("#tblBody").html(data);
+			}
+		});
+	}
+	loadVen();
 </script>
