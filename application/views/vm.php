@@ -52,7 +52,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<div class="form-group">
 								<label for="Address" class="font-weight-regular"> Address </label>
 								<br />
-								<textarea rows="4" cols="50" name="c_address" form="usrform" required>
+								<textarea rows="4" cols="50" name="c_address" form="usrform" required id="c_address">
 						</textarea>
 							</div>
 
@@ -71,7 +71,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							</div>
 							<div class="form-group">
 								<label class="font-weight-regular"> Mobile Number </label>
-								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="c_contact" class="form-control" id="c_contacts" required />
+								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="c_contacts[]" class="form-control" id="c_contacts" required />
 								<span id="mobileno" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
@@ -116,7 +116,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 										</tr> -->
 										<tr>
 											<td>
-												Mobile Number : <input type="text" name="c_contacts[]" placeholder="Enter your mobile number" class="form-control name_list" required="" /></td>
+												Mobile Number : <input type="number" name="c_contacts[]" placeholder="Enter your mobile number" class="form-control name_list" required="" /></td>
 										</tr>
 										<!-- <tr>
 											<td>Email: <input type="email" name="email[]" placeholder="Enter your email" class="form-control name_list" required="" /></td>
@@ -133,14 +133,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<label for="Designation" class="font-weight-regular">
 									Designation
 								</label>
-								<input type="text" name="designation" pattern="[a-z A-Z]{3,}" class="form-control" id="designation" autocomplete="off" required />
+								<input type="text" name="c_designation" pattern="[a-z A-Z]{3,}" class="form-control" id="c_designation" autocomplete="off" required />
 
 							</div>
 							<div class="form-group">
 								<label for="Tag" class="font-weight-regular">
 									Tags
 								</label>
-								<input type="text" name="Tags" pattern="[a-z A-Z]{1,}" class="form-control" id="Tags" autocomplete="off" required />
+								<input type="text" name="c_tags" pattern="[a-z A-Z]{1,}" class="form-control" id="c_tags" autocomplete="off" required />
 								<br />
 
 							</div>
@@ -195,17 +195,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							</button></td>
 						<td>
 							<div class="dropdown">
-<<<<<<< HEAD
-								<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									...
-								</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-=======
 								<button id="color-x" class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									...
 								</button>
 								<div id="border-x" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
->>>>>>> 831a982553c46c0aa4e3528e6938db515ea876f4
 									<a class="dropdown-item" href="#">Edit</a>
 									<a class="dropdown-item" href="#">Delete</a>
 
@@ -321,7 +314,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <script type="text/javascript">
 	function validation() {
-		var emails = document.getElementById("emails").value;
+		var emails = document.getElementById("c_email").value;
 
 		console.log(vendorId);
 
@@ -367,7 +360,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$('#add1').click(function() {
 			i++;
 			$('#dynamic_field1').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="c_contacts[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="number" name="c_contacts[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
 
 			);
 		});
@@ -378,7 +371,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	$("#addVen").submit(function(e) {
 		e.preventDefault();
 		const form = new FormData(document.getElementById('addVen'));
-		console.log(...form);
+		var add = document.getElementById("c_address").value;
+		form.append("c_address",add);
+		// console.log(...form);
 		$.ajax({
 			method: 'POST',
 			processData: false,
@@ -388,7 +383,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: `<?php echo base_url() ?>VendorManagement/addVendor`,
 			data: form,
 			success: function(response) {
-				alert(response);
+				// alert(response);
 			}
 		});
 	});
