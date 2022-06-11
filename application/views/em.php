@@ -6,10 +6,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <div id="maincontent" class="contentblock" style="width:80%">
 
 	<div id="top-header" style="display:flex; justify-content:space-between">
-		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
+		<h2 class="text-blue text-left font-weight-bold" style="font-size: 20px">
 			Employee Management
 		</h2>
-		<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#EMModal">
+		<button  type="button" class="btn mr-5 btn-x" data-toggle="modal" data-target="#EMModal">
 			Add Employee
 		</button>
 	</div>
@@ -111,87 +111,89 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	</div>
 	<!-- BEGIN: Main Table  -->
 	<div class="table-responsive-md mt-4" style="overflow-x:auto;">
-	<table class="table" >
-    <thead>
-    <tr>
-	<th scope="col">Employee ID</th>
-	<th scope="col">Employee Name</th>
-	<th scope="col">PAN Number</th>
-	<th scope="col">Mobile Number</th>
-	<th scope="col">Bank Details</th>
-	<th scope="col">Action</th>
-	</tr>
-  </thead>
-  <tbody>
-	  <tr>
-  <td>1</td>
-  <td>mahi</td>
-  <td>16496495611</td>
-  <td>5445645644</td>
-  <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bank">
-view Bank Details
-</button></td>
-<td><div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    ...
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Edit</a>
-    <a class="dropdown-item" href="#">Delete</a>
-   
-  </div></td>
- 
-  </tr>
-  </tbody>
-</table>	
-</div>
-<!-- END: Main Table  -->
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Employee ID</th>
+					<th scope="col">Employee Name</th>
+					<th scope="col">PAN Number</th>
+					<th scope="col">Mobile Number</th>
+					<th scope="col">Bank Details</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>mahi</td>
+					<td>16496495611</td>
+					<td>5445645644</td>
+					<td><button type="button"  class="btn btn-x" data-toggle="modal" data-target="#bank">
+							view Bank Details
+						</button></td>
+					<td>
+						<div class="dropdown">
+							<button  class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								...
+							</button>
+							<div class="dropdown-menu border-x"  aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item btn-x-y" href="#">Edit</a>
+								<a class="dropdown-item btn-x-r" href="#">Delete</a>
 
-<!-- BEGIN: bank Details Table  -->
-<div class="modal fade" id="bank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Bank Details Table</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-	  <div class="table-responsive-md mt-4">
-	<table class="table" >
-    <thead >
-    <tr>
-	<th scope="col">Bank Name</th>
-	<th scope="col">IFSC Code </th>
-	<th scope="col">Account Number </th>
-	<th scope="col">Account Status </th>
-    </tr>
-  </thead>
-  <tbody>
-  <tr>
-  <td>cdusdgf</td>
-  <td>mahdd4ei</td>
-  <td>16496495611</td>
-  <td>active</td>
-  </tr>
-  <tr>
-  <td>cdusdgf</td>
-  <td>mahdd4ei</td>
-  <td>16496495611</td>
-  <td>active</td>
-  </tr>
-  </tbody>
-</table>	
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        
-      </div>
-    </div>
-  </div>
-</div>
+							</div>
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- END: Main Table  -->
+
+	<!-- BEGIN: bank Details Table  -->
+	<div class="modal fade" id="bank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Bank Details Table</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive-md mt-4">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">Bank Name</th>
+									<th scope="col">IFSC Code </th>
+									<th scope="col">Account Number </th>
+									<th scope="col">Account Status </th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>cdusdgf</td>
+									<td>mahdd4ei</td>
+									<td>16496495611</td>
+									<td>active</td>
+								</tr>
+								<tr>
+									<td>cdusdgf</td>
+									<td>mahdd4ei</td>
+									<td>16496495611</td>
+									<td>active</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 	<!-- END: bank Details Table  -->
