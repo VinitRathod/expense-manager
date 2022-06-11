@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div id="maincontent" class="contentblock" style="width:80%">
 	<div id="top-header" style="display:flex; justify-content:space-between">
-		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
+		<h2 class="text-blue text-left font-weight-bold " style="font-size: 20px">
 			Employee Payout
 		</h2>
 		<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#EPModal">
@@ -50,7 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<span id="EName" class="text-danger font-weight-regular"> </span>
 							</div>
 
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label for="category" class="font-weight-regular">
 									Expense category :
 								</label>
@@ -58,6 +58,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 									<option id="salary" value="sal">SALARY</option>
 									<option id="other" value="other">OTHER</option>
 								</select>
+								<div id="expense-category">
+
+								</div>
+							</div> -->
+
+							<div class="form-group">
+								<label for="category" class="font-weight-regular"> Expense category :</label><br />
+								<input class="ml-3" type="radio" id="salary" name="fav_language" value="manual" />
+								<label for="salary">Salary</label><br />
+								<input class="ml-3" type="radio" id="other" name="fav_language" value="schedule" />
+								<label for="other">Other</label><br />
 								<div id="expense-category">
 
 								</div>
@@ -138,15 +149,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<td>dfsdf</td>
 					<td>dfb</td>
 					<td>dv</td>
-					<td><div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    ...
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Edit</a>
-    <a class="dropdown-item" href="#">Delete</a>
-   
-  </div></td>
+					<td>
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								...
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" href="#">Edit</a>
+								<a class="dropdown-item" href="#">Delete</a>
+
+							</div>
+					</td>
 
 				</tr>
 			</tbody>
@@ -216,16 +229,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script type="text/javascript">
 	$(document).ready(function() {
 		var i = 0;
-		$('#salary').selected(function() {
+		$('#salary').click(function() {
 
 			$('#expense-category').empty();
 			i = 0;
 
 		});
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
-		$('#other').selected(function() {
+		$('#other').click(function() {
 			if (i == 0) {
-				$('#expense-category').append('<br/><label class="font-weight-regular"> Payment Processing Date</label><input type="date" name="paypd" class="form-control" id="paypd" autocomplete="off" required />',
+				$('#expense-category').append('<br/><div class="form-group"><label for="document" class="font-weight-regular"> Upload Approval Image/Document </label><input type="file" name="document" class="form-control" id="document" accept="application/pdf" /></div>',
 
 				);
 				i++;

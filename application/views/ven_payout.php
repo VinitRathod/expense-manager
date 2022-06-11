@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <div id="maincontent" class="contentblock" style="width:80%">
 
 	<div id="top-header" style="display:flex; justify-content:space-between">
-		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
+		<h2 class="text-blue text-left font-weight-bold" style="font-size: 20px">
 			Vendor Payout
 		</h2>
 		<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#VPModal">
@@ -148,15 +148,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<td>dfb</td>
 					<td>dv</td>
 					<td>dwd</td>
-					<td><div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    ...
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Edit</a>
-    <a class="dropdown-item" href="#">Delete</a>
-   
-  </div>
+					<td>
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								...
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" href="#">Edit</a>
+								<a class="dropdown-item" href="#">Delete</a>
+
+							</div>
 					</td>
 				</tr>
 			</tbody>
