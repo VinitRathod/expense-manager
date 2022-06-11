@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#VMModal">
 			Add Vendor
 		</button>
-	</div>	
+	</div>
 
 	<div class="container">
 
@@ -29,54 +29,54 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 					<div class="modal-body">
 
-						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="add_name">
-							<div class="form-group">
+						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="addVen">
+							<!-- <div class="form-group">
 								<label class="font-weight-regular"> Vendor ID </label>
 								<input type="text" name="vendorid" class="form-control" id="vendorId" autocomplete="off" disabled />
 								<span id="vendorid" class="text-danger font-weight-regular"> </span>
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label for="vendorname" class="font-weight-regular">
 									Vendor Name
 								</label>
-								<input type="text" name="Vendorname" pattern="[a-z A-Z]{3,}" class="form-control" id="Vendorname" autocomplete="off" required />
+								<input type="text" name="c_name" pattern="[a-zA-Z]{3,} [a-zA-Z]{3,}" class="form-control" id="c_name" autocomplete="off" required placeholder="ex. John Doe" />
 								<span id="VName" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="nickname" class="font-weight-regular">
 									Nick Name
 								</label>
-								<input type="text" name="nickname" pattern="[a-z A-Z]{3,}" class="form-control" id="nickname" autocomplete="off" required />
+								<input type="text" name="c_nickname" pattern="[a-z A-Z]{3,}" class="form-control" id="c_nickname" autocomplete="off" required placeholder="ex. Johhny" />
 								<span id="NName" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="Address" class="font-weight-regular"> Address </label>
 								<br />
-								<textarea rows="4" cols="50" name="address" form="usrform" required>
+								<textarea rows="4" cols="50" name="c_address" form="usrform" required>
 						</textarea>
 							</div>
 
 							<div class="form-group">
 								<label for="gst" class="font-weight-regular"> GST </label>
-								<input type="text" name="gst" pattern="[a-z A-Z]{16}" minlength="16" class="form-control" id="gst" autocomplete="off" required />
+								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" minlength="16" class="form-control" id="c_gstno" autocomplete="off" required />
 							</div>
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<input type="text" name="pan" class="form-control" id="pan" autocomplete="off" required />
+								<input type="text" name="c_panno" class="form-control" id="c_panno" autocomplete="off" required />
 							</div>
 							<div class="form-group">
 								<label class="font-weight-regular"> Email </label>
-								<input type="email" name="email" class="form-control" id="emails" autocomplete="off" />
+								<input type="email" name="c_email" class="form-control" id="c_email" autocomplete="off" />
 								<span id="emailids" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label class="font-weight-regular"> Mobile Number </label>
-								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="mobile" class="form-control" id="mobileNumber" required />
+								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="c_contact" class="form-control" id="c_contacts" required />
 								<span id="mobileno" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="document" class="font-weight-regular"> Document </label>
-								<input type="file" name="document" class="form-control" id="document" accept="application/pdf" />
+								<input type="file" name="c_document" class="form-control" id="c_document" accept="application/pdf" />
 							</div>
 
 							<div class="form-group">
@@ -85,17 +85,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<div class="table-responsive">
 									<table class="table table-bordered" id="dynamic_field">
 										<tr>
-											<td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td>
+											<td>Bank Name : <input type="text" name="c_bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td>
 										</tr>
 										<tr>
 											<td>
-												IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td>
+												IFSC Code : <input type="text" name="c_ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td>
 										</tr>
 										<tr>
-											<td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td>
+											<td>Account Number : <input type="text" name="c_accountno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td>
 										</tr>
 										<tr>
-											<td>Account Status :<input type="text" name="AccStatus[]" placeholder="Enter your Account Status" class="form-control name_list" required="" /></td>
+											<td>Account Status :<input type="text" name="c_status[]" placeholder="Enter your Account Status" class="form-control name_list" required="" /></td>
 										</tr>
 
 									</table>
@@ -111,16 +111,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 								<div class="table-responsive">
 									<table class="table table-bordered" id="dynamic_field1">
-										<tr>
+										<!-- <tr>
 											<td>Name : <input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" required="" /></td>
-										</tr>
+										</tr> -->
 										<tr>
 											<td>
-												Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number" class="form-control name_list" required="" /></td>
+												Mobile Number : <input type="text" name="c_contacts[]" placeholder="Enter your mobile number" class="form-control name_list" required="" /></td>
 										</tr>
-										<tr>
+										<!-- <tr>
 											<td>Email: <input type="email" name="email[]" placeholder="Enter your email" class="form-control name_list" required="" /></td>
-										</tr>
+										</tr> -->
 									</table>
 									<table>
 										<tr>
@@ -158,7 +158,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			</div>
 		</div>
 		<!-- modal end  -->
-		<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;" >
+		<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
 			<table class="table" style="overflow-x:scroll ;">
 				<thead>
 					<tr>
@@ -193,15 +193,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contact">
 								ContactDetails
 							</button></td>
-						<td><div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    ...
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Edit</a>
-    <a class="dropdown-item" href="#">Delete</a>
-   
-  </div></td>
+						<td>
+							<div class="dropdown">
+								<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									...
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<a class="dropdown-item" href="#">Edit</a>
+									<a class="dropdown-item" href="#">Delete</a>
+
+								</div>
+						</td>
 						<!-- <td><img src="https://img.icons8.com/material-outlined/24/undefined/edit--v1.png"/><a href="" style ="text-decoration : none">edit</a><img src="https://img.icons8.com/ios-glyphs/30/undefined/filled-trash.png"/><a href="" style ="text-decoration : none">delete</a> -->
 						<!-- </td> -->
 
@@ -338,11 +340,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$('#add').click(function() {
 			i++;
 			$('#dynamic_field').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Bank  Account  Details  </td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="c_bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
 				'<tr id="row' + i + '" class="dynamic-added"></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td>Account Status : <input type="text" name="AccStatus[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="c_ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row' + i + '" class="dynamic-added"><td>Account Number : <input type="text" name="c_accountno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row' + i + '" class="dynamic-added"><td>Account Status : <input type="text" name="c_status[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
 
 			);
 		});
@@ -358,11 +360,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$('#add1').click(function() {
 			i++;
 			$('#dynamic_field1').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="c_contacts[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
 
 			);
 		});
 
 
+	});
+
+	$("#addVen").submit(function(e) {
+		e.preventDefault();
+		const form = new FormData(document.getElementById('addVen'));
+		console.log(...form);
+		$.ajax({
+			method: 'POST',
+			processData: false,
+			contentType: false,
+			cache: false,
+			enctype: 'multipart/form-data',
+			url: `<?php echo base_url() ?>VendorManagement/addVendor`,
+			data: form,
+			success: function(response) {
+				alert(response);
+			}
+		});
 	});
 </script>
