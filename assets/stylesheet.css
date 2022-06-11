@@ -11,10 +11,13 @@ html {
     height: 100%;
 }
 
+body {
+    background-color: #398AB9 !important;
+}
 
 .btn-x {
     padding: 5px 20px;
-    border: 2px solid #3AAFA9;
+    border: 2px solid #398AB9;
     transition: .5;
     background-color: white !important;
 
@@ -22,13 +25,12 @@ html {
 
 .btn-x:hover {
 
-    background-color: #3AAFA9 !important;
+    background-color: #398AB9 !important;
     color: white !important;
 }
 
 #top-nav {
-    background-color: #3AAFA9 !important;
-    color: white !important;
+    background-color: #398AB9 !important;
     height: 6em;
     padding-bottom: 5px;
 
@@ -36,13 +38,13 @@ html {
 }
 
 .btn-x-y:hover {
-    background-color: #3AAFA9 !important;
-    color: white !important;
+    /* background-color: #3AAFA9 !important; */
+    color: #398AB9 !important;
 }
 
 .btn-x-r:hover {
-    background-color: #ae261c !important;
-    color: white !important;
+    /* background-color: #ae261c !important; */
+    color: #ae261c !important;
 }
 
 #top-nav1 {
@@ -56,14 +58,15 @@ html {
     border: 1px solid black !important;
 }
 
-#color-x {
-    background-color: #3AAFA9;
-    color: white;
-}
 
 .w3-bar-item {
-    background-color: #3AAFA9;
-    color: white;
+    font-size: 1.13em !important;
+    background-color: #398AB9;
+    color: white !important;
+}
+
+#icon-x {
+    color: white !important;
 }
 
 .w3-button {
@@ -84,18 +87,23 @@ html {
 
 
 .sidebar {
-    background-color: #3AAFA9;
+    background-color: #398AB9;
     height: 100vh !important;
-    width: 20%;
+    width: 22%;
 }
 
 #sidebar {
-    background-color: #3AAFA9;
+    background-color: #398AB9;
     position: auto;
     height: 100vh !important;
 }
 
+.card {
+    margin: 0px 20px;
+}
+
 #top-header {
+    border-radius: 20px;
     background-color: white;
     padding: 20px 20px;
 
@@ -104,8 +112,36 @@ html {
 #maincontent {
     background-color: white;
     border-radius: 20px;
+
 }
+
 
 .w3-bar-item {
     margin: 0px;
+}
+
+/* ...  */
+.active {
+    border: #ae261c solid 2px;
+}
+
+.card-x {
+    text-align: center;
+    font-weight: bold;
+    padding-top: 18px;   
+    color: white;
+    text-transform: uppercase;
+    border-radius: 10px;
+    border-color: #398AB9;
+    height: 131px;
+    background: hsla(202, 53%, 47%, 1);
+
+    background: linear-gradient(180deg, hsla(202, 53%, 47%, 1) 0%, hsla(202, 53%, 47%, 1) 0%, hsla(190, 100%, 39%, 1) 32%, hsla(179, 100%, 38%, 1) 57%, hsla(159, 67%, 57%, 1) 100%);
+
+    background: -moz-linear-gradient(180deg, hsla(202, 53%, 47%, 1) 0%, hsla(202, 53%, 47%, 1) 0%, hsla(190, 100%, 39%, 1) 32%, hsla(179, 100%, 38%, 1) 57%, hsla(159, 67%, 57%, 1) 100%);
+
+    background: -webkit-linear-gradient(180deg, hsla(202, 53%, 47%, 1) 0%, hsla(202, 53%, 47%, 1) 0%, hsla(190, 100%, 39%, 1) 32%, hsla(179, 100%, 38%, 1) 57%, hsla(159, 67%, 57%, 1) 100%);
+
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#398AB9", endColorstr="#398AB9", GradientType=1);
+
 }

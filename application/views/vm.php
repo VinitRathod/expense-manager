@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<div id="maincontent" class="contentblock" style="width:80%">
+<div id="maincontent" class="contentblock mr-4" style="width:75vw">
 
 
 
@@ -9,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<h2 class="text-blue text-left font-weight-bold " style="font-size: 20px">
 			Vendor Management
 		</h2>
-		<button id="color-x" type="button" class="btn mr-5" data-toggle="modal" data-target="#VMModal">
+		<button  type="button" class="btn mr-5 btn-x" data-toggle="modal" data-target="#VMModal">
 			Add Vendor
 		</button>
 	</div>
@@ -158,58 +158,62 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			</div>
 		</div>
 		<!-- modal end  -->
-		<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
-			<table class="table" style="overflow-x:scroll ;">
-				<thead>
-					<tr>
-						<th scope="col">Vendor ID</th>
-						<th scope="col">Vendor Name</th>
-						<th scope="col">Address</th>
-						<th scope="col">GST</th>
-						<th scope="col">PAN Number</th>
-						<th scope="col">Document</th>
-						<th scope="col">Designation</th>
 
-						<th scope="col">Bank Details</th>
-						<th scope="col">Contact Details</th>
-						<th scope="col">Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>mahi</td>
+		<div class="card" style="width: 95%;">
+			<div class="card-body">
+				<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
+					<table class="table" style="overflow-x:scroll ;">
+						<thead>
+							<tr>
+								<th>Vendor_Name</th>
+								<th>Address</th>
+								<th>GST</th>
+								<th>PAN Number</th>
+								<th>Document</th>
+								<th>Designation</th>
+								<th>vendor_Id</th>
+								<th>Bank Details</th>
+								<th>Contact Details</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>mahi</td>
 
-						<td>Adfff</td>
-						<td>16496495611</td>
+								<td>Adfff</td>
+								<td>16496495611</td>
 
-						<td>.025.325.355</td>
-						<td>gnfbvhnh</td>
-						<td>bfid</td>
+								<td>.025.325.355</td>
+								<td>gnfbvhnh</td>
+								<td>bfid</td>
 
-						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#bank">
-								BankDetails
-							</button></td>
-						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#contact">
-								ContactDetails
-							</button></td>
-						<td>
-							<div class="dropdown">
-								<button id="color-x" class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									...
-								</button>
-								<div id="border-x" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									<a class="dropdown-item" href="#">Edit</a>
-									<a class="dropdown-item" href="#">Delete</a>
+								<td><button  type="button" class="btn btn-x " data-toggle="modal" data-target="#bank">
+										BankDetails
+									</button></td>
+								<td><button  type="button" class="btn  btn-x" data-toggle="modal" data-target="#contact">
+										ContactDetails
+									</button></td>
+								<td>
+									<div class="dropdown">
+										<button  class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											...
+										</button>
+										<div id="border-x" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											<a class="dropdown-item" href="#">Edit</a>
+											<a class="dropdown-item" href="#">Delete</a>
 
-								</div>
-						</td>
-						<!-- <td><img src="https://img.icons8.com/material-outlined/24/undefined/edit--v1.png"/><a href="" style ="text-decoration : none">edit</a><img src="https://img.icons8.com/ios-glyphs/30/undefined/filled-trash.png"/><a href="" style ="text-decoration : none">delete</a> -->
-						<!-- </td> -->
+										</div>
+								</td>
+								<!-- <td><img src="https://img.icons8.com/material-outlined/24/undefined/edit--v1.png"/><a href="" style ="text-decoration : none">edit</a><img src="https://img.icons8.com/ios-glyphs/30/undefined/filled-trash.png"/><a href="" style ="text-decoration : none">delete</a> -->
+								<!-- </td> -->
 
-					</tr>
-				</tbody>
-			</table>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 		<!-- END: Main Table  -->
 		<!-- BEGIN: Contact Details Table  -->
@@ -254,6 +258,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</div>
 			</div>
 		</div>
+
 
 		<!-- END: contact Details Table  -->
 		<!-- BEGIN: bank Details Table  -->
@@ -339,7 +344,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
 		$('#add').click(function() {
 			i++;
-			$('#dynamic_field').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Bank  Account  Details  </td></tr>',
+			$('#dynamic_field').append('<br/><tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Bank  Account  Details  </td></tr>',
 				'<tr id="row' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
 				'<tr id="row' + i + '" class="dynamic-added"></tr>',
 				'<tr id="row' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
@@ -359,7 +364,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
 		$('#add1').click(function() {
 			i++;
-			$('#dynamic_field1').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
+			$('#dynamic_field1').append('<br/><tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
 				'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
 
 			);

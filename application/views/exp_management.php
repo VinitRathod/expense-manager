@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<div id="maincontent" class="contentblock" style="width:80%">
+<div id="maincontent" class="contentblock mr-4" style="width:75vw">
 	<div id="top-header" style="display:flex; justify-content:space-between">
 		<h2 class="text-blue text-left font-weight-bold ml-5" style="font-size: 20px">
 			Expense Management
 		</h2>
-		<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#EXPModal">
+		<button type="button" class="btn btn-x mr-5" data-toggle="modal" data-target="#EXPModal">
 			Add New Expense
 		</button>
 	</div>
@@ -91,23 +91,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	</div>
 
+	<div class="card" style="width: 95%;">
+		<div class="card-body">
+			<div class="table-responsive-md mt-4" style="overflow-x:auto;">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Expense_Code</th>
+							<th scope="col">Expense_Category</th>
+							<th scope="col">Expense_Description</th>
+							<th scope="col">Select_Expense_Type</th>
+							<th scope="col">Action</th>
 
-	<div class="table-responsive-md mt-4" style="overflow-x:auto;">
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Expense Code</th>
-					<th scope="col">Expense Category</th>
-					<th scope="col">Expense Description</th>
-					<th scope="col">Select Expense Type</th>
-					<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody class="tblBody">
 
-				</tr>
-			</thead>
-			<tbody class="tblBody">
-
-			</tbody>
-		</table>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
 <script>

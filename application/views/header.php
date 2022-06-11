@@ -13,7 +13,7 @@
 	<!-- Popper JS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
-
+	<script src="https://kit.fontawesome.com/7f3d017f41.js" crossorigin="anonymous"></script>
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<!-- Popper.JS -->
@@ -24,30 +24,36 @@
 
 	<!-- Sweet Alert CDN -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/sidebar.js"></script>
+
 
 
 </head>
 
 <body>
-	<nav id="top-nav" class="navbar navbar-expand-lg navbar-light bg-light ">
-		<a id="top-nav1" class="navbar-brand " href="#">
-			<h2>Expense Management System</h2>
+	<nav id="top-nav" class="navbar navbar-expand-lg mb-2  ">
+		<a id="top-nav1" class="navbar-brand ml-4 " href="#">
+			<h2><i class="fa fa-cubes" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management System</h2>
 		</a>
 	</nav>
 
 
 	<!-- ... -->
 	<div style="display:flex;">
-		<div class="sidebar">
+		<div class="sidebar pt-3" style="padding-left:20px;">
 			<div id="sidebar" class="w3-bar-block">
-				<a href="<?php echo base_url(); ?>" class="w3-bar-item w3-button-x">Dashboard</a>
-				<a href="<?php echo base_url(); ?>employeeManagement" class="w3-bar-item w3-button-x">Employee Management</a>
-				<a href="<?php echo base_url(); ?>vendorManagement" class="w3-bar-item w3-button-x">Vendor Management</a>
-				<a href="<?php echo base_url(); ?>vendorPayout" class="w3-bar-item w3-button-x">Vendor Payout</a>
-				<a href="<?php echo base_url(); ?>employeePayout" class="w3-bar-item w3-button-x">Employee Payout</a>
-				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" class="w3-bar-item w3-button-x">Expense Management</a>
+			<a href="<?php echo base_url(); ?>" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;&nbsp;Dashboard</a>
+				<a href="<?php echo base_url(); ?>employeeManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Employee Management</a>
+				<a href="<?php echo base_url(); ?>vendorManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Management</a>
+				<a href="<?php echo base_url(); ?>vendorPayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Payout</a>
+				<a href="<?php echo base_url(); ?>employeePayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;Employee Payout</a>
+				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management</a>
 			</div>
 		</div>
+
+		<script>
+			
+		</script>
 </body>
 
 </html>
