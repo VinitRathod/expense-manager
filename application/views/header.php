@@ -30,13 +30,15 @@
 
 <body>
 	<nav id="top-nav" class="navbar navbar-expand-lg navbar-light bg-light ">
-		<a id="top-nav1" class="navbar-brand " href="#"> <h2>Expense Management System</h2></a>
+		<a id="top-nav1" class="navbar-brand " href="#">
+			<h2>Expense Management System</h2>
+		</a>
 	</nav>
 
 
 	<!-- ... -->
 	<div style="display:flex;">
-		<div class="sidebar"  >
+		<div class="sidebar">
 			<div id="sidebar" class="w3-bar-block">
 				<a href="<?php echo base_url(); ?>" class="w3-bar-item w3-button-x">Dashboard</a>
 				<a href="<?php echo base_url(); ?>employeeManagement" class="w3-bar-item w3-button-x">Employee Management</a>
@@ -46,6 +48,6 @@
 				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" class="w3-bar-item w3-button-x">Expense Management</a>
 			</div>
 		</div>
-		</body>
+</body>
 
 </html>

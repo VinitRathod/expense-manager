@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -11,15 +12,15 @@ html {
 }
 
 
-.btn-x{
- padding: 5px 20px;
- border: 2px solid #3AAFA9 ; 
- transition: .5;
- background-color: white !important;
- 
+.btn-x {
+    padding: 5px 20px;
+    border: 2px solid #3AAFA9;
+    transition: .5;
+    background-color: white !important;
+
 }
 
-.btn-x:hover{
+.btn-x:hover {
 
     background-color: #3AAFA9 !important;
     color: white !important;
@@ -30,16 +31,16 @@ html {
     color: white !important;
     height: 6em;
     padding-bottom: 5px;
-    
-   font-weight: bold;
+
+    font-weight: bold;
 }
 
-.btn-x-y:hover{
-    background-color: #3AAFA9!important;
+.btn-x-y:hover {
+    background-color: #3AAFA9 !important;
     color: white !important;
 }
 
-.btn-x-r:hover{
+.btn-x-r:hover {
     background-color: #ae261c !important;
     color: white !important;
 }
@@ -50,11 +51,12 @@ html {
 
 
 }
-.border-x{
-    border: 1px solid  black !important;
+
+.border-x {
+    border: 1px solid black !important;
 }
 
-#color-x{
+#color-x {
     background-color: #3AAFA9;
     color: white;
 }
@@ -72,8 +74,8 @@ html {
 
 .w3-button-x:hover {
     background-color: white !important;
-    border-top-left-radius:20px;
-    border-bottom-left-radius:20px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
     color: rgb(20, 21, 49) !important;
     text-decoration: none;
 }
@@ -96,13 +98,14 @@ html {
 #top-header {
     background-color: white;
     padding: 20px 20px;
-    
+
 }
 
-#maincontent{
-  background-color:white ;
-  border-radius: 20px;
+#maincontent {
+    background-color: white;
+    border-radius: 20px;
 }
+
 .w3-bar-item {
     margin: 0px;
 }
