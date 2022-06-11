@@ -22,6 +22,9 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
+	<!-- Sweet Alert CDN -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 </head>
 
@@ -36,11 +39,19 @@
 		<div class="sidebar"  >
 			<div id="sidebar" class="w3-bar-block">
 				<h3 class="w3-bar-item">Menu</h3>
+<<<<<<< HEAD
 				<a href="<?php echo base_url(); ?>employeeManagement" class="w3-bar-item w3-button-x">Employee Management</a>
 				<a href="<?php echo base_url(); ?>vendorManagement" class="w3-bar-item w3-button-x">Vendor Management</a>
 				<a href="<?php echo base_url(); ?>vendorPayout" class="w3-bar-item w3-button-x">Vendor Payout</a>
 				<a href="<?php echo base_url(); ?>employeePayout" class="w3-bar-item w3-button-x">Employee Payout</a>
 				<a href="<?php echo base_url(); ?>expenseManagement" class="w3-bar-item w3-button-x">Expense Management</a>
+=======
+				<a href="<?php echo base_url(); ?>employeeManagement" class="w3-bar-item w3-button">Employee Management</a>
+				<a href="<?php echo base_url(); ?>vendorManagement" class="w3-bar-item w3-button">Vendor Management</a>
+				<a href="<?php echo base_url(); ?>vendorPayout" class="w3-bar-item w3-button">Vendor Payout</a>
+				<a href="<?php echo base_url(); ?>employeePayout" class="w3-bar-item w3-button">Employee Payout</a>
+				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" class="w3-bar-item w3-button">Expense Management</a>
+>>>>>>> ff9ad38351062459e06c046ae2820440808b5d83
 			</div>
 		</div>
 		</body>
