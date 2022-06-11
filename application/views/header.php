@@ -43,7 +43,7 @@
 				<h3 class="w3-bar-item">Menu</h3>
 				<a href="<?php echo base_url(); ?>" class="w3-bar-item w3-button-x">Dashboard</a>
 				<a href="<?php echo base_url(); ?>EmployeesManagement/empManagement" class="w3-bar-item w3-button">Employee Management</a>
-				<a href="<?php echo base_url(); ?>vendorManagement" class="w3-bar-item w3-button">Vendor Management</a>
+				<a href="<?php echo base_url(); ?>VendorManagement/venManagement" class="w3-bar-item w3-button">Vendor Management</a>
 				<a href="<?php echo base_url(); ?>vendorPayout" class="w3-bar-item w3-button">Vendor Payout</a>
 				<a href="<?php echo base_url(); ?>employeePayout" class="w3-bar-item w3-button">Employee Payout</a>
 				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" class="w3-bar-item w3-button">Expense Management</a>
