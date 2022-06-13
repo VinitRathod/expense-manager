@@ -158,71 +158,73 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			</div>
 		</div>
 		<!-- modal end  -->
-		<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
-			<table class="table" style="overflow-x:scroll ;">
-				<thead>
-					<tr>
-						<th scope="col">Vendor ID</th>
-						<th scope="col">Vendor Name</th>
-						<th scope="col">Address</th>
-						<th scope="col">GST</th>
-						<th scope="col">PAN Number</th>
-						<th scope="col">Document</th>
-						<th scope="col">Designation</th>
+		<div class="card" style="width: 95%;">
+			<div class="card-body">
+				<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
+					<table class="table" style="overflow-x:scroll ;">
+						<thead>
+							<tr>
+								<th scope="col">Vendor ID</th>
+								<th scope="col">Vendor Name</th>
+								<th scope="col">Address</th>
+								<th scope="col">GST</th>
+								<th scope="col">PAN Number</th>
+								<th scope="col">Document</th>
+								<th scope="col">Designation</th>
 
-						<th scope="col">Bank Details</th>
-						<th scope="col">Contact Details</th>
-						<th scope="col">Action</th>
-					</tr>
-				</thead>
-				<tbody id="tblBody">
-					
-				</tbody>
-			</table>
-		</div>
-		<!-- END: Main Table  -->
-		<!-- BEGIN: Contact Details Table  -->
-		<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Contact Details Table</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="table-responsive-md mt-4">
-							<table class="table">
-								<thead>
-									<tr>
-										<th scope="col">Name</th>
-										<th scope="col">Mobile Number</th>
-										<th scope="col">Email</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>dff</td>
-										<td>275425454</td>
-										<td>ghfbgfgf@gg.com</td>
-									</tr>
-									<tr>
-										<td>dff</td>
-										<td>275425454</td>
-										<td>ghfbgfgf@gg.com</td>
-									</tr>
+								<th scope="col">Bank Details</th>
+								<th scope="col">Contact Details</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody id="tblBody">
 
-								</tbody>
-							</table>
+						</tbody>
+					</table>
+				</div>
+				<!-- END: Main Table  -->
+				<!-- BEGIN: Contact Details Table  -->
+				<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Contact Details Table</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="table-responsive-md mt-4">
+									<table class="table">
+										<thead>
+											<tr>
+												<th scope="col">Name</th>
+												<th scope="col">Mobile Number</th>
+												<th scope="col">Email</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>dff</td>
+												<td>275425454</td>
+												<td>ghfbgfgf@gg.com</td>
+											</tr>
+											<tr>
+												<td>dff</td>
+												<td>275425454</td>
+												<td>ghfbgfgf@gg.com</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+							</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-					</div>
 				</div>
-			</div>
-		</div>
 
 		<!-- END: contact Details Table  -->
 		<!-- BEGIN: bank Details Table  -->
@@ -261,6 +263,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -303,32 +307,58 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
 		$('#add').click(function() {
 			i++;
-			$('#dynamic_field').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Bank  Account  Details  </td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="c_bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="c_ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td>Account Number : <input type="text" name="c_accountno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td>Account Status : <input type="text" name="c_status[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
-
+			$('#dynamic_field').append('<tr id="row1' + i + '" class="dynamic-added"> <td><b>Enter Your Another Bank  Account  Details </b> </td></tr>',
+				'<tr id="row2' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row3' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row4' + i + '" class="dynamic-added"><td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row5' + i + '" class="dynamic-added"><td>Account Status : <input type="text" name="AccStatus[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row6' + i + '" class="dynamic-added"><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">Remove</button></td></tr>',
 			);
 		});
+
+
+
+
+		$(document).on('click', '.btn_remove', function() {
+			var button_id = $(this).attr("id");
+			$('#row1' + button_id + '').remove();
+			$('#row2' + button_id + '').remove();
+			$('#row3' + button_id + '').remove();
+			$('#row4' + button_id + '').remove();
+			$('#row5' + button_id + '').remove();
+			$('#row6' + button_id + '').remove();
+
+		});
+
 
 	});
 </script>
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var postURL = "/addmore.php";
-		var i = 1;
-		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+		var j = 10;
+		// //   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
 		$('#add1').click(function() {
-			i++;
-			$('#dynamic_field1').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="number" name="c_contacts[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
+			j++;
+			$('#dynamic_field1').append('<tr id="row11' + j + '" class="dynamic-added"> <td> <b>Enter Your Another Mobile Numbers </b></td></tr>',
+				'<tr id="row22' + j + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row33' + j + '" class="dynamic-added"><td><button type="button" name="remove" id="' + j + '" class="btn btn-danger btn_remove">Remove</button></td></tr></tr>',
 
 			);
 		});
 
+
+
+
+
+		$(document).on('click', '.btn_remove', function() {
+			var button_id = $(this).attr("id");
+			$('#row11' + button_id + '').remove();
+			$('#row22' + button_id + '').remove();
+			$('#row33' + button_id + '').remove();
+
+
+		});
 
 	});
 

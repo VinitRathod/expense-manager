@@ -10,66 +10,67 @@ defined('BASEPATH') or exit('No direct script access allowed');
             Dashboard
         </h2>
     </div>
-    <div class="card card-x">
+    <div class="card ">
         <div class="card-body">
-            <h2 style=" font-size: 40px;">WelCome User </h2>
+            <img style="object-fit:cover ; width:69vw; height:48vh" src="<?php echo base_url(); ?>assets/DASHBOARD2.png" alt="yfu">
         </div>
     </div>
+    <div class="container">
 
-    <div class="mt-5" style="display: flex">
-        <div class="card" style="width: 95%;">
-            <div class="card-body">
-                <div class="table-responsive mt-2" style="overflow-x:auto;">
-                <h3>   Employee Payout</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Employee_ID</th>
-                                <th scope="col">Employee_Name</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Payment_Due_Date</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
+        <div class="mt-5" style="display: flex">
+            <div class="card" style="width: 95%;">
+                <div class="card-body">
+                    <div class="table-responsive mt-2" style="overflow-x:auto;">
+                        <h3 style="font-weight:500"> Employee Payout</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Employee_ID</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Payment_Due_Date</th>
 
-                                <td>454</td>
-                                <td>rfdf</td>
-                                <td>fdf</td>
-                                <td>dfsdf</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
 
-                            </tr>
-                        </tbody>
-                    </table>
+                                    <td>454</td>
+                                    <td>fdf</td>
+                                    <td>dfsdf</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="width: 95%;">
+                <div class="card-body">
+                    <div class="table-responsive-md mt-2" style="overflow-x:auto;">
+                        <h3 style="font-weight:500">Vendor Payout</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Vendor_ID</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Payment_Due_Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ff</td>
+                                    <td>454</td>
+                                    <td>rfdf</td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="card" style="width: 95%;">
-		<div class="card-body">
-			<div class="table-responsive-md mt-2" style="overflow-x:auto;">
-            <h3>   Vendor  Payout</h3>
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col">Vendor_ID</th>
-							<th scope="col">Amount</th>
-							<th scope="col">Payment_Due_Date</th>
-							
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>ff</td>
-							<td>454</td>
-							<td>rfdf</td>
-							
-							
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
     </div>
 </div>
