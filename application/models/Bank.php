@@ -48,4 +48,9 @@ class Bank extends CI_Model
         $this->db->where("c_id", $id);
         return $this->db->get('t_bank')->row();
     }
+
+    public function deleteBank($id) {
+        $this->db->where("c_id",$id);
+        return $this->db->delete('t_bank');
+    }
 }

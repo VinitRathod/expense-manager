@@ -42,11 +42,11 @@ class VendorManagement extends CI_Controller
 						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#bank" onclick="bankDetails('.$ven->c_banks.')">
 								BankDetails
 							</button></td>
-						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#contact">
+						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#contact" onclick="contactDetails('.$ven->c_id.')">
 								ContactDetails
 							</button></td>
 						<td><a href="" class="btn btn-success">Edit</a>
-							<a href="#" class="btn btn-danger">Delete</a>
+							<a href="#" class="btn btn-danger" onclick="venDelete(`'.$this->sec->encryptor('e',$ven->c_id).'`)">Delete</a>
 						</td>
 					</tr>';
 		}
@@ -148,5 +148,30 @@ class VendorManagement extends CI_Controller
 			);
 		}
 		$insert = $this->ven->insert($data);
+	}
+
+	public function getContactDetails($id) {
+        $result = $this->ven->getSingleVen($id);
+		$output = "";
+		$contacts = explode(",",$result->c_contacts);
+        foreach($contacts as $con) {
+			$output .= "<tr>
+							<td>".$con."</td>
+						</tr>";
+		}
+		echo $output;
+    }
+
+	public function venDelete($id) {
+		$result = $this->ven->getSingleVen($this->sec->encryptor('d',$id));
+		$banks = explode(",",$result->c_banks);
+		foreach($banks as $bk) {
+			$this->bank->deleteBank($bk);
+		}
+		
+		$res = $this->ven->deleteSingleVen($id);
+		if($res) {
+			echo "SUCCESS";
+		}
 	}
 }

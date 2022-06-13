@@ -28,13 +28,18 @@ class Vendors extends CI_Model
         }
     }
 
-    public function getSingleEmp($id)
+    public function getSingleVen($id)
     {
-        $this->db->where('id', $id);
+        $this->db->where('c_id', $id);
         $view = $this->db->get('t_vendors');
 
         if ($view) {
             return $view->row();
         }
+    }
+
+    public function deleteSingleVen($id) {
+        $this->db->where('c_id',$this->sec->encryptor('d',$id));
+        return $this->db->delete('t_vendors');
     }
 }
