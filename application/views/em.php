@@ -60,6 +60,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							</div>
 
 							<div class="form-group">
+								<label class="font-weight-regular"> Email </label>
+								<input type="email" name="c_email" class="form-control" id="c_email" autocomplete="off" />
+								<span id="emailids" class="text-danger font-weight-regular"> </span>
+							</div>
+
+							<div class="form-group">
 								<label for="BankDetail" class="font-weight-regular"> Bank Details </label>
 
 								<div class="table-responsive">

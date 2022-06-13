@@ -75,12 +75,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								</span>
 							</div>
 
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label class="font-weight-regular"> Payment Due Date</label>
 								<input type="date" name="paydd" class="form-control" id="paydd" autocomplete="off" required />
 								<span id="paymentdd" class="text-danger font-weight-regular">
 								</span>
-							</div>
+							</div> -->
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Payment Mode</label><br />

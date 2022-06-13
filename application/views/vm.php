@@ -246,19 +246,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 										<th scope="col">Account Status </th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
+								<tbody id="bankTbl">
+									
+									<!-- <tr>
 										<td>cdusdgf</td>
 										<td>mahdd4ei</td>
 										<td>16496495611</td>
 										<td>active</td>
-									</tr>
-									<tr>
-										<td>cdusdgf</td>
-										<td>mahdd4ei</td>
-										<td>16496495611</td>
-										<td>active</td>
-									</tr>
+									</tr> -->
 								</tbody>
 							</table>
 						</div>
@@ -336,6 +331,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 	});
+
+	function bankDetails(...id) {
+		let url = "";
+		id.forEach((id)=>{
+			url+=(id+"_");
+		});
+		$.ajax({
+			method: "POST",
+			url: "<?php echo base_url(); ?>BankController/getBankDetails/"+url,
+			success: function(response) {
+				// alert(response);
+				$("#bankTbl").html(response);
+			}
+		});
+	}
 
 	$("#addVen").submit(function(e) {
 		e.preventDefault();
