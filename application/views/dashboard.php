@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
     <div class="card card-x">
         <div class="card-body">
-            <h2 style=" font-size: 40px;">WelCome,User </h2>
+            <h2 style=" font-size: 40px;">WelCome User </h2>
         </div>
     </div>
 
