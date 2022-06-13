@@ -58,8 +58,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<div class="form-group">
 								<label for="expdesc" class="font-weight-regular"> Expense Description </label>
 								<br />
-								<textarea id="expDesc" rows="4" cols="50" name="expDesc" required>
-            		</textarea>
+								<textarea id="expDesc" rows="4" cols="50" name="expDesc" required></textarea>
 							</div>
 
 							<div class="form-group">
@@ -183,9 +182,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			data: form,
 			success: function() {
 				loadExp();
+				$("#expCode").val("");
+				$("#expCat").val("");
+				$("#expType").val("").change();
+				$("#expDesc").val("");
 			}
 		});
 	});
+
+	function Reset() {
+		
+	}
 
 	$("#edit_exp").submit(function(e) {
 		// alert();
