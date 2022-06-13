@@ -110,21 +110,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	</div>
 	<!-- BEGIN: Main Table  -->
-	<div class="table-responsive-md mt-4" style="overflow-x:auto;">
-		<table class="table">
-			<thead>
-				<tr>
-					<!-- <th scope="col">Employee ID</th> -->
-					<th scope="col">Employee Name</th>
-					<th scope="col">PAN Number</th>
-					<th scope="col">Mobile Number</th>
-					<th scope="col">Bank Details</th>
-					<th scope="col">Action</th>
-				</tr>
-			</thead>
-			<tbody class="tblBody">
-			</tbody>
-		</table>
+	<div class="card" style="width: 95%;">
+		<div class="card-body">
+
+
+			<div class="table-responsive-md mt-4" style="overflow-x:auto;">
+				<table class="table">
+					<thead>
+						<tr>
+							<!-- <th scope="col">Employee ID</th> -->
+							<th scope="col">Employee Name</th>
+							<th scope="col">PAN Number</th>
+							<th scope="col">Mobile Number</th>
+							<th scope="col">Bank Details</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody class="tblBody">
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 	<!-- END: Main Table  -->
 

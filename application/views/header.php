@@ -43,7 +43,7 @@
 		<div class="sidebar pt-3" style="padding-left:20px;">
 			<div id="sidebar" class="w3-bar-block">
 				<a href="<?php echo base_url(); ?>" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;&nbsp;Dashboard</a>
-				<a href="<?php echo base_url(); ?>employeeManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Employee Management</a>
+				<a href="<?php echo base_url(); ?>EmployeesManagement/empManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Employee Management</a>
 				<a href="<?php echo base_url(); ?>vendorManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Management</a>
 				<a href="<?php echo base_url(); ?>vendorPayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Payout</a>
 				<a href="<?php echo base_url(); ?>employeePayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;Employee Payout</a>
