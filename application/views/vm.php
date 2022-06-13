@@ -9,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<h2 class="text-blue text-left font-weight-bold " style="font-size: 20px">
 			Vendor Management
 		</h2>
-		<button  type="button" class="btn mr-5 btn-x" data-toggle="modal" data-target="#VMModal">
+		<button type="button" class="btn mr-5 btn-x" data-toggle="modal" data-target="#VMModal">
 			Add Vendor
 		</button>
 	</div>
@@ -189,15 +189,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<td>gnfbvhnh</td>
 								<td>bfid</td>
 
-								<td><button  type="button" class="btn btn-x " data-toggle="modal" data-target="#bank">
+								<td><button type="button" class="btn btn-x " data-toggle="modal" data-target="#bank">
 										BankDetails
 									</button></td>
-								<td><button  type="button" class="btn  btn-x" data-toggle="modal" data-target="#contact">
+								<td><button type="button" class="btn  btn-x" data-toggle="modal" data-target="#contact">
 										ContactDetails
 									</button></td>
 								<td>
 									<div class="dropdown">
-										<button  class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											...
 										</button>
 										<div id="border-x" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -344,32 +344,58 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
 		$('#add').click(function() {
 			i++;
-			$('#dynamic_field').append('<br/><tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Bank  Account  Details  </td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"><td>Account Status : <input type="text" name="AccStatus[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
-
+			$('#dynamic_field').append('<tr id="row1' + i + '" class="dynamic-added"> <td><b>Enter Your Another Bank  Account  Details </b> </td></tr>',
+				'<tr id="row2' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row3' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row4' + i + '" class="dynamic-added"><td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row5' + i + '" class="dynamic-added"><td>Account Status : <input type="text" name="AccStatus[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
+                '<tr id="row6' + i + '" class="dynamic-added"><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">Remove</button></td></tr>',
 			);
 		});
+
+		
+
+
+		$(document).on('click', '.btn_remove', function() {
+			var button_id = $(this).attr("id");
+			$('#row1' + button_id + '').remove();
+			$('#row2' + button_id + '').remove();
+			$('#row3' + button_id + '').remove();
+			$('#row4' + button_id + '').remove();
+			$('#row5' + button_id + '').remove();
+			$('#row6' + button_id + '').remove();
+
+		});
+
 
 	});
 </script>
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var postURL = "/addmore.php";
-		var i = 1;
-		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+		var j = 10;
+		// //   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
 		$('#add1').click(function() {
-			i++;
-			$('#dynamic_field1').append('<br/><tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
-				'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
+			j++;
+			$('#dynamic_field1').append('<tr id="row11' + j + '" class="dynamic-added"> <td> <b>Enter Your Another Mobile Numbers </b></td></tr>',
+				'<tr id="row22' + j + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row33' + j + '" class="dynamic-added"><td><button type="button" name="remove" id="' + j +'" class="btn btn-danger btn_remove">Remove</button></td></tr></tr>',
 
 			);
 		});
 
+
+
+
+	
+		$(document).on('click', '.btn_remove', function() {
+			var button_id = $(this).attr("id");
+			$('#row11' + button_id + '').remove();
+			$('#row22' + button_id + '').remove();
+			$('#row33' + button_id + '').remove();
+			
+
+		});
 
 	});
 </script>
