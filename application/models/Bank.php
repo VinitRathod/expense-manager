@@ -14,9 +14,15 @@ class Bank extends CI_Model
     public function insert($data)
     {
         if ($this->db->insert('t_bank', $data)) {
-            return $this->db->insert_id();;
+            return $this->db->insert_id();
         } else {
             return false;
         }
+    }
+
+    public function getBankDetail($id)
+    {
+        $this->db->where("c_id", $id);
+        $this->db->select('t_banks');
     }
 }

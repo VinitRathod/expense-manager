@@ -28,18 +28,18 @@ class EmployeesManagement extends CI_Controller
     // expanse management code goes here =================================================
     public function index()
     {
-        $data['exp_details'] = $this->emp->getAll();
+        $data['emp_details'] = $this->emp->getAllEmp();
 
         $output = "";
-        foreach ($data['exp_details'] as $exps) {
-
+        foreach ($data['emp_details'] as $emps) {
             $output .= '<tr>
-				<td>' . $exps->c_expcode . '</td>
-				<td>' . $exps->c_category . '</td>
-				<td>' . $exps->c_description . '</td>
-				<td>' . $exps->c_type . '</td>
-				<td><a href="' . base_url() . 'ExpenseManagement/editExp/' . $exps->c_expid . ' " class="btn btn-success">Edit</a>
-					<a href="#" class="btn btn-danger" onclick="expDelete(' . $exps->c_expid . ')">Delete</a>
+				<td>' . $emps->c_fname . ' ' . $emps->c_lname . '</td>
+				<td>' . $emps->c_panno . '</td>
+				<td>' . $emps->c_contactno . '</td>
+                <td><a href="#" class="btn btn-primary" data-toggle="modal" id="' . $emps->c_banks . ' bank_details" onclick="bank_details(' . $emps->c_banks . ')" data-target="#bank">View Bank Details</a>
+                            
+				<td><a href="' . base_url() . 'ExpenseManagement/editExp/' . $emps->c_id . ' " class="btn btn-success">Edit</a>
+					<a href="#" class="btn btn-danger" onclick="empDelete(' . $emps->c_id . ')">Delete</a>
 				</td>
 			</tr>';
         }
@@ -84,7 +84,7 @@ class EmployeesManagement extends CI_Controller
             'c_lname' => $emp_name[1],
             'c_panno' => $this->input->post('pan'),
             'c_contactno' => $this->input->post('mobile'),
-            'c_banks' => implode(',', $ids)
+            'c_banks' => implode('_', $ids)
         );
 
         $this->emp->insert($data);
@@ -112,7 +112,7 @@ class EmployeesManagement extends CI_Controller
     {
         if ($this->input->post("submit")) {
             $data = array(
-                'c_expcode' => $this->input->post('expCode'),
+                'fname' => $this->input->post('expCode'),
                 'c_category' => $this->input->post('expCat'),
                 'c_type' => $this->input->post('expType'),
                 'c_description' => $this->input->post('expDesc')
