@@ -40,15 +40,14 @@
 
 	<!-- ... -->
 	<div style="display:flex;">
-		<div class="sidebar">
-			<div id="sidebar" class=" w3-light-grey w3-bar-block">
-				<h3 class="w3-bar-item">Menu</h3>
-				<a href="<?php echo base_url(); ?>" class="w3-bar-item w3-button-x">Dashboard</a>
-				<a href="<?php echo base_url(); ?>EmployeesManagement/empManagement" class="w3-bar-item w3-button">Employee Management</a>
-				<a href="<?php echo base_url(); ?>VendorManagement/venManagement" class="w3-bar-item w3-button">Vendor Management</a>
-				<a href="<?php echo base_url(); ?>vendorPayout" class="w3-bar-item w3-button">Vendor Payout</a>
-				<a href="<?php echo base_url(); ?>employeePayout" class="w3-bar-item w3-button">Employee Payout</a>
-				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" class="w3-bar-item w3-button">Expense Management</a>
+		<div class="sidebar pt-3" style="padding-left:20px;">
+			<div id="sidebar" class="w3-bar-block">
+				<a href="<?php echo base_url(); ?>" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;&nbsp;Dashboard</a>
+				<a href="<?php echo base_url(); ?>employeeManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Employee Management</a>
+				<a href="<?php echo base_url(); ?>vendorManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Management</a>
+				<a href="<?php echo base_url(); ?>vendorPayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Payout</a>
+				<a href="<?php echo base_url(); ?>employeePayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;Employee Payout</a>
+				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management</a>
 			</div>
 		</div>
 

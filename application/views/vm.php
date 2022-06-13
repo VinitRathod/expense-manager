@@ -408,37 +408,35 @@ defined('BASEPATH') or exit('No direct script access allowed');
 									</script>
 									<script type="text/javascript">
 										$(document).ready(function() {
-													var postURL = "/addmore.php";
-													var i = 1;
-													//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
-													$('#add1').click(function() {
-															i++;
-															$('#dynamic_field1').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
-																'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="c_contacts[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
-																$('#dynamic_field1').append('<br/><tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
-																	'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
+											var postURL = "/addmore.php";
+											var i = 1;
+											//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+											$('#add1').click(function() {
+												i++;
+												$('#dynamic_field1').append('<br/><tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Mobile Numbers </td></tr>',
+													'<tr id="row' + i + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
 
-																);
-															});
+												);
+											});
 
 
-													});
+										});
 
-												$("#addVen").submit(function(e) {
-													e.preventDefault();
-													const form = new FormData(document.getElementById('addVen'));
-													console.log(...form);
-													$.ajax({
-														method: 'POST',
-														processData: false,
-														contentType: false,
-														cache: false,
-														enctype: 'multipart/form-data',
-														url: `<?php echo base_url() ?>VendorManagement/addVendor`,
-														data: form,
-														success: function(response) {
-															alert(response);
-														}
-													});
-												});
+										$("#addVen").submit(function(e) {
+											e.preventDefault();
+											const form = new FormData(document.getElementById('addVen'));
+											console.log(...form);
+											$.ajax({
+												method: 'POST',
+												processData: false,
+												contentType: false,
+												cache: false,
+												enctype: 'multipart/form-data',
+												url: `<?php echo base_url() ?>VendorManagement/addVendor`,
+												data: form,
+												success: function(response) {
+													alert(response);
+												}
+											});
+										});
 									</script>
