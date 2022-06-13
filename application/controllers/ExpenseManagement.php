@@ -38,7 +38,7 @@ class ExpenseManagement extends CI_Controller
 				<td>' . $exps->c_category . '</td>
 				<td>' . $exps->c_description . '</td>
 				<td>' . $exps->c_type . '</td>
-				<td><a href="' . base_url() . 'ExpenseManagement/editExp/' . $exps->c_expid . ' " class="btn btn-success">Edit</a>
+				<td><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editEXPModal" onclick="expEdit(' . $exps->c_expid . ')">Edit</a>
 					<a href="#" class="btn btn-danger" onclick="expDelete(' . $exps->c_expid . ')">Delete</a>
 				</td>
 			</tr>';
@@ -62,15 +62,13 @@ class ExpenseManagement extends CI_Controller
 			'c_description' => $this->input->post('expDesc')
 		);
 		$insert = $this->exp->insert($data);
-		// if ($insert) {
-
-		// }
 	}
 
 	public function edit_Exp($id)
 	{
 		$data['exp_details'] = $this->exp->getSingleExp($id);
-		$this->load->view('edit_Exp', $data);
+		$response = $data['exp_details'];
+		echo json_encode($response);
 	}
 
 	public function expDelete($id)
@@ -83,7 +81,7 @@ class ExpenseManagement extends CI_Controller
 
 	public function expUpdate($id)
 	{
-		if ($this->input->post("submit")) {
+		// if ($this->input->post("submit")) {
 			$data = array(
 				'c_expcode' => $this->input->post('expCode'),
 				'c_category' => $this->input->post('expCat'),
@@ -94,7 +92,7 @@ class ExpenseManagement extends CI_Controller
 			if ($update) {
 				redirect('ExpenseManagement/expManagement');
 			}
-		}
+		// }
 	}
 
 	// expanse management code ends here =================================================

@@ -11,7 +11,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		</button>
 	</div>
 
-	<div class="container">
+	<div class="container" id="modalContainer">
 		<!-- Modal -->
 		<div class="modal fade" id="EXPModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -58,8 +58,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<div class="form-group">
 								<label for="expdesc" class="font-weight-regular"> Expense Description </label>
 								<br />
-								<textarea id="expDesc" rows="4" cols="50" name="expDesc" required>
-            		</textarea>
+								<textarea id="expDesc" rows="4" cols="50" name="expDesc" required></textarea>
 							</div>
 
 							<div class="form-group">
@@ -87,8 +86,64 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			</div>
 		</div>
 		<!-- modal end  -->
+	</div>
+	<div class="container" id="editExpModelContainer">
+		<div class="modal fade" id="editEXPModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Edit Expense</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
 
+					<div class="modal-body">
 
+						<form onsubmit="return validation()" id="edit_exp" class="bg-light" method="post">
+							<div class="Expid">
+								<input type="text" name="ExpID" id="expId" hidden>
+							</div>
+							<div class="form-group">
+								<label for="expid" class="font-weight-regular"> Expense Code </label>
+								<input type="text" name="expCode" class="form-control" id="EditexpCode" autocomplete="off" required />
+								<span id="warnExpCode" class="text-danger font-weight-regular">
+
+								</span>
+							</div>
+
+							<div class="form-group">
+								<label for="expcode" class="font-weight-regular">
+									Expense Category
+								</label>
+								<input type="text" name="expCat" pattern="[a-z A-Z0-9]{1,}" class="form-control" id="EditexpCat" autocomplete="off" required />
+								<span id="warnFExpCat" class="text-danger font-weight-regular">
+
+								</span>
+							</div>
+
+							<div class="form-group">
+								<label for="expdesc" class="font-weight-regular"> Expense Description </label>
+								<br />
+								<textarea id="EditexpDesc" rows="4" cols="50" name="expDesc" required></textarea>
+							</div>
+
+							<div class="form-group">
+								<label for="exptype"> Select Expense Type :</label>
+								<select id="EditexpType" name="expType">
+									<option value="vendor">Vendor</option>
+									<option value="employee">Employee</option>
+								</select>
+								<span id="warnExpType" class="text-danger font-weight-regular"> </span>
+							</div>
+							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" data-tw-dismiss="modal" />
+							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="card" style="width: 95%;">
@@ -119,7 +174,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	$("#add_exp").submit(function(e) {
 		e.preventDefault();
 		const form = new FormData(document.getElementById('add_exp'));
-		console.log(...form);
+		// console.log(...form);
 		$.ajax({
 			method: 'POST',
 			processData: false,
@@ -130,6 +185,35 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			data: form,
 			success: function() {
 				loadExp();
+				$("#expCode").val("");
+				$("#expCat").val("");
+				$("#expType").val("").change();
+				$("#expDesc").val("");
+			}
+		});
+	});
+
+	function Reset() {
+		
+	}
+
+	$("#edit_exp").submit(function(e) {
+		// alert();
+		e.preventDefault();
+		const form = new FormData(document.getElementById('edit_exp'));
+		// console.log(form.get("ExpID"));
+		let id = form.get("ExpID");
+		$.ajax({
+			method: 'POST',
+			processData: false,
+			contentType: false,
+			cache: false,
+			enctype: 'multipart/form-data',
+			url: "<?php echo base_url() ?>ExpenseManagement/expUpdate/"+id,
+			data: form,
+			success: function() {
+				loadExp();
+				expEdit(id);
 			}
 		});
 	});
@@ -144,6 +228,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	}
 	loadExp();
+
+	function expEdit(id) {
+		// alert(id);
+		$.ajax({
+			url: "<?php echo  base_url(); ?>ExpenseManagement/editExp/" + id,
+			method: "POST",
+			success: function(response) {
+				// console.log(JSON.parse(response));
+				let data = JSON.parse(response);
+				$("#EditexpCode").val(data.c_expcode);
+				$("#EditexpCat").val(data.c_category);
+				$("#EditexpType").val(data.c_type).change();
+				$("#expId").val(data.c_expid);
+				$("#EditexpDesc").html(data.c_description);
+			}
+		});
+	}
 
 	function expDelete(id) {
 		swal({
