@@ -39,8 +39,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <td>fdf</td>
                                 <td>dfsdf</td>
 
-
-
                             </tr>
                         </tbody>
                     </table>
