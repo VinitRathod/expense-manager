@@ -28,9 +28,9 @@ class Vendors extends CI_Model
         }
     }
 
-    public function getSingleEmp($id)
+    public function getSingleVen($id)
     {
-        $this->db->where('id', $id);
+        $this->db->where('c_id', $id);
         $view = $this->db->get('t_vendors');
 
         if ($view) {
