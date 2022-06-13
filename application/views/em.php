@@ -122,28 +122,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<th scope="col">Action</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<!-- <td>1</td> -->
-					<td>mahi</td>
-					<td>16496495611</td>
-					<td>5445645644</td>
-					<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bank">
-							view Bank Details
-						</button></td>
-					<td>
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								...
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item" href="#">Edit</a>
-								<a class="dropdown-item" href="#">Delete</a>
-
-							</div>
-					</td>
-
-				</tr>
+			<tbody class="tblBody">
 			</tbody>
 		</table>
 	</div>
@@ -253,13 +232,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <!-- END: bank Details Table  -->
 </div>
-<script type="text/javascript">
-	function validation() {
-
-	}
-</script>
 <script>
 	$(document).ready(function() {
+
+
+
 		var postURL = "/addmore.php";
 		var i = 1;
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
@@ -278,7 +255,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$("#add_emp").submit(function(e) {
 			e.preventDefault();
 			const form = new FormData(document.getElementById('add_emp'));
-			console.log(...form);
+			// console.log(...form);
 			$.ajax({
 				method: 'POST',
 				processData: false,
@@ -291,10 +268,43 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					// loadExp();
 
 					console.log("data added successfully")
+					document.getElementById("add_emp").reset();
+					loadExp();
 				}
 			});
 		});
 
+		function loadExp() {
+			$.ajax({
+				url: "<?php echo base_url() ?>EmployeesManagement/index",
+				method: "POST",
+				success: function(data) {
+					$(".tblBody").html(data);
+
+				}
+			});
+		}
+		loadExp();
+
+
+
+		$(document).on('click', '#bank_details', function() {
+			var ids = document.getElementById("bank_details")
+			alert("Hello Henil");
+
+			console.log(ids);
+			// $.ajax({
+			// 	url: "<?php echo base_url() ?>Bank/bank_details/"
+			// });
+		});
+
+		// $.fn.bankDetails = function() {
+		// 	alert('hi');
+		// }
 	});
-</script>
+
+	function bank_details(id) {
+		// $.ajax();
+		alert(id)
+	}
 </script>
