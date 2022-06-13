@@ -226,48 +226,42 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					</div>
 				</div>
 
-				<!-- END: contact Details Table  -->
-				<!-- BEGIN: bank Details Table  -->
-
-				<div class="modal fade" id="bank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Bank Details Table</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								<div class="table-responsive-md mt-4">
-									<table class="table">
-										<thead>
-											<tr>
-												<th scope="col">Bank Name</th>
-												<th scope="col">IFSC Code </th>
-												<th scope="col">Account Number </th>
-												<th scope="col">Account Status </th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>cdusdgf</td>
-												<td>mahdd4ei</td>
-												<td>16496495611</td>
-												<td>active</td>
-											</tr>
-											<tr>
-												<td>cdusdgf</td>
-												<td>mahdd4ei</td>
-												<td>16496495611</td>
-												<td>active</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+		<!-- END: contact Details Table  -->
+		<!-- BEGIN: bank Details Table  -->
+		<div class="modal fade" id="bank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Bank Details Table</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="table-responsive-md mt-4">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">Bank Name</th>
+										<th scope="col">IFSC Code </th>
+										<th scope="col">Account Number </th>
+										<th scope="col">Account Status </th>
+									</tr>
+								</thead>
+								<tbody id="bankTbl">
+									
+									<!-- <tr>
+										<td>cdusdgf</td>
+										<td>mahdd4ei</td>
+										<td>16496495611</td>
+										<td>active</td>
+									</tr> -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 
 							</div>
 						</div>
@@ -367,6 +361,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 
 	});
+
+	function bankDetails(...id) {
+		let url = "";
+		id.forEach((id)=>{
+			url+=(id+"_");
+		});
+		$.ajax({
+			method: "POST",
+			url: "<?php echo base_url(); ?>BankController/getBankDetails/"+url,
+			success: function(response) {
+				// alert(response);
+				$("#bankTbl").html(response);
+			}
+		});
+	}
 
 	$("#addVen").submit(function(e) {
 		e.preventDefault();

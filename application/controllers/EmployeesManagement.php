@@ -62,6 +62,19 @@ class EmployeesManagement extends CI_Controller
         $emp_name = explode(" ", $emp_name);
         // in array key name same as the database column name
 
+        // contact id generation...
+		$details = array(
+			'name' => $emp_name,
+			'email' => $this->input->post('c_email'),
+			'contact' => $this->input->post('mobile'),
+			'type' => "employee",
+		);
+		$res = $this->bank->curlReq($details, $this->bank->contactURL);
+		$contactID = $res['id'];
+        echo "<pre>";
+        print_r($res);
+        echo "</pre>";
+		// contact id generated sucessfully...
 
         $bankName = $this->input->post('bankname');
         $ifsc = $this->input->post('ifsc');
@@ -70,11 +83,24 @@ class EmployeesManagement extends CI_Controller
 
         // $this->emp->insert($data);
         for ($i = 0; $i < count($bankName); $i++) {
+            $details = array(
+				"contact_id" => "$contactID",
+				"account_type" => "bank_account",
+				"bank_account" => array(
+					"name" => $emp_name,
+					"ifsc" => $ifsc[$i],
+					"account_number" => $accountno[$i]
+				)
+			);
+			$result = $this->bank->curlReq($details, $this->bank->fundURL);
+			$fundID = $result['id'];
             $data = array(
                 'c_bankname' => $bankName[$i],
                 'c_ifsc' => $ifsc[$i],
                 'c_accountno' => $accountno[$i],
-                'c_status' => $acc_status[$i]
+                'c_status' => $acc_status[$i],
+                'c_contactid' => $contactID,
+				'c_fundsid' => $fundID,
             );
             $lastID = $this->bank->insert($data);
             array_push($ids, $lastID);
@@ -84,7 +110,8 @@ class EmployeesManagement extends CI_Controller
             'c_lname' => $emp_name[1],
             'c_panno' => $this->input->post('pan'),
             'c_contactno' => $this->input->post('mobile'),
-            'c_banks' => implode('_', $ids)
+            'c_banks' => implode('_', $ids),
+            'c_email' => $this->input->post("c_email")
         );
 
         $this->emp->insert($data);
