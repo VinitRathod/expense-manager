@@ -38,12 +38,6 @@ class Welcome extends CI_Controller
 		$this->load->view('vm');
 	}
 
-	public function employeeManagement()
-	{
-		$this->load->view('header');
-		$this->load->view('em');
-	}
-
 	public function vendorPayout()
 	{
 		$this->load->view('header');

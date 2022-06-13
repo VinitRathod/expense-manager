@@ -29,54 +29,54 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 					<div class="modal-body">
 
-						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="add_name">
-							<div class="form-group">
+						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="addVen">
+							<!-- <div class="form-group">
 								<label class="font-weight-regular"> Vendor ID </label>
 								<input type="text" name="vendorid" class="form-control" id="vendorId" autocomplete="off" disabled />
 								<span id="vendorid" class="text-danger font-weight-regular"> </span>
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label for="vendorname" class="font-weight-regular">
 									Vendor Name
 								</label>
-								<input type="text" name="Vendorname" pattern="[a-z A-Z]{3,}" class="form-control" id="Vendorname" autocomplete="off" required />
+								<input type="text" name="c_name" pattern="[a-zA-Z]{3,} [a-zA-Z]{3,}" class="form-control" id="c_name" autocomplete="off" required placeholder="ex. John Doe" />
 								<span id="VName" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="nickname" class="font-weight-regular">
 									Nick Name
 								</label>
-								<input type="text" name="nickname" pattern="[a-z A-Z]{3,}" class="form-control" id="nickname" autocomplete="off" required />
+								<input type="text" name="c_nickname" pattern="[a-z A-Z]{3,}" class="form-control" id="c_nickname" autocomplete="off" required placeholder="ex. Johhny" />
 								<span id="NName" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="Address" class="font-weight-regular"> Address </label>
 								<br />
-								<textarea rows="4" cols="50" name="address" form="usrform" required>
+								<textarea rows="4" cols="50" name="c_address" form="usrform" required id="c_address">
 						</textarea>
 							</div>
 
 							<div class="form-group">
 								<label for="gst" class="font-weight-regular"> GST </label>
-								<input type="text" name="gst" pattern="[a-z A-Z]{16}" minlength="16" class="form-control" id="gst" autocomplete="off" required />
+								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" minlength="16" class="form-control" id="c_gstno" autocomplete="off" required />
 							</div>
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<input type="text" name="pan" class="form-control" id="pan" autocomplete="off" required />
+								<input type="text" name="c_panno" class="form-control" id="c_panno" autocomplete="off" required />
 							</div>
 							<div class="form-group">
 								<label class="font-weight-regular"> Email </label>
-								<input type="email" name="email" class="form-control" id="emails" autocomplete="off" />
+								<input type="email" name="c_email" class="form-control" id="c_email" autocomplete="off" />
 								<span id="emailids" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label class="font-weight-regular"> Mobile Number </label>
-								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="mobile" class="form-control" id="mobileNumber" required />
+								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="c_contacts[]" class="form-control" id="c_contacts" required />
 								<span id="mobileno" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="document" class="font-weight-regular"> Document </label>
-								<input type="file" name="document" class="form-control" id="document" accept="application/pdf" />
+								<input type="file" name="c_document" class="form-control" id="c_document" accept="application/pdf" />
 							</div>
 
 							<div class="form-group">
@@ -85,17 +85,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<div class="table-responsive">
 									<table class="table table-bordered" id="dynamic_field">
 										<tr>
-											<td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td>
+											<td>Bank Name : <input type="text" name="c_bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td>
 										</tr>
 										<tr>
 											<td>
-												IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td>
+												IFSC Code : <input type="text" name="c_ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td>
 										</tr>
 										<tr>
-											<td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td>
+											<td>Account Number : <input type="text" name="c_accountno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td>
 										</tr>
 										<tr>
-											<td>Account Status :<input type="text" name="AccStatus[]" placeholder="Enter your Account Status" class="form-control name_list" required="" /></td>
+											<td>Account Status :<input type="text" name="c_status[]" placeholder="Enter your Account Status" class="form-control name_list" required="" /></td>
 										</tr>
 
 									</table>
@@ -111,16 +111,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 								<div class="table-responsive">
 									<table class="table table-bordered" id="dynamic_field1">
-										<tr>
+										<!-- <tr>
 											<td>Name : <input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" required="" /></td>
-										</tr>
+										</tr> -->
 										<tr>
 											<td>
-												Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number" class="form-control name_list" required="" /></td>
+												Mobile Number : <input type="number" name="c_contacts[]" placeholder="Enter your mobile number" class="form-control name_list" required="" /></td>
 										</tr>
-										<tr>
+										<!-- <tr>
 											<td>Email: <input type="email" name="email[]" placeholder="Enter your email" class="form-control name_list" required="" /></td>
-										</tr>
+										</tr> -->
 									</table>
 									<table>
 										<tr>
@@ -133,14 +133,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<label for="Designation" class="font-weight-regular">
 									Designation
 								</label>
-								<input type="text" name="designation" pattern="[a-z A-Z]{3,}" class="form-control" id="designation" autocomplete="off" required />
+								<input type="text" name="c_designation" pattern="[a-z A-Z]{3,}" class="form-control" id="c_designation" autocomplete="off" required />
 
 							</div>
 							<div class="form-group">
 								<label for="Tag" class="font-weight-regular">
 									Tags
 								</label>
-								<input type="text" name="Tags" pattern="[a-z A-Z]{1,}" class="form-control" id="Tags" autocomplete="off" required />
+								<input type="text" name="c_tags" pattern="[a-z A-Z]{1,}" class="form-control" id="c_tags" autocomplete="off" required />
 								<br />
 
 							</div>
@@ -158,62 +158,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			</div>
 		</div>
 		<!-- modal end  -->
+		<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
+			<table class="table" style="overflow-x:scroll ;">
+				<thead>
+					<tr>
+						<th scope="col">Vendor ID</th>
+						<th scope="col">Vendor Name</th>
+						<th scope="col">Address</th>
+						<th scope="col">GST</th>
+						<th scope="col">PAN Number</th>
+						<th scope="col">Document</th>
+						<th scope="col">Designation</th>
 
-		<div class="card" style="width: 95%;">
-			<div class="card-body">
-				<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
-					<table class="table" style="overflow-x:scroll ;">
-						<thead>
-							<tr>
-								<th>Vendor_Name</th>
-								<th>Address</th>
-								<th>GST</th>
-								<th>PAN Number</th>
-								<th>Document</th>
-								<th>Designation</th>
-								<th>vendor_Id</th>
-								<th>Bank Details</th>
-								<th>Contact Details</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td>mahi</td>
-
-								<td>Adfff</td>
-								<td>16496495611</td>
-
-								<td>.025.325.355</td>
-								<td>gnfbvhnh</td>
-								<td>bfid</td>
-
-								<td><button type="button" class="btn btn-x " data-toggle="modal" data-target="#bank">
-										BankDetails
-									</button></td>
-								<td><button type="button" class="btn  btn-x" data-toggle="modal" data-target="#contact">
-										ContactDetails
-									</button></td>
-								<td>
-									<div class="dropdown">
-										<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											...
-										</button>
-										<div id="border-x" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-											<a class="dropdown-item" href="#">Edit</a>
-											<a class="dropdown-item" href="#">Delete</a>
-
-										</div>
-								</td>
-								<!-- <td><img src="https://img.icons8.com/material-outlined/24/undefined/edit--v1.png"/><a href="" style ="text-decoration : none">edit</a><img src="https://img.icons8.com/ios-glyphs/30/undefined/filled-trash.png"/><a href="" style ="text-decoration : none">delete</a> -->
-								<!-- </td> -->
-
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
+						<th scope="col">Bank Details</th>
+						<th scope="col">Contact Details</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody id="tblBody">
+					
+				</tbody>
+			</table>
 		</div>
 		<!-- END: Main Table  -->
 		<!-- BEGIN: Contact Details Table  -->
@@ -258,7 +223,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</div>
 			</div>
 		</div>
-
 
 		<!-- END: contact Details Table  -->
 		<!-- BEGIN: bank Details Table  -->
@@ -319,7 +283,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <script type="text/javascript">
 	function validation() {
-		var emails = document.getElementById("emails").value;
+		var emails = document.getElementById("c_email").value;
 
 		console.log(vendorId);
 
@@ -398,4 +362,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 
 	});
+
+	$("#addVen").submit(function(e) {
+		e.preventDefault();
+		const form = new FormData(document.getElementById('addVen'));
+		var add = document.getElementById("c_address").value;
+		form.append("c_address", add);
+		// console.log(...form);
+		$.ajax({
+			method: 'POST',
+			processData: false,
+			contentType: false,
+			cache: false,
+			enctype: 'multipart/form-data',
+			url: `<?php echo base_url() ?>VendorManagement/addVendor`,
+			data: form,
+			success: function(response) {
+				// alert(response);
+			}
+		});
+	});
+
+	function loadVen() {
+		$.ajax({
+			url: "<?php echo base_url() ?>VendorManagement/index",
+			method: "POST",
+			success: function(data) {
+				// alert(data);
+				$("#tblBody").html(data);
+			}
+		});
+	}
+	loadVen();
 </script>

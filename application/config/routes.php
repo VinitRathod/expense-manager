@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 // This is very important
 // mapping url with function in controller is possible
+$route['Vendors/(:any)'] = 'Vendors/$1';
 $route['ExpenseManagement/editExp/(:any)'] = 'ExpenseManagement/edit_Exp/$1';
 $route['(:any)'] = 'Welcome/$1';
 $route['default_controller'] = 'Welcome';

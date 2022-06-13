@@ -29,25 +29,25 @@ class ExpenseManagement extends CI_Controller
 	public function index()
 	{
 		$data['exp_details'] = $this->exp->getAll();
-		
+
 		$output = "";
 		foreach ($data['exp_details'] as $exps) {
 
-			$output.='<tr>
-				<td>'.$exps->c_expcode.'</td>
-				<td>'.$exps->c_category.'</td>
-				<td>'.$exps->c_description.'</td>
-				<td>'.$exps->c_type.'</td>
-				<td><a href="'.base_url().'ExpenseManagement/editExp/'.$exps->c_expid.' " class="btn btn-success">Edit</a>
-					<a href="#" class="btn btn-danger" onclick="expDelete('.$exps->c_expid.')">Delete</a>
+			$output .= '<tr>
+				<td>' . $exps->c_expcode . '</td>
+				<td>' . $exps->c_category . '</td>
+				<td>' . $exps->c_description . '</td>
+				<td>' . $exps->c_type . '</td>
+				<td><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editEXPModal" onclick="expEdit(' . $exps->c_expid . ')">Edit</a>
+					<a href="#" class="btn btn-danger" onclick="expDelete(' . $exps->c_expid . ')">Delete</a>
 				</td>
 			</tr>';
-
 		}
 		echo $output;
 	}
 
-	public function expManagement() {
+	public function expManagement()
+	{
 		$this->load->view('header');
 		$this->load->view('exp_management');
 	}
@@ -62,37 +62,37 @@ class ExpenseManagement extends CI_Controller
 			'c_description' => $this->input->post('expDesc')
 		);
 		$insert = $this->exp->insert($data);
-		if ($insert) {
-			
-		}
 	}
 
 	public function edit_Exp($id)
 	{
 		$data['exp_details'] = $this->exp->getSingleExp($id);
-		$this->load->view('edit_Exp', $data);
+		$response = $data['exp_details'];
+		echo json_encode($response);
 	}
 
-	public function expDelete($id) {
+	public function expDelete($id)
+	{
 		$result = $this->exp->deleteExp($id);
-		if($result) {
+		if ($result) {
 			echo "SUCCESS";
 		}
 	}
 
-	public function expUpdate($id) {
-		if($this->input->post("submit")) {
+	public function expUpdate($id)
+	{
+		// if ($this->input->post("submit")) {
 			$data = array(
 				'c_expcode' => $this->input->post('expCode'),
 				'c_category' => $this->input->post('expCat'),
 				'c_type' => $this->input->post('expType'),
 				'c_description' => $this->input->post('expDesc')
 			);
-			$update = $this->exp->update($data,$id);
+			$update = $this->exp->update($data, $id);
 			if ($update) {
 				redirect('ExpenseManagement/expManagement');
 			}
-		}
+		// }
 	}
 
 	// expanse management code ends here =================================================

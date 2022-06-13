@@ -9,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<h2 class="text-blue text-left font-weight-bold" style="font-size: 20px">
 			Employee Management
 		</h2>
-		<button  id="color-x" type="button" class="btn mr-5 btn-x" data-toggle="modal" data-target="#EMModal">
+		<button type="button" class="btn mr-5 btn-x" data-toggle="modal" data-target="#EMModal">
 			Add Employee
 		</button>
 	</div>
@@ -32,13 +32,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 					<div class="modal-body">
 
-						<form action="<?php echo base_url(); ?>add" method="post" onsubmit="return validation()" name="add_name" id="add_name" class="bg-light">
-							<div class="form-group">
+						<form onsubmit="return validation()" id="add_emp" class="bg-light">
+							<!-- <div class="form-group">
 								<label class="font-weight-regular"> Employee ID </label>
 								<input type="text" name="empid" class="form-control" id="empid" autocomplete="off" required />
 								<span id="employeeid" class="text-danger font-weight-regular">
 								</span>
-							</div>
+							</div> -->
 
 							<div class="form-group">
 								<label for="employeename" class="font-weight-regular">
@@ -65,17 +65,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<div class="table-responsive">
 									<table class="table table-bordered" id="dynamic_field">
 										<tr>
-											<td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td>
+											<td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list"></td>
 										</tr>
 										<tr>
 											<td>
-												IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td>
+												IFSC Code : <input type="text" name="ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list"></td>
 										</tr>
 										<tr>
-											<td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td>
+											<td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list"></td>
 										</tr>
 										<tr>
-											<td>Account Status :<input type="text" name="AccStatus[]" placeholder="Enter your Account Status" class="form-control name_list" required="" /></td>
+											<td>Account Status :<input type="text" name="AccStatus[]" placeholder="Enter your Account Status" class="form-control name_list"></td>
 										</tr>
 
 									</table>
@@ -110,14 +110,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	</div>
 	<!-- BEGIN: Main Table  -->
-	<!-- table start  -->
 	<div class="card" style="width: 95%;">
 		<div class="card-body">
+
+
 			<div class="table-responsive-md mt-4" style="overflow-x:auto;">
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">Employee ID</th>
+							<!-- <th scope="col">Employee ID</th> -->
 							<th scope="col">Employee Name</th>
 							<th scope="col">PAN Number</th>
 							<th scope="col">Mobile Number</th>
@@ -125,261 +126,119 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<th scope="col">Action</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>1</td>
-							<td>mahi</td>
-							<td>16496495611</td>
-							<td>5445645644</td>
-							<td><button type="button" class="btn btn-x" data-toggle="modal" data-target="#bank">
-									view Bank Details
-								</button></td>
-							<td>
-								<div class="dropdown">
-									<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
-									<div class="dropdown-menu border-x" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item btn-x-y" href="#">Edit</a>
-										<a class="dropdown-item btn-x-r" href="#">Delete</a>
-
-									</div>
-							</td>
-
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>mahi</td>
-							<td>16496495611</td>
-							<td>5445645644</td>
-							<td><button type="button" class="btn btn-x" data-toggle="modal" data-target="#bank">
-									view Bank Details
-								</button></td>
-							<td>
-								<div class="dropdown">
-									<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
-									<div class="dropdown-menu border-x" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item btn-x-y" href="#">Edit</a>
-										<a class="dropdown-item btn-x-r" href="#">Delete</a>
-
-									</div>
-							</td>
-
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>mahi</td>
-							<td>16496495611</td>
-							<td>5445645644</td>
-							<td><button type="button" class="btn btn-x" data-toggle="modal" data-target="#bank">
-									view Bank Details
-								</button></td>
-							<td>
-								<div class="dropdown">
-									<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
-									<div class="dropdown-menu border-x" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item btn-x-y" href="#">Edit</a>
-										<a class="dropdown-item btn-x-r" href="#">Delete</a>
-
-									</div>
-							</td>
-
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>mahi</td>
-							<td>16496495611</td>
-							<td>5445645644</td>
-							<td><button type="button" class="btn btn-x" data-toggle="modal" data-target="#bank">
-									view Bank Details
-								</button></td>
-							<td>
-								<div class="dropdown">
-									<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
-									<div class="dropdown-menu border-x" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item btn-x-y" href="#">Edit</a>
-										<a class="dropdown-item btn-x-r" href="#">Delete</a>
-
-									</div>
-							</td>
-
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>mahi</td>
-							<td>16496495611</td>
-							<td>5445645644</td>
-							<td><button type="button" class="btn btn-x" data-toggle="modal" data-target="#bank">
-									view Bank Details
-								</button></td>
-							<td>
-								<div class="dropdown">
-									<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
-									<div class="dropdown-menu border-x" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item btn-x-y" href="#">Edit</a>
-										<a class="dropdown-item btn-x-r" href="#">Delete</a>
-
-									</div>
-							</td>
-
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>mahi</td>
-							<td>16496495611</td>
-							<td>5445645644</td>
-							<td><button type="button" class="btn btn-x" data-toggle="modal" data-target="#bank">
-									view Bank Details
-								</button></td>
-							<td>
-								<div class="dropdown">
-									<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
-									<div class="dropdown-menu border-x" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item btn-x-y" href="#">Edit</a>
-										<a class="dropdown-item btn-x-r" href="#">Delete</a>
-
-									</div>
-							</td>
-
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>mahi</td>
-							<td>16496495611</td>
-							<td>5445645644</td>
-							<td><button type="button" class="btn btn-x" data-toggle="modal" data-target="#bank">
-									view Bank Details
-								</button></td>
-							<td>
-								<div class="dropdown">
-									<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
-									<div class="dropdown-menu border-x" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item btn-x-y" href="#">Edit</a>
-										<a class="dropdown-item btn-x-r" href="#">Delete</a>
-
-									</div>
-							</td>
-
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>mahi</td>
-							<td>16496495611</td>
-							<td>5445645644</td>
-							<td><button type="button" class="btn btn-x" data-toggle="modal" data-target="#bank">
-									view Bank Details
-								</button></td>
-							<td>
-								<div class="dropdown">
-									<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
-									<div class="dropdown-menu border-x" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item btn-x-y" href="#">Edit</a>
-										<a class="dropdown-item btn-x-r" href="#">Delete</a>
-
-									</div>
-							</td>
-
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>mahi</td>
-							<td>16496495611</td>
-							<td>5445645644</td>
-							<td><button type="button" class="btn btn-x" data-toggle="modal" data-target="#bank">
-									view Bank Details
-								</button></td>
-							<td>
-								<div class="dropdown">
-									<button class="btn dropdown-toggle btn-x" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
-									<div class="dropdown-menu border-x" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item btn-x-y" href="#">Edit</a>
-										<a class="dropdown-item btn-x-r" href="#">Delete</a>
-
-									</div>
-							</td>
-
-						</tr>
+					<tbody class="tblBody">
 					</tbody>
 				</table>
 			</div>
-			<!-- END: Main Table  -->
+		</div>
+	</div>
+	<!-- END: Main Table  -->
 
-			<!-- BEGIN: bank Details Table  -->
-			<div class="modal fade" id="bank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Bank Details Table</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<div class="table-responsive-md mt-4">
-								<table class="table">
-									<thead>
-										<tr>
-											<th scope="col">Bank Name</th>
-											<th scope="col">IFSC Code </th>
-											<th scope="col">Account Number </th>
-											<th scope="col">Account Status </th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>cdusdgf</td>
-											<td>mahdd4ei</td>
-											<td>16496495611</td>
-											<td>active</td>
-										</tr>
-										<tr>
-											<td>cdusdgf</td>
-											<td>mahdd4ei</td>
-											<td>16496495611</td>
-											<td>active</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-
-						</div>
+	<!-- BEGIN: bank Details Table  -->
+	<div class="modal fade" id="bank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Bank Details Table</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive-md mt-4">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">Bank Name</th>
+									<th scope="col">IFSC Code </th>
+									<th scope="col">Account Number </th>
+									<th scope="col">Account Status </th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>cdusdgf</td>
+									<td>mahdd4ei</td>
+									<td>16496495611</td>
+									<td>active</td>
+								</tr>
+								<tr>
+									<td>cdusdgf</td>
+									<td>mahdd4ei</td>
+									<td>16496495611</td>
+									<td>active</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- table end  -->
-
-
-	<!-- END: bank Details Table  -->
 </div>
-<script type="text/javascript">
-	function validation() {
+</td>
 
-	}
-</script>
-<script type="text/javascript">
+</tr>
+</tbody>
+</table>
+</div>
+<!-- END: Main Table  -->
+
+<!-- BEGIN: bank Details Table  -->
+<div class="modal fade" id="bank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Bank Details Table</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive-md mt-4">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Bank Name</th>
+								<th scope="col">IFSC Code </th>
+								<th scope="col">Account Number </th>
+								<th scope="col">Account Status </th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>cdusdgf</td>
+								<td>mahdd4ei</td>
+								<td>16496495611</td>
+								<td>active</td>
+							</tr>
+							<tr>
+								<td>cdusdgf</td>
+								<td>mahdd4ei</td>
+								<td>16496495611</td>
+								<td>active</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- END: bank Details Table  -->
+</div>
+<script>
 	$(document).ready(function() {
+
+
+
 		var postURL = "/addmore.php";
 		var i = 1;
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
@@ -409,6 +268,59 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 
 
+		$("#add_emp").submit(function(e) {
+			e.preventDefault();
+			const form = new FormData(document.getElementById('add_emp'));
+			// console.log(...form);
+			$.ajax({
+				method: 'POST',
+				processData: false,
+				contentType: false,
+				cache: false,
+				enctype: 'multipart/form-data',
+				url: "<?php echo base_url() ?>EmployeesManagement/addEmp",
+				data: form,
+				success: function() {
+					// loadExp();
+
+					console.log("data added successfully")
+					document.getElementById("add_emp").reset();
+					loadExp();
+				}
+			});
+		});
+
+		function loadExp() {
+			$.ajax({
+				url: "<?php echo base_url() ?>EmployeesManagement/index",
+				method: "POST",
+				success: function(data) {
+					$(".tblBody").html(data);
+
+				}
+			});
+		}
+		loadExp();
+
+
+
+		$(document).on('click', '#bank_details', function() {
+			var ids = document.getElementById("bank_details")
+			alert("Hello Henil");
+
+			console.log(ids);
+			// $.ajax({
+			// 	url: "<?php echo base_url() ?>Bank/bank_details/"
+			// });
+		});
+
+		// $.fn.bankDetails = function() {
+		// 	alert('hi');
+		// }
 	});
-</script>
+
+	function bank_details(id) {
+		// $.ajax();
+		alert(id)
+	}
 </script>
