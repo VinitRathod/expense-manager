@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 
 
-<div id="maincontent" class="contentblock" style="width:80%">
+<div id="maincontent" class="contentblock mr-4" style="width:75vw">
 
 	<div id="top-header" style="display:flex; justify-content:space-between">
 		<h2 class="text-blue text-left font-weight-bold" style="font-size: 20px">
@@ -166,10 +166,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						</table>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-
-				</div>
 			</div>
 		</div>
 	</div>
@@ -242,7 +238,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
 		$('#add').click(function() {
 			i++;
-			$('#dynamic_field').append('<tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Bank  Account  Details  </td></tr>',
+			$('#dynamic_field').append('<br/><tr id="row' + i + '" class="dynamic-added"> <td> Enter Your ' + i + ' Bank  Account  Details  </td></tr>',
 				'<tr id="row' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
 				'<tr id="row' + i + '" class="dynamic-added"></tr>',
 				'<tr id="row' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',

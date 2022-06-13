@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<div id="maincontent" class="contentblock" style="width:80%">
+<div id="maincontent" class="contentblock mr-4" style="width:75vw">
 
 	<div id="top-header" style="display:flex; justify-content:space-between">
 		<h2 class="text-blue text-left font-weight-bold" style="font-size: 20px">
 			Vendor Payout
 		</h2>
-		<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#VPModal">
+		<button type="button" class="btn btn-x mr-5" data-toggle="modal" data-target="#VPModal">
 			Add New Payout
 		</button>
 	</div>
@@ -123,45 +123,49 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	</div>
 
-	<div class="table-responsive-md mt-4" style="overflow-x:auto;">
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Select Vendor </th>
-					<th scope="col">Amount</th>
-					<th scope="col">Invoice Number</th>
-					<th scope="col">Expense category</th>
-					<th scope="col">Document</th>
-					<th scope="col">References</th>
-					<th scope="col">Payment Due Date</th>
-					<th scope="col">Payment Mode</th>
-					<th scope="col">Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>ff</td>
-					<td>454</td>
-					<td>rfdf</td>
-					<td>fdf</td>
-					<td>dfsdf</td>
-					<td>dfb</td>
-					<td>dv</td>
-					<td>dwd</td>
-					<td>
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								...
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item" href="#">Edit</a>
-								<a class="dropdown-item" href="#">Delete</a>
+	<div class="card" style="width: 95%;">
+		<div class="card-body">
+			<div class="table-responsive-md mt-4" style="overflow-x:auto;">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Vendor_ID</th>
+							<th scope="col">Amount</th>
+							<th scope="col">Invoice_Number</th>
+							<th scope="col">Expense_category</th>
+							<th scope="col">Document</th>
+							<th scope="col">References</th>
+							<th scope="col">Payment_Due_Date</th>
+							<th scope="col">Payment_Mode</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ff</td>
+							<td>454</td>
+							<td>rfdf</td>
+							<td>fdf</td>
+							<td>dfsdf</td>
+							<td>dfb</td>
+							<td>dv</td>
+							<td>dwd</td>
+							<td>
+								<div class="dropdown">
+									<button class="btn btn-x dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										...
+									</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" href="#">Edit</a>
+										<a class="dropdown-item" href="#">Delete</a>
 
-							</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+									</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
 
