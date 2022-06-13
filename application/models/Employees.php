@@ -30,11 +30,17 @@ class Employees extends CI_Model
 
     public function getSingleEmp($id)
     {
-        $this->db->where('id', $id);
+        $this->db->where('c_id', $id);
         $view = $this->db->get('t_employees');
 
         if ($view) {
             return $view->row();
         }
+    }
+
+    public function deleteEmp($id)
+    {
+        $this->db->where('c_id', $id);
+        return $this->db->delete('t_employees');
     }
 }
