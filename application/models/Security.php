@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Security extends CI_Controller
+class Security extends CI_Model
 {
     public function encryptor($action, $string) {
         $secret_key = 'U7W4YTRVWIU3YNRW3YVRYT38RVYB3287TBR980ERGBFOF9FN';

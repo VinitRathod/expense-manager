@@ -37,4 +37,9 @@ class Vendors extends CI_Model
             return $view->row();
         }
     }
+
+    public function deleteSingleVen($id) {
+        $this->db->where('c_id',$this->sec->encryptor('d',$id));
+        return $this->db->delete('t_vendors');
+    }
 }

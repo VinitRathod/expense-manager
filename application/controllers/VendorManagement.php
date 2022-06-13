@@ -46,7 +46,7 @@ class VendorManagement extends CI_Controller
 								ContactDetails
 							</button></td>
 						<td><a href="" class="btn btn-success">Edit</a>
-							<a href="#" class="btn btn-danger">Delete</a>
+							<a href="#" class="btn btn-danger" onclick="venDelete(`'.$this->sec->encryptor('e',$ven->c_id).'`)">Delete</a>
 						</td>
 					</tr>';
 		}
@@ -161,4 +161,17 @@ class VendorManagement extends CI_Controller
 		}
 		echo $output;
     }
+
+	public function venDelete($id) {
+		$result = $this->ven->getSingleVen($this->sec->encryptor('d',$id));
+		$banks = explode(",",$result->c_banks);
+		foreach($banks as $bk) {
+			$this->bank->deleteBank($bk);
+		}
+		
+		$res = $this->ven->deleteSingleVen($id);
+		if($res) {
+			echo "SUCCESS";
+		}
+	}
 }

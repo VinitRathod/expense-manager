@@ -327,6 +327,37 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </script>
 </script>
 <script type="text/javascript">
+	function venDelete(id) {
+		// alert(id);
+		swal({
+				title: "Are you sure?",
+				text: "Once deleted, you will not be able to recover this vendor details!",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			})
+			.then((willDelete) => {
+				if (willDelete) {
+					$.ajax({
+						url: `<?php echo base_url(); ?>/VendorManagement/venDelete/${id}`,
+						method: "POST",
+						success: function(response) {
+							// alert(response);
+							if (response == "SUCCESS") {
+								swal("Poof! Your vendor has been deleted!", {
+									icon: "success",
+								});
+								loadVen();
+							}
+						}
+					});
+				} else {
+					swal("Your vendor is safe!", {
+						icon: "info",
+					});
+				}
+			});
+	}
 	$(document).ready(function() {
 		var j = 10;
 		// //   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
