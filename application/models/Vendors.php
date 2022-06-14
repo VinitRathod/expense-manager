@@ -42,4 +42,8 @@ class Vendors extends CI_Model
         $this->db->where('c_id',$this->sec->encryptor('d',$id));
         return $this->db->delete('t_vendors');
     }
+
+    public function insertVenPay($data) {
+        return $this->db->insert('t_vendorpayout',$data);
+    }
 }
