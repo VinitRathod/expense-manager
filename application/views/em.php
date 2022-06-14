@@ -33,12 +33,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<div class="modal-body">
 
 						<form onsubmit="return validation()" id="add_emp" class="bg-light">
-							<!-- <div class="form-group">
+							<div class="form-group">
 								<label class="font-weight-regular"> Employee ID </label>
 								<input type="text" name="empid" class="form-control" id="empid" autocomplete="off" required />
 								<span id="employeeid" class="text-danger font-weight-regular">
 								</span>
-							</div> -->
+							</div>
 
 							<div class="form-group">
 								<label for="employeename" class="font-weight-regular">
@@ -174,7 +174,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<table class="table">
 					<thead>
 						<tr>
-							<!-- <th scope="col">Employee ID</th> -->
+							<th scope="col">Employee ID</th>
 							<th scope="col">Employee Name</th>
 							<th scope="col">PAN Number</th>
 							<th scope="col">Mobile Number</th>

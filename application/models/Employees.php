@@ -43,4 +43,13 @@ class Employees extends CI_Model
         $this->db->where('c_id', $id);
         return $this->db->delete('t_employees');
     }
+
+    public function insertEmpPay($data)
+    {
+        if ($this->db->insert('t_emppayout', $data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

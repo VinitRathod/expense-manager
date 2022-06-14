@@ -33,6 +33,7 @@ class EmployeesManagement extends CI_Controller
         $output = "";
         foreach ($data['emp_details'] as $emps) {
             $output .= '<tr>
+                <td>' . $emps->c_empid . '</td>
 				<td>' . $emps->c_fname . ' ' . $emps->c_lname . '</td>
 				<td>' . $emps->c_panno . '</td>
 				<td>' . $emps->c_contactno . '</td>
@@ -106,6 +107,7 @@ class EmployeesManagement extends CI_Controller
             array_push($ids, $lastID);
         }
         $data = array(
+            'c_empid' => $this->input->post('empid'),
             'c_fname' => $emp_name[0],
             'c_lname' => $emp_name[1],
             'c_panno' => $this->input->post('pan'),
@@ -123,8 +125,8 @@ class EmployeesManagement extends CI_Controller
 
     public function edit_Emp($id)
     {
-        $data['emp_details'] = $this->exp->getSingleExp($id);
-        return $data['emp_details'];
+        $data['emp_details'] = $this->emp->getSingleEmp($id);
+        echo json_encode($data['emp_details']);
     }
 
     public function empDelete($id)
@@ -159,4 +161,38 @@ class EmployeesManagement extends CI_Controller
     }
 
     // expanse management code ends here =================================================
+
+    // Employee Payout Code Starts Here ==================================================
+
+    public function addEmpPay()
+    {
+        $data = array(
+            'c_empid' => $this->input->post('empId'),
+            'c_expcategory' => $this->input->post('pay_expCat'),
+            'c_amount' => $this->input->post('amount'),
+            // 'c_duedate' => $this->input->post('paydd'),
+            'c_paymentmode' => $this->input->post('pay_mode'),
+            'c_scheduleddate' => $this->input->post('paypd'),
+            'c_tags' => $this->input->post('Tags'),
+            'c_status' => "Unpaid",
+            'c_approval' => $this->input->post('approvalDoc'),
+        );
+
+        if ($this->emp->insertEmpPay($data)) {
+            echo "SUCCESS";
+        }
+    }
+
+    public function getEmpId()
+    {
+        $empIds = $this->emp->getAllEmp();
+        $output = "";
+        $output .= '<option>Select Employee Id</option>';
+        foreach ($empIds as $empId) {
+
+            $output .= '<option value=' . $empId->c_id . '>' . $empId->c_empid . '</option>';
+        }
+        echo $output;
+    }
+    // Employee Payout Code Ends Here ==================================================
 }
