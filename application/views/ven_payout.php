@@ -139,19 +139,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">Vendor_ID</th>
+							<th scope="col">Vendor ID</th>
+							<th scope="col">Vendor Name</th>
 							<th scope="col">Amount</th>
-							<th scope="col">Invoice_Number</th>
-							<th scope="col">Expense_category</th>
-							<th scope="col">Document</th>
-							<th scope="col">References</th>
-							<th scope="col">Payment_Due_Date</th>
-							<th scope="col">Payment_Mode</th>
+							<th scope="col">Payment Processing Date</th>
+							<th scope="col">Payment Mode</th>
+							<th scope="col">Payment Status</th>
 							<th scope="col">Action</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
+					<tbody id="tblBody">
+						<!-- <tr>
 							<td>ff</td>
 							<td>454</td>
 							<td>rfdf</td>
@@ -171,7 +169,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 									</div>
 							</td>
-						</tr>
+						</tr> -->
 					</tbody>
 				</table>
 			</div>
@@ -183,6 +181,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	function validation() {}
 </script>
 <script type="text/javascript">
+	const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+	const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	$(document).ready(function() {
 		var i = 0;
 		$('#manual').click(function() {
@@ -202,6 +202,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 		});
 
+		loadVenPayouts();
 		loadAllVen();
 		getAllExpCat();
 	});
@@ -215,6 +216,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				$("#c_venid").html(response);
 			}
 		});
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 	}
 
 	function getBanks(id) {
@@ -253,12 +256,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			success: function(response) {
 				if(response == "SUCCESS") {
 					swal("Vendor Payout created successfully!","Action succeed!","success").then(()=>{
-
+						loadVenPayouts();
 					});
 				}
 			}
 		});
 	});
+
+	function loadVenPayouts() {
+		$.ajax({
+			url: "<?php echo base_url(); ?>VendorPayout/getAllPayouts",
+			method: "POST",
+			success: function(response) {
+				// alert(response);
+				$("#tblBody").html(response);
+			}
+		});
+	}
 
 </script>
 </body>
