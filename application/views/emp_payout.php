@@ -269,7 +269,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		const form = new FormData(document.getElementById('addEmpPay'));
 		// var add = document.getElementById("c_address").value;
 		// form.append("c_address", add);
-		console.log(...form);
+		// console.log(...form);
 		$.ajax({
 			method: 'POST',
 			processData: false,
@@ -281,6 +281,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			success: function(response) {
 				// alert(response);
 				console.log(response);
+				if (response == "SUCCESS") {
+					swal("Employee Payout Created Successfully", "Action Succeed!", "success").then(() => {
+
+					});
+				}
 			}
 		});
 	});

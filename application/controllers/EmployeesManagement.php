@@ -170,7 +170,7 @@ class EmployeesManagement extends CI_Controller
             'c_empid' => $this->input->post('empId'),
             'c_expcategory' => $this->input->post('pay_expCat'),
             'c_amount' => $this->input->post('amount'),
-            // 'c_duedate' => $this->input->post('paydd'),
+            'c_duedate' => $this->input->post('paydd'),
             'c_paymentmode' => $this->input->post('pay_mode'),
             'c_scheduleddate' => $this->input->post('paypd'),
             'c_tags' => $this->input->post('Tags'),
