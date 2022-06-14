@@ -39,7 +39,7 @@ class VendorManagement extends CI_Controller
 			}
 
 			$output .= '<tr>
-						<td>' . $ven->c_id . '</td>
+						<td>' . $ven->c_venid . '</td>
 						<td>' . $ven->c_fname . ' ' . $ven->c_lname . '</td>
 
 						<td>' . $ven->c_address . '</td>
@@ -128,6 +128,7 @@ class VendorManagement extends CI_Controller
 				$img_upload_path = "DOCS/" . $new_doc_name;
 				move_uploaded_file($tmp_name, $img_upload_path);
 				$data = array(
+					'c_venid' => $this->input->post('vendorid'),
 					'c_fname' => $name[0],
 					'c_lname' => $name[1],
 					'c_nickname' => $this->input->post('c_nickname'),
@@ -144,6 +145,7 @@ class VendorManagement extends CI_Controller
 			}
 		} else {
 			$data = array(
+				'c_venid' => $this->input->post('vendorid'),
 				'c_fname' => $name[0],
 				'c_lname' => $name[1],
 				'c_nickname' => $this->input->post('c_nickname'),
