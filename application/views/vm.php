@@ -30,11 +30,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<div class="modal-body">
 
 						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="addVen">
-							<!-- <div class="form-group">
-								<label class="font-weight-regular"> Vendor ID </label>
-								<input type="text" name="vendorid" class="form-control" id="vendorId" autocomplete="off" disabled />
+							<div class="form-group">
+								<label for="vendorId" class="font-weight-regular"> Vendor ID </label>
+								<input type="text" name="vendorid" class="form-control" id="vendorId" autocomplete="off" />
 								<span id="vendorid" class="text-danger font-weight-regular"> </span>
-							</div> -->
+							</div>
 							<div class="form-group">
 								<label for="vendorname" class="font-weight-regular">
 									Vendor Name
