@@ -45,7 +45,7 @@ class VendorManagement extends CI_Controller
 						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#contact" onclick="contactDetails('.$ven->c_id.')">
 								ContactDetails
 							</button></td>
-						<td><a href="" class="btn btn-success">Edit</a>
+						<td><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editVen" onclick="venUpdate(`'.$this->sec->encryptor('e',$ven->c_id).'`)" >Edit</a>
 							<a href="#" class="btn btn-danger" onclick="venDelete(`'.$this->sec->encryptor('e',$ven->c_id).'`)">Delete</a>
 						</td>
 					</tr>';
@@ -173,5 +173,12 @@ class VendorManagement extends CI_Controller
 		if($res) {
 			echo "SUCCESS";
 		}
+	}
+
+	public function fetchVen($id) {
+		$result = $this->ven->getSingleVen($this->sec->encryptor('d',$id));
+		
+		$output = json_encode($result);
+		echo $output;
 	}
 }

@@ -42,6 +42,11 @@ class Expense extends CI_Model {
         $this->db->where('c_expid',$id);
         return $this->db->delete('t_expcategories');
     }
+
+    public function getAllExpOf($whom) {
+        $this->db->where('c_type',$whom);
+        return $this->db->get('t_expcategories')->result();
+    }
 }
 
 ?>
