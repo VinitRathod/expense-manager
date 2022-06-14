@@ -27,6 +27,16 @@ class VendorManagement extends CI_Controller
 
 		$output = "";
 		foreach ($data['ven_details'] as $ven) {
+			$doc = "";
+			if(!empty($ven->c_document)) {
+				$doc = '<td style="text-align: center;">
+						<a href="'.base_url().'DOCS/'.$ven->c_document.'" download >  
+						<img id="downloadIcon" src="'.base_url().'assets/icons/download.svg" width="50%" height="50%">  
+						</a>
+					</td>';
+			} else {
+				$doc = "<td>No Document Uploaded</td>";
+			}
 
 			$output .= '<tr>
 						<td>' . $ven->c_id . '</td>
@@ -36,13 +46,13 @@ class VendorManagement extends CI_Controller
 						<td>' . $ven->c_gstno . '</td>
 
 						<td>' . $ven->c_panno . '</td>
-						<td>' . $ven->c_document . '</td>
+						'.$doc.'
 						<td>' . $ven->c_designation . '</td>
 
-						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#bank" onclick="bankDetails('.$ven->c_banks.')">
+						<td><button id="color-x" type="button" class="btn btn-primary" data-toggle="modal" data-target="#bank" onclick="bankDetails('.$ven->c_banks.')">
 								BankDetails
 							</button></td>
-						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#contact" onclick="contactDetails('.$ven->c_id.')">
+						<td><button id="color-x" type="button" class="btn btn-primary" data-toggle="modal" data-target="#contact" onclick="contactDetails('.$ven->c_id.')">
 								ContactDetails
 							</button></td>
 						<td><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editVen" onclick="venUpdate(`'.$this->sec->encryptor('e',$ven->c_id).'`)" >Edit</a>

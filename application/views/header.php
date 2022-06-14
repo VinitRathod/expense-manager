@@ -12,7 +12,7 @@
 
 	<!-- Popper JS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-
+	<!-- Font Awesome JS -->
 	<script src="https://kit.fontawesome.com/7f3d017f41.js" crossorigin="anonymous"></script>
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

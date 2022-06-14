@@ -146,3 +146,8 @@ body {
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#398AB9", endColorstr="#398AB9", GradientType=1);
 
 }
+
+#downloadI:hover {
+    stroke: teal;
+    color: teal;
+}
