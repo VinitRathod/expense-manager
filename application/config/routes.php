@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -53,5 +53,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // mapping url with function in controller is possible
 $route['Vendors/(:any)'] = 'Vendors/$1';
 $route['ExpenseManagement/editExp/(:any)'] = 'ExpenseManagement/edit_Exp/$1';
+$route['EmployeesManagement/editEmp/(:any)'] = 'EmployeesManagement/edit_Emp/$1';
 $route['(:any)'] = 'Welcome/$1';
 $route['default_controller'] = 'Welcome';

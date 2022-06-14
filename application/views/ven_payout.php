@@ -26,15 +26,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 					<div class="modal-body">
 
-						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="add_name">
+						<form onsubmit="return validation()" class="bg-light" name="add_name" id="add_ven_payout">
 							<div class="form-group">
 								<label for="vendor"> Select Vendor :</label>
-								<select id="vendor" name="course">
-									<option value="v1">Vendor-1</option>
+								<select id="c_venid" name="c_venid" onchange="getBanks(this.value)" class="form-control">
+									<!-- <option value="v1">Vendor-1</option>
 									<option value="v2">Vendor-2</option>
-									<option value="v3">Vendor-3</option>
+									<option value="v3">Vendor-3</option> -->
 								</select>
-								<span id="vendorid" class="text-danger font-weight-regular"> </span>
+								<span id="warn_c_venid" class="text-danger font-weight-regular"> </span>
+							</div>
+
+							<div class="form-group">
+								<label for="bank"> Select Bank :</label>
+								<select id="c_banks" name="c_banks" class="form-control">
+									<!-- <option value="v1">Vendor-1</option>
+									<option value="v2">Vendor-2</option>
+									<option value="v3">Vendor-3</option> -->
+								</select>
+								<span id="warn_c_banks" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
@@ -53,10 +63,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 							<div class="form-group">
 								<label for="ecategory"> Expense Category :</label>
-								<select id="ecategory" name="course">
-									<option value="ev1">Vendorcat-1</option>
+								<select id="c_category" name="c_category" class="form-control">
+									<!-- <option value="ev1">Vendorcat-1</option>
 									<option value="ev2">Vendorcat-2</option>
-									<option value="ev3">Vendorcat-3</option>
+									<option value="ev3">Vendorcat-3</option> -->
 								</select>
 								<span id="vendorid" class="text-danger font-weight-regular"> </span>
 							</div>
@@ -75,18 +85,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								</span>
 							</div>
 
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label class="font-weight-regular"> Payment Due Date</label>
 								<input type="date" name="paydd" class="form-control" id="paydd" autocomplete="off" required />
 								<span id="paymentdd" class="text-danger font-weight-regular">
 								</span>
-							</div>
+							</div> -->
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Payment Mode</label><br />
-								<input class="ml-3" type="radio" id="manual" name="fav_language" value="manual" />
+								<input class="ml-3" type="radio" id="manual" name="pay_mode" value="manual" />
 								<label for="manual">Manual</label><br />
-								<input class="ml-3" type="radio" id="schedule" name="fav_language" value="schedule" />
+								<input class="ml-3" type="radio" id="schedule" name="pay_mode" value="schedule" />
 								<label for="schedule">Scheduled</label><br />
 								<div id="payment-mode-schedule">
 
@@ -192,8 +202,64 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 		});
 
-
+		loadAllVen();
+		getAllExpCat();
 	});
+
+	function loadAllVen() {
+		$.ajax({
+			url: "<?php echo base_url() ?>VendorPayout/getAllVen",
+			method: "POST",
+			success: function(response) {
+				// alert(response);
+				$("#c_venid").html(response);
+			}
+		});
+	}
+
+	function getBanks(id) {
+		// alert(id);
+		$.ajax({
+			url: "<?php echo base_url() ?>VendorPayout/getVendorBanks/"+id,
+			method: "POST",
+			success: function(response) {
+				// alert(response);
+				$("#c_banks").html(response);
+			}
+		});
+	}
+
+	function getAllExpCat() {
+		$.ajax({
+			url: "<?php echo base_url(); ?>VendorPayout/getExpCat",
+			method: "POST",
+			success: function(response) {
+				$("#c_category").html(response);
+			}
+		});
+	}
+
+	$("#add_ven_payout").submit(function(e) {
+		e.preventDefault();
+		const form = new FormData(document.getElementById("add_ven_payout"));
+		$.ajax({
+			method: "POST",
+			processData: false,
+			contentType: false,
+			cache: false,
+			enctype: 'multipart/form-data',
+			url: "<?php echo base_url(); ?>VendorPayout/addVenPay",
+			data: form,
+			success: function(response) {
+				if(response == "SUCCESS") {
+					swal("Vendor Payout created successfully!","Action succeed!","success").then(()=>{
+
+					});
+				}
+			}
+		});
+	});
+
 </script>
 </body>
 

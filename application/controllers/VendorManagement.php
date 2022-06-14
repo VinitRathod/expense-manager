@@ -39,14 +39,14 @@ class VendorManagement extends CI_Controller
 						<td>' . $ven->c_document . '</td>
 						<td>' . $ven->c_designation . '</td>
 
-						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#bank">
+						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#bank" onclick="bankDetails('.$ven->c_banks.')">
 								BankDetails
 							</button></td>
-						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#contact">
+						<td><button id="color-x" type="button" class="btn " data-toggle="modal" data-target="#contact" onclick="contactDetails('.$ven->c_id.')">
 								ContactDetails
 							</button></td>
-						<td><a href="" class="btn btn-success">Edit</a>
-							<a href="#" class="btn btn-danger">Delete</a>
+						<td><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editVen" onclick="venUpdate(`'.$this->sec->encryptor('e',$ven->c_id).'`)" >Edit</a>
+							<a href="#" class="btn btn-danger" onclick="venDelete(`'.$this->sec->encryptor('e',$ven->c_id).'`)">Delete</a>
 						</td>
 					</tr>';
 		}
@@ -61,20 +61,38 @@ class VendorManagement extends CI_Controller
 
 	public function addVendor()
 	{
-		// $bankDetails = array(
-		// 	'c_banknames' => $this->input->post('c_bankname'),
-		// 	'c_ifscs' => $this->input->post('c_ifsc'),
-		// 	'c_accountnos' => $this->input->post('c_accountno'),
-		// 	'c_status' => $this->input->post('c_status')
-		// );
+		// contact id generation...
+		$details = array(
+			'name' => $this->input->post('c_name'),
+			'email' => $this->input->post('c_email'),
+			'contact' => $this->input->post('c_contacts')[0],
+			'type' => "vendor",
+		);
+		$res = $this->bank->curlReq($details, $this->bank->contactURL);
+		$contactID = $res['id'];
+		// contact id generated sucessfully...
+
 		$bankname = $this->input->post('c_bankname');
 		$banks = array();
 		for ($i = 0; $i < count($bankname); $i++) {
+			$details = array(
+				"contact_id" => "$contactID",
+				"account_type" => "bank_account",
+				"bank_account" => array(
+					"name" => $this->input->post('c_name'),
+					"ifsc" => $this->input->post('c_ifsc')[$i],
+					"account_number" => $this->input->post('c_accountno')[$i]
+				)
+			);
+			$result = $this->bank->curlReq($details, $this->bank->fundURL);
+			$fundID = $result['id'];
 			$bankDetails = array(
 				'c_bankname' => $this->input->post('c_bankname')[$i],
 				'c_ifsc' => $this->input->post('c_ifsc')[$i],
 				'c_accountno' => $this->input->post('c_accountno')[$i],
-				'c_status' => $this->input->post('c_status')[$i]
+				'c_status' => $this->input->post('c_status')[$i],
+				'c_contactid' => $contactID,
+				'c_fundsid' => $fundID
 			);
 			$lastID = $this->bank->insert($bankDetails);
 			array_push($banks, $lastID);
@@ -130,5 +148,37 @@ class VendorManagement extends CI_Controller
 			);
 		}
 		$insert = $this->ven->insert($data);
+	}
+
+	public function getContactDetails($id) {
+        $result = $this->ven->getSingleVen($id);
+		$output = "";
+		$contacts = explode(",",$result->c_contacts);
+        foreach($contacts as $con) {
+			$output .= "<tr>
+							<td>".$con."</td>
+						</tr>";
+		}
+		echo $output;
+    }
+
+	public function venDelete($id) {
+		$result = $this->ven->getSingleVen($this->sec->encryptor('d',$id));
+		$banks = explode(",",$result->c_banks);
+		foreach($banks as $bk) {
+			$this->bank->deleteBank($bk);
+		}
+		
+		$res = $this->ven->deleteSingleVen($id);
+		if($res) {
+			echo "SUCCESS";
+		}
+	}
+
+	public function fetchVen($id) {
+		$result = $this->ven->getSingleVen($this->sec->encryptor('d',$id));
+		
+		$output = json_encode($result);
+		echo $output;
 	}
 }

@@ -27,18 +27,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 					<div class="modal-body">
 
-						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="add_name">
-							<div class="form-group">
+						<form onsubmit="return validation()" class="bg-light" name="addEmpPay" id="addEmpPay">
+							<!-- <div class="form-group">
 								<label for="bulkupload" class="font-weight-regular">
 									Bulk Upload
 								</label>
 								<input type="file" name="bulkupload" class="form-control" id="bulkupload" accept="application/xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required />
-							</div>
+							</div> -->
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Employee ID </label>
-								<input type="text" name="empid" class="form-control" id="empid" autocomplete="off" required />
-								<span id="employeeid" class="text-danger font-weight-regular">
+								<select class="form-control" id="empId" name="empId">
+									<option>Select Employee ID</option>
+									<!-- <option value="ev2">Vendorcat-2</option>
+									<option value="ev3">Vendorcat-3</option> -->
+								</select>
+
+								<!-- <input type="text" name="pay_emp_id" class="form-control" id="empid" autocomplete="off" required />
+								<span id="employeeid" class="text-danger font-weight-regular"> -->
 								</span>
 							</div>
 
@@ -46,7 +52,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<label for="employeename" class="font-weight-regular">
 									Employee Name
 								</label>
-								<input type="text" name="employeename" pattern="[a-z A-Z]{3,}" minlength="3" class="form-control" id="employeename" autocomplete="off" required />
+								<input type="text" name="pay_emp_name" pattern="[a-z A-Z]{3,}" minlength="3" class="form-control" id="employeename" autocomplete="off" required />
 								<span id="EName" class="text-danger font-weight-regular"> </span>
 							</div>
 
@@ -65,9 +71,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 							<div class="form-group">
 								<label for="category" class="font-weight-regular"> Expense category :</label><br />
-								<input class="ml-3" type="radio" id="salary" name="fav_language" value="manual" />
+								<input class="ml-3" type="radio" id="salary" name="pay_expCat" value="1" />
 								<label for="salary">Salary</label><br />
-								<input class="ml-3" type="radio" id="other" name="fav_language" value="schedule" />
+								<input class="ml-3" type="radio" id="other" name="pay_expCat" value="3" />
 								<label for="other">Other</label><br />
 								<div id="expense-category">
 
@@ -89,9 +95,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Payment Mode</label><br />
-								<input class="ml-3" type="radio" id="manual" name="fav_language" value="manual" />
+								<input class="ml-3" type="radio" id="manual" name="pay_mode" value="manual" />
 								<label for="manual">Manual</label><br />
-								<input class="ml-3" type="radio" id="schedule" name="fav_language" value="schedule" />
+								<input class="ml-3" type="radio" id="schedule" name="pay_mode" value="schedule" />
 								<label for="schedule">Scheduled</label><br />
 								<div id="payment-mode-schedule">
 
@@ -145,7 +151,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					</thead>
 					<tbody>
 						<tr>
-						
+
 							<td>454</td>
 							<td>rfdf</td>
 							<td>fdf</td>
@@ -177,7 +183,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script type="text/javascript">
 	function validation() {
 		var ename = document.getElementById("employeename").value;
-		var mobileNumber = document.getElementById("mobileNumber").value;
+		// var mobileNumber = document.getElementById("mobileNumber").value;
 		var amount = document.getElementById("amount").value;
 
 		if (ename == "") {
@@ -192,22 +198,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			return false;
 		}
 
-		if (mobileNumber == "") {
-			document.getElementById("mobileno").innerHTML =
-				" ** Please fill the mobile NUmber field";
-			return false;
-		}
+		// if (mobileNumber == "") {
+		// 	document.getElementById("mobileno").innerHTML =
+		// 		" ** Please fill the mobile NUmber field";
+		// 	return false;
+		// }
 
-		if (isNaN(mobileNumber)) {
-			document.getElementById("mobileno").innerHTML =
-				" ** user must write digits only not characters";
-			return false;
-		}
-		if (mobileNumber.length != 10) {
-			document.getElementById("mobileno").innerHTML =
-				" ** Mobile Number must be 11 digits only";
-			return false;
-		}
+		// if (isNaN(mobileNumber)) {
+		// 	document.getElementById("mobileno").innerHTML =
+		// 		" ** user must write digits only not characters";
+		// 	return false;
+		// }
+		// if (mobileNumber.length != 10) {
+		// 	document.getElementById("mobileno").innerHTML =
+		// 		" ** Mobile Number must be 11 digits only";
+		// 	return false;
+		// }
 	}
 </script>
 <script type="text/javascript">
@@ -245,7 +251,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
 		$('#other').click(function() {
 			if (i == 0) {
-				$('#expense-category').append('<br/><div class="form-group"><label for="document" class="font-weight-regular"> Upload Approval Image/Document </label><input type="file" name="document" class="form-control" id="document" accept="application/pdf" /></div>',
+				$('#expense-category').append('<br/><div class="form-group"><label for="document" class="font-weight-regular"> Upload Approval Image/Document </label><input type="file" name="approvalDoc" class="form-control" id="document" accept="application/pdf" /></div>',
 
 				);
 				i++;
@@ -254,6 +260,71 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 
 
+	});
+</script>
+
+<script>
+	$("#addEmpPay").submit(function(e) {
+		e.preventDefault();
+		const form = new FormData(document.getElementById('addEmpPay'));
+		// var add = document.getElementById("c_address").value;
+		// form.append("c_address", add);
+		// console.log(...form);
+		$.ajax({
+			method: 'POST',
+			processData: false,
+			contentType: false,
+			cache: false,
+			enctype: 'multipart/form-data',
+			url: `<?php echo base_url() ?>EmployeesManagement/addEmpPay`,
+			data: form,
+			success: function(response) {
+				// alert(response);
+				console.log(response);
+				if (response == "SUCCESS") {
+					swal("Employee Payout Created Successfully", "Action Succeed!", "success").then(() => {
+
+					});
+				}
+			}
+		});
+	});
+
+
+	$(document).ready(function() {
+		function loadEmpId() {
+			$.ajax({
+				url: "<?php echo base_url(); ?>EmployeesManagement/getEmpId",
+				method: "POST",
+				success: function(response) {
+					$("#empId").html(response);
+				}
+			});
+		}
+
+		loadEmpId();
+	})
+
+	$(document).on('change', '#empId', function() {
+
+		// console.log($(this).val());
+		var id = $(this).val();
+		$.ajax({
+			url: "<?php echo base_url(); ?>EmployeesManagement/editEmp/" + id,
+			method: "POST",
+			// dataType: "json",
+			// contentType: "application/json; charset=utf-8",
+			// dataType: "json",
+			success: function(data) {
+				// console.log(data);
+				// console.log(data);
+				let res = JSON.parse(data);
+				$("#employeename").val(res.c_fname + " " + res.c_lname);
+			},
+			error: function() {
+				console.log("Some Error Occured");
+			}
+		});
 	});
 </script>
 
