@@ -10,7 +10,6 @@ body {
   padding: 0;
   color: #222222;
   background-color: #f2f2f0;
- 
   overflow-x: hidden;
 }
 
@@ -22,18 +21,28 @@ button {
   outline: none;
 }
 
-.container-x{
+.container-x {
   display: flex;
   flex-direction: row;
+  background-color: #398AB9;
+  background: rgb(242,242,240);
+background: linear-gradient(0deg, rgba(242,242,240,1) 0%, rgba(57,138,185,1) 100%);
+  
 }
-.form-side{
+
+.form-side {
+  margin-top: 30vh;
+  text-align: center;
   opacity: 0.9;
   background-size: cover;
-  background-color: #f2f2f0;
+  color: #f2f2f0;
+  /* background-color: #398AB9; */
   background-repeat: no-repeat;
   /* background-position: center; */
   background-attachment: fixed;
   width: 60vh;
+ 
+
 }
 
 .main-container {
@@ -43,7 +52,7 @@ button {
   background-position: center;
   background-blend-mode: multiply;
   background-attachment: fixed;
-  background-image:  url("../assets/side-login.png");
+  /* background-image: url("../assets/side-login.jpg"); */
   backdrop-filter: blur(1000px);
   margin: 0;
 }
@@ -56,11 +65,8 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
 
-.main-container{
+.main-container {
   padding-left: 0;
   width: 100%;
   height: 100vh;
@@ -75,7 +81,7 @@ a:hover {
 .form-body {
   background-color: #f2f2f0;
   overflow: hidden;
-  margin-top: 18vh;
+  margin-top: 7vh;
   padding: 50px;
   color: #398AB9;
   border-radius: 3px;
@@ -103,7 +109,22 @@ a:hover {
   }
 }
 
-.title{
+.title {
+  font-weight: bolder;
+}
+
+.title-x {
+  color: #f2f2f0;
+  margin-top: 1vh;
+  text-align: center;
+  font-weight: bolder;
+}
+
+.title-xy {
+  color: #f2f2f0;
+  margin-top: 5vh;
+  margin-bottom: 0;
+  text-align: center;
   font-weight: bolder;
 }
 
@@ -133,11 +154,13 @@ a:hover {
   font-weight: bold;
 }
 
+
+
 .the-form [type="email"],
 .the-form [type="password"] {
   padding: 15px;
   font-size: 16px;
-  background: #398ab926;
+  background: #4c9bc94f !important;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 3px;
   margin-bottom: 15px;
