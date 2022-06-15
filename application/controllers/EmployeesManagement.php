@@ -167,8 +167,8 @@ class EmployeesManagement extends CI_Controller
     public function addEmpPay()
     {
         $data = array(
-            'c_empid' => $this->input->post('empId'),
-            'c_expcategory' => $this->input->post('pay_expCat'),
+            'c_empid' => $this->sec->encryptor('d',$this->input->post('empId')),
+            'c_expcategory' => $this->sec->encryptor('d',$this->input->post('expId')),
             'c_amount' => $this->input->post('amount'),
             'c_duedate' => $this->input->post('paydd'),
             'c_paymentmode' => $this->input->post('pay_mode'),
