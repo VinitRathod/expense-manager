@@ -39,7 +39,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<label class="font-weight-regular"> Employee ID </label>
 								<select class="form-control" id="empId" name="empId">
 									<option>Select Employee ID</option>
-									<!-- <option value="ev2">Vendorcat-2</option>
+									<!-- <option value=" ev2">Vendorcat-2</option>
 									<option value="ev3">Vendorcat-3</option> -->
 								</select>
 
@@ -52,8 +52,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<label for="employeename" class="font-weight-regular">
 									Employee Name
 								</label>
-								<input type="text" name="pay_emp_name" pattern="[a-z A-Z]{3,}" minlength="3" class="form-control" id="employeename" autocomplete="off" required />
+								<div class="empName">
+									<input type="text" name="pay_emp_name" pattern="[a-z A-Z]{3,}" minlength="3" class="form-control" id="employeename" autocomplete="off" required />
+								</div>
+
 								<span id="EName" class="text-danger font-weight-regular"> </span>
+							</div>
+
+							<div class="form-group">
+								<label for="bank"> Select Bank :</label>
+								<select id="c_banks" name="c_banks" class="form-control">
+									<!-- <option value="v1">Vendor-1</option>
+									<option value="v2">Vendor-2</option>
+									<option value="v3">Vendor-3</option> -->
+								</select>
+								<span id="warn_c_banks" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<!-- <div class="form-group">
@@ -70,11 +83,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							</div> -->
 
 							<div class="form-group">
-								<label for="category" class="font-weight-regular"> Expense category :</label><br />
-								<input class="ml-3" type="radio" id="salary" name="pay_expCat" value="1" />
-								<label for="salary">Salary</label><br />
-								<input class="ml-3" type="radio" id="other" name="pay_expCat" value="3" />
-								<label for="other">Other</label><br />
+								<label class="font-weight-regular"> Expense Category </label>
+								<select class="form-control" id="expId" name="expId">
+									<!-- <option>Select Employee ID</option> -->
+									<!-- <option value="ev2">Vendorcat-2</option>
+									<option value="ev3">Vendorcat-3</option> -->
+								</select>
 								<div id="expense-category">
 
 								</div>
@@ -141,43 +155,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<thead>
 						<tr>
 							<th scope="col">Employee_ID</th>
-							<th scope="col">Employee_Name</th>
-							<th scope="col">Expense_category</th>
 							<th scope="col">Amount</th>
-							<th scope="col">Payment_Due_Date</th>
-							<th scope="col">Payment_Mode</th>
+							<th scope="col">Payment Due Date</th>
+							<th scope="col">Payment Mode</th>
+							<th scope="col">Status</th>
 							<th scope="col">Action</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-
-							<td>454</td>
-							<td>rfdf</td>
-							<td>fdf</td>
-							<td>dfsdf</td>
-							<td>dfb</td>
-							<td>dv</td>
-							<td>
-								<div class="dropdown">
-									<button class="btn btn-x dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
-									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item" href="#">Edit</a>
-										<a class="dropdown-item" href="#">Delete</a>
-
-									</div>
-							</td>
-
-						</tr>
+					<tbody class="tblBody">
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
 
-	<!-- table end  -->
+
 </div>
 
 <script type="text/javascript">
@@ -197,23 +189,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				" ** Please fill the amount field";
 			return false;
 		}
-
-		// if (mobileNumber == "") {
-		// 	document.getElementById("mobileno").innerHTML =
-		// 		" ** Please fill the mobile NUmber field";
-		// 	return false;
-		// }
-
-		// if (isNaN(mobileNumber)) {
-		// 	document.getElementById("mobileno").innerHTML =
-		// 		" ** user must write digits only not characters";
-		// 	return false;
-		// }
-		// if (mobileNumber.length != 10) {
-		// 	document.getElementById("mobileno").innerHTML =
-		// 		" ** Mobile Number must be 11 digits only";
-		// 	return false;
-		// }
 	}
 </script>
 <script type="text/javascript">
@@ -241,25 +216,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var i = 0;
-		$('#salary').click(function() {
-
-			$('#expense-category').empty();
-			i = 0;
-
-		});
-		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
-		$('#other').click(function() {
-			if (i == 0) {
-				$('#expense-category').append('<br/><div class="form-group"><label for="document" class="font-weight-regular"> Upload Approval Image/Document </label><input type="file" name="approvalDoc" class="form-control" id="document" accept="application/pdf" /></div>',
-
-				);
-				i++;
+		$(document).on('change', '#expId', function() {
+			if ($(this).val() == 'other') {
+				$('#expense-category').append('<br/><div class="form-group"><label for="document" class="font-weight-regular"> Upload Approval Image/Document </label><input type="file" name="approvalDoc" class="form-control" id="document" accept="application/pdf" /></div>', );
+			} else {
+				$('#expense-category').empty();
 			}
-
 		});
-
-
 	});
 </script>
 
@@ -303,26 +266,69 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		}
 
 		loadEmpId();
+
+		function loadEmpPay() {
+			$.ajax({
+				url: "<?php echo base_url(); ?>EmployeesManagement/showEmpPay",
+				method: "POST",
+				success: function(data) {
+					$(".tblBody").html(data);
+				}
+			});
+		}
+		loadEmpPay();
+
+		function getAllExpCat() {
+			$.ajax({
+				url: "<?php echo base_url(); ?>EmployeesManagement/getExpCat",
+				method: "POST",
+				success: function(response) {
+					$("#expId").html(response);
+				}
+			});
+		}
+		getAllExpCat();
+
+
 	})
 
 	$(document).on('change', '#empId', function() {
-
-		// console.log($(this).val());
 		var id = $(this).val();
+		getEmpName(id);
+		getBanks(id);
+	});
+
+	function getEmpName(id) {
 		$.ajax({
-			url: "<?php echo base_url(); ?>EmployeesManagement/editEmp/" + id,
+			url: "<?php echo base_url(); ?>EmployeesManagement/getEmpName/" + id,
 			method: "POST",
-			// dataType: "json",
-			// contentType: "application/json; charset=utf-8",
-			// dataType: "json",
 			success: function(data) {
-				// console.log(data);
-				// console.log(data);
-				let res = JSON.parse(data);
-				$("#employeename").val(res.c_fname + " " + res.c_lname);
+				$(".empName").html(data);
 			},
 			error: function() {
 				console.log("Some Error Occured");
+			}
+		});
+	}
+
+	function getBanks(id) {
+		// alert(id);
+		$.ajax({
+			url: "<?php echo base_url(); ?>EmployeesManagement/getEmpBanks/" + id,
+			method: "POST",
+			success: function(response) {
+				$("#c_banks").html(response);
+			}
+		});
+	}
+
+	$(document).on('click', '#payout', function() {
+		// alert("Payout Clicked")
+		$.ajax({
+			url: "<?php echo base_url(); ?>EmployeesManagement/payOut",
+			method: "POST",
+			success: function(data) {
+				alert(data)
 			}
 		});
 	});

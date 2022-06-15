@@ -181,8 +181,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	function validation() {}
 </script>
 <script type="text/javascript">
-	const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-	const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	$(document).ready(function() {
 		var i = 0;
 		$('#manual').click(function() {
@@ -216,14 +214,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				$("#c_venid").html(response);
 			}
 		});
-		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 	}
 
 	function getBanks(id) {
 		// alert(id);
 		$.ajax({
-			url: "<?php echo base_url() ?>VendorPayout/getVendorBanks/"+id,
+			url: "<?php echo base_url() ?>VendorPayout/getVendorBanks/" + id,
 			method: "POST",
 			success: function(response) {
 				// alert(response);
@@ -254,8 +250,8 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 			url: "<?php echo base_url(); ?>VendorPayout/addVenPay",
 			data: form,
 			success: function(response) {
-				if(response == "SUCCESS") {
-					swal("Vendor Payout created successfully!","Action succeed!","success").then(()=>{
+				if (response == "SUCCESS") {
+					swal("Vendor Payout created successfully!", "Action succeed!", "success").then(() => {
 						loadVenPayouts();
 					});
 				}
@@ -273,7 +269,6 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 			}
 		});
 	}
-
 </script>
 </body>
 
