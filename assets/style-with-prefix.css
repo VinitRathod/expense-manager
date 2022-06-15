@@ -43,7 +43,7 @@ button {
   background-position: center;
   background-blend-mode: multiply;
   background-attachment: fixed;
-  background-image:  url("../images/side-login.png");
+  background-image:  url("../assets/side-login.png");
   backdrop-filter: blur(1000px);
   margin: 0;
 }
