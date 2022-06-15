@@ -246,7 +246,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				console.log(response);
 				if (response == "SUCCESS") {
 					swal("Employee Payout Created Successfully", "Action Succeed!", "success").then(() => {
-
+						loadEmpPay();	
 					});
 				}
 			}
