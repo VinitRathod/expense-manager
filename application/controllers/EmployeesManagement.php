@@ -44,8 +44,13 @@ class EmployeesManagement extends CI_Controller
 
     public function empManagement()
     {
-        $this->load->view('header');
-        $this->load->view('em');
+        $name = $this->session->userdata('username');
+        if (isset($name)) {
+            $this->load->view('header');
+            $this->load->view('em');
+        } else {
+            redirect('LoginController/login');
+        }
     }
 
     public function addEmp()
@@ -158,6 +163,18 @@ class EmployeesManagement extends CI_Controller
     // expanse management code ends here =================================================
 
     // Employee Payout Code Starts Here ==================================================
+    public function empPayout()
+    {
+
+        $name = $this->session->userdata('username');
+        if (isset($name)) {
+            $this->load->view('header');
+            $this->load->view('emp_payout');
+        } else {
+            redirect('LoginController/login');
+        }
+    }
+
     public function getEmpName($id)
     {
         $res = $this->emp->getSingleEmp($this->sec->encryptor('d', $id));
