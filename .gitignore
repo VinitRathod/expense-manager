@@ -32,5 +32,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/results/
 
 ##other files
-DOCS/
-DOCS-PAYOUT/
+# DOCS/
+# DOCS-PAYOUT/
