@@ -184,11 +184,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: "<?php echo base_url() ?>ExpenseManagement/addExpCat",
 			data: form,
 			success: function() {
-				loadExp();
-				$("#expCode").val("");
-				$("#expCat").val("");
-				$("#expType").val("").change();
-				$("#expDesc").val("");
+				swal("New Expense Category Added Successfully.","Insert Action Succeed.","success").then(()=>{
+
+					loadExp();
+					$("#expCode").val("");
+					$("#expCat").val("");
+					$("#expType").val("").change();
+					$("#expDesc").val("");
+				});
 			}
 		});
 	});
@@ -212,8 +215,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: "<?php echo base_url() ?>ExpenseManagement/expUpdate/"+id,
 			data: form,
 			success: function() {
-				loadExp();
-				expEdit(id);
+				swal("Expense Category Updated Successfully.","Update Action Succeed.","success").then(()=>{
+					loadExp();
+					expEdit(id);
+				});
 			}
 		});
 	});
