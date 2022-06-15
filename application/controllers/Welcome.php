@@ -78,8 +78,7 @@ class Welcome extends CI_Controller
 		$this->load->view('edit_emp', $data);
 	}
 
-	public function login()
-	{
-		$this->load->view("login");
+	public function login() {
+		$this->load->view('login');
 	}
 }
