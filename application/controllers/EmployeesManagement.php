@@ -20,11 +20,6 @@ class EmployeesManagement extends CI_Controller
      * @see https://codeigniter.com/userguide3/general/urls.html
      */
 
-    // public function __construct()
-    // {
-    // 	parent::__construct();
-    // 	$this->load->model('Employees');
-    // }
     // expanse management code goes here =================================================
     public function index()
     {
@@ -163,7 +158,12 @@ class EmployeesManagement extends CI_Controller
     // expanse management code ends here =================================================
 
     // Employee Payout Code Starts Here ==================================================
-
+    public function getEmpName($id)
+    {
+        $res = $this->emp->getSingleEmp($this->sec->encryptor('d', $id));
+        $output = '<input type="text" name="pay_emp_name" pattern="[a-z A-Z]{3,}" minlength="3" value="' . $res->c_fname . ' ' . $res->c_lname . '" class="form-control" id="employeename" autocomplete="off" required />';
+        echo $output;
+    }
     public function addEmpPay()
     {
         $data = array(
@@ -190,9 +190,77 @@ class EmployeesManagement extends CI_Controller
         $output .= '<option>Select Employee Id</option>';
         foreach ($empIds as $empId) {
 
-            $output .= '<option value=' . $empId->c_id . '>' . $empId->c_empid . '</option>';
+            $output .= '<option value=' . $this->sec->encryptor('e', $empId->c_id) . '>' . $empId->c_empid . '</option>';
         }
         echo $output;
+    }
+
+    public function showEmpPay()
+    {
+        $data['empPay'] = $this->emp->getEmpPay();
+        $action = "";
+        $date = "";
+        $output = "";
+        foreach ($data['empPay'] as $emps) {
+            if ($emps->c_paymentmode == "manual" && strtolower($emps->c_status) == "unpaid") {
+                $action = '<img id="payout" src="' . base_url() . 'assets/icons/cash-stack.svg" width="60%" height="60%" alt="pay-now" data-bs-toggle="tooltip" title="Pay-Now">';
+            } else if ($emps->c_paymentmode == "schedule" && strtolower($emps->c_status) == "unpaid") {
+                $action = '<img  src="' . base_url() . 'assets/icons/calendar-check.svg" width="60%" height="60%">';
+            } else if (strtolower($emps->c_status) == "paid") {
+                $action = '<img src="' . base_url() . 'assets/icons/check2-circle.svg" width="60%" height="60%">';
+            }
+
+            if (!empty($emps->c_scheduleddate)) {
+                $date = $emps->c_scheduleddate;
+            } else {
+                $date = "Payment Is Manual";
+            }
+            $output .= '<tr>
+                <td>' . $emps->c_empid . '</td>
+				<td>' . $emps->c_amount . '</td>
+				<td>' . $date . '</td>
+				<td>' . $emps->c_paymentmode . '</td>
+                <td>' . $emps->c_status . '</td>           
+				<td>
+                 ' . $action . '
+				</td>
+			</tr>';
+        }
+        echo $output;
+    }
+
+    public function getExpCat()
+    {
+        $result = $this->exp->getAllExpOf("employee");
+        $output = '<option value="null"> --SELECT EXPENSE CATEGORY-- </option>';
+        if ($result) {
+            foreach ($result as $cat) {
+                $output .= '<option value="' . $this->sec->encryptor('e', $cat->c_expid) . '"> ' . $cat->c_category . ' </option>';
+            }
+            $output .= '<option value="other"> Other </option>';
+        }
+        echo $output;
+    }
+
+    public function getEmpBanks($id)
+    {
+        $output = '<option value="null"> --SELECT BANK-- </option>';
+        $employee = $this->emp->getSingleEmp($this->sec->encryptor('d', $id));
+        // echo $employee;
+        if ($employee) {
+            $banks = explode(",", $employee->c_banks);
+            foreach ($banks as $bid) {
+                $bankDetails = $this->bank->getSingleBankDetail($bid);
+                $output .= '<option value="' . $this->sec->encryptor('e', $bankDetails->c_id) . '">' . $bankDetails->c_bankname . '</option>';
+            }
+        }
+        echo $output;
+    }
+
+    function payOut()
+    {
+        // echo "In payOut Function Controller";
+
     }
     // Employee Payout Code Ends Here ==================================================
 }
