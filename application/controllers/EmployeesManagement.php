@@ -44,8 +44,13 @@ class EmployeesManagement extends CI_Controller
 
     public function empManagement()
     {
-        $this->load->view('header');
-        $this->load->view('em');
+        $name = $this->session->userdata('username');
+        if (isset($name)) {
+            $this->load->view('header');
+            $this->load->view('em');
+        } else {
+            redirect('LoginController/login');
+        }
     }
 
     public function addEmp()
@@ -158,6 +163,18 @@ class EmployeesManagement extends CI_Controller
     // expanse management code ends here =================================================
 
     // Employee Payout Code Starts Here ==================================================
+    public function empPayout()
+    {
+
+        $name = $this->session->userdata('username');
+        if (isset($name)) {
+            $this->load->view('header');
+            $this->load->view('emp_payout');
+        } else {
+            redirect('LoginController/login');
+        }
+    }
+
     public function getEmpName($id)
     {
         $res = $this->emp->getSingleEmp($this->sec->encryptor('d', $id));
@@ -167,8 +184,8 @@ class EmployeesManagement extends CI_Controller
     public function addEmpPay()
     {
         $data = array(
-            'c_empid' => $this->sec->encryptor('d',$this->input->post('empId')),
-            'c_expcategory' => $this->sec->encryptor('d',$this->input->post('expId')),
+            'c_empid' => $this->sec->encryptor('d', $this->input->post('empId')),
+            'c_expcategory' => $this->sec->encryptor('d', $this->input->post('expId')),
             'c_amount' => $this->input->post('amount'),
             'c_duedate' => $this->input->post('paydd'),
             'c_paymentmode' => $this->input->post('pay_mode'),

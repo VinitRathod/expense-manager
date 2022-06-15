@@ -11,7 +11,13 @@ class LoginController extends CI_Controller
         'c_password' => "",
         'c_phoneno' => ""
     );
-    public function index() {
+
+    public function login() {
+        $this->load->view('login');
+    }
+
+    public function index()
+    {
         $_user = "";
         $all_users = $this->login->getAllUsers();
         $user_email = $this->input->post("email");
@@ -22,8 +28,8 @@ class LoginController extends CI_Controller
             'success' => ""
         );
 
-        foreach($all_users as $user) {
-            if($user->c_email == $user_email && $user->c_password == $enc_pass) {
+        foreach ($all_users as $user) {
+            if ($user->c_email == $user_email && $user->c_password == $enc_pass) {
                 $_user = array(
                     'username' => $user->c_username
                 );
@@ -32,13 +38,22 @@ class LoginController extends CI_Controller
             }
         }
 
-        if($response['success'] != true) {
+        if ($response['success'] != true) {
             $response['error'] = true;
         } else {
-            $this->session->set_userdata($_user);    
+            $this->session->set_userdata($_user);
         }
         echo json_encode($response);
     }
-	
+
+    public function logout()
+    {
+        $_newUser = array(
+            'username' => "",
+        );
+        $this->session->unset_userdata($_newUser);
+        $this->session->sess_destroy();
+
+        redirect('/');
+    }
 }
-?>
