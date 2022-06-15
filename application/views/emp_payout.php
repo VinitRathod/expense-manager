@@ -102,7 +102,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Payment Due Date</label>
-								<input type="date" name="paydd" class="form-control" id="paydd" autocomplete="off" required />
+								<input type="date" name="paydd" class="form-control" id="paydd" autocomplete="off" />
 								<span id="paymentdd" class="text-danger font-weight-regular">
 								</span>
 							</div>
@@ -217,7 +217,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(document).on('change', '#expId', function() {
-			if ($(this).val() == 'other') {
+			if ($(this).val() == '<?php echo $this->sec->encryptor('e', '1'); ?>') {
 				$('#expense-category').append('<br/><div class="form-group"><label for="document" class="font-weight-regular"> Upload Approval Image/Document </label><input type="file" name="approvalDoc" class="form-control" id="document" accept="application/pdf" /></div>', );
 			} else {
 				$('#expense-category').empty();
@@ -246,7 +246,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				console.log(response);
 				if (response == "SUCCESS") {
 					swal("Employee Payout Created Successfully", "Action Succeed!", "success").then(() => {
-						loadEmpPay();	
+						loadEmpPay();
 					});
 				}
 			}
@@ -254,43 +254,41 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 
 
-	$(document).ready(function() {
-		function loadEmpId() {
-			$.ajax({
-				url: "<?php echo base_url(); ?>EmployeesManagement/getEmpId",
-				method: "POST",
-				success: function(response) {
-					$("#empId").html(response);
-				}
-			});
-		}
+	function loadEmpId() {
+		$.ajax({
+			url: "<?php echo base_url(); ?>EmployeesManagement/getEmpId",
+			method: "POST",
+			success: function(response) {
+				$("#empId").html(response);
+			}
+		});
+	}
 
-		loadEmpId();
+	loadEmpId();
 
-		function loadEmpPay() {
-			$.ajax({
-				url: "<?php echo base_url(); ?>EmployeesManagement/showEmpPay",
-				method: "POST",
-				success: function(data) {
-					$(".tblBody").html(data);
-				}
-			});
-		}
-		loadEmpPay();
+	function loadEmpPay() {
+		$.ajax({
+			url: "<?php echo base_url(); ?>EmployeesManagement/showEmpPay",
+			method: "POST",
+			success: function(data) {
+				$(".tblBody").html(data);
+			}
+		});
+	}
+	loadEmpPay();
 
-		function getAllExpCat() {
-			$.ajax({
-				url: "<?php echo base_url(); ?>EmployeesManagement/getExpCat",
-				method: "POST",
-				success: function(response) {
-					$("#expId").html(response);
-				}
-			});
-		}
-		getAllExpCat();
+	function getAllExpCat() {
+		$.ajax({
+			url: "<?php echo base_url(); ?>EmployeesManagement/getExpCat",
+			method: "POST",
+			success: function(response) {
+				$("#expId").html(response);
+			}
+		});
+	}
+	getAllExpCat();
 
 
-	})
 
 	$(document).on('change', '#empId', function() {
 		var id = $(this).val();

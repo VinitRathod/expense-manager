@@ -224,7 +224,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 										</tr>
 										<tr>
 											<td>
-												IFSC Code : <input type="text" name="c_ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td>
+												IFSC Code : <input type="text" name="c_ifsc[]" pattern = "^[A-Z]{4}0[A-Z0-9]{6}$" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td>
 										</tr>
 										<tr>
 											<td>Account Number : <input type="text" name="c_accountno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td>
