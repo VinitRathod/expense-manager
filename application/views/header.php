@@ -31,10 +31,12 @@
 </head>
 
 <body>
-	<nav id="top-nav" class="navbar navbar-expand-lg mb-2  ">
+	<nav id="top-nav" class="navbar navbar-expand-lg mb-2">
 		<a id="top-nav1" class="navbar-brand ml-4 " href="#">
 			<h2><i class="fa fa-cubes" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management System</h2>
 		</a>
+		<button class="logout"> Logout </button>
+		
 	</nav>
 
 

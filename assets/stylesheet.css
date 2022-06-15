@@ -11,6 +11,11 @@ html {
     height: 100%;
 }
 
+.logout{
+    margin-left: 60vh;
+    
+  }
+
 body {
     background-color: #398AB9 !important;
 }
@@ -28,12 +33,14 @@ body {
     background-color: #398AB9 !important;
     color: white !important;
 }
+.navbar-expand-lg {
+    justify-content: space-between;
 
+}
 #top-nav {
     background-color: #398AB9 !important;
     height: 6em;
     padding-bottom: 5px;
-
     font-weight: bold;
 }
 
