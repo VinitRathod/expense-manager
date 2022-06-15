@@ -52,4 +52,15 @@ class Employees extends CI_Model
             return false;
         }
     }
+
+    public function getEmpPay()
+    {
+        $this->db->select("*");
+        $this->db->from('t_emppayout');
+        $this->db->join('t_employees', 't_employees.c_id = t_emppayout.c_empid', 'inner');
+        $emps = $this->db->get();
+        if ($emps) {
+            return $emps->result();
+        }
+    }
 }
