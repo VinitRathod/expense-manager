@@ -185,6 +185,7 @@ class EmployeesManagement extends CI_Controller
     {
         $data = array(
             'c_empid' => $this->sec->encryptor('d', $this->input->post('empId')),
+            'c_bank' => $this->sec->encryptor('d', $this->input->post('c_banks')),
             'c_expcategory' => $this->sec->encryptor('d', $this->input->post('expId')),
             'c_amount' => $this->input->post('amount'),
             'c_duedate' => $this->input->post('paydd'),
@@ -252,9 +253,12 @@ class EmployeesManagement extends CI_Controller
         $output = '<option value="null"> --SELECT EXPENSE CATEGORY-- </option>';
         if ($result) {
             foreach ($result as $cat) {
+                if ($cat->c_category == "Other") {
+                    continue;
+                }
                 $output .= '<option value="' . $this->sec->encryptor('e', $cat->c_expid) . '"> ' . $cat->c_category . ' </option>';
             }
-            $output .= '<option value="other"> Other </option>';
+            $output .= '<option value="' . $this->sec->encryptor('e', '1') . '"> Other </option>';
         }
         echo $output;
     }
