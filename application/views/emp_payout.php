@@ -154,7 +154,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">Employee_ID</th>
+							<th scope="col">Employee Name</th>
 							<th scope="col">Amount</th>
 							<th scope="col">Payment Due Date</th>
 							<th scope="col">Payment Mode</th>
@@ -247,7 +247,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				if (response == "SUCCESS") {
 					swal("Employee Payout Created Successfully", "Action Succeed!", "success").then(() => {
 						loadEmpPay();
+						// $('#addEmpPay').trigger("reset");
 					});
+				} else {
+					swal("Some Unknown Error Occured!", "Please try again later", "error").then(() => {});
 				}
 			}
 		});
@@ -272,6 +275,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			method: "POST",
 			success: function(data) {
 				$(".tblBody").html(data);
+				// console.log(data);
 			}
 		});
 	}
@@ -320,11 +324,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	}
 
-	$(document).on('click', '#payout', function() {
+	$(document).on('click', '.payout', function() {
 		// alert("Payout Clicked")
+		// console.log($(this).attr("id"));
 		$.ajax({
-			url: "<?php echo base_url(); ?>EmployeesManagement/payOut",
+			url: "<?php echo base_url(); ?>PayoutController/payOutEmp/" + $(this).attr("id"),
 			method: "POST",
+			// data: $(this).val(),
 			success: function(data) {
 				alert(data)
 			}

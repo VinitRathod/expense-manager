@@ -183,18 +183,49 @@ class EmployeesManagement extends CI_Controller
     }
     public function addEmpPay()
     {
-        $data = array(
-            'c_empid' => $this->sec->encryptor('d', $this->input->post('empId')),
-            'c_bank' => $this->sec->encryptor('d', $this->input->post('c_banks')),
-            'c_expcategory' => $this->sec->encryptor('d', $this->input->post('expId')),
-            'c_amount' => $this->input->post('amount'),
-            'c_duedate' => $this->input->post('paydd'),
-            'c_paymentmode' => $this->input->post('pay_mode'),
-            'c_scheduleddate' => $this->input->post('paypd'),
-            'c_tags' => $this->input->post('Tags'),
-            'c_status' => "Unpaid",
-            'c_approval' => $this->input->post('approvalDoc'),
-        );
+        if (isset($_FILES['approvalDoc'])) {
+            $doc_name = $_FILES['approvalDoc']['name'];
+            $tmp_name = $_FILES['approvalDoc']['tmp_name'];
+            $doc_error = $_FILES['approvalDoc']['error'];
+            if ($doc_error == 0) {
+                // echo "\nInside img if";
+                $doc_ex = pathinfo($doc_name, PATHINFO_EXTENSION);
+                $doc_ex_lc = strtolower($doc_ex);
+
+                $allowed_exs = array('pdf');
+                if (in_array($doc_ex_lc, $allowed_exs)) {
+                    $new_doc_name = uniqid("DOC-", true) . '.' . $doc_ex_lc;
+                    $doc_upload_path = "DOCS-PAYOUT/EMP-PAYOUTS/" . $new_doc_name;
+                    move_uploaded_file($tmp_name, $doc_upload_path);
+                    $data = array(
+                        'c_empid' => $this->sec->encryptor('d', $this->input->post('empId')),
+                        'c_bank' => $this->sec->encryptor('d', $this->input->post('c_banks')),
+                        'c_expcategory' => $this->sec->encryptor('d', $this->input->post('expId')),
+                        'c_amount' => $this->input->post('amount'),
+                        'c_duedate' => $this->input->post('paydd'),
+                        'c_paymentmode' => $this->input->post('pay_mode'),
+                        'c_scheduleddate' => $this->input->post('paypd'),
+                        'c_tags' => $this->input->post('Tags'),
+                        'c_status' => "Unpaid",
+                        'c_approval' => $new_doc_name,
+                    );
+                }
+            }
+        } else {
+            $data = array(
+                'c_empid' => $this->sec->encryptor('d', $this->input->post('empId')),
+                'c_bank' => $this->sec->encryptor('d', $this->input->post('c_banks')),
+                'c_expcategory' => $this->sec->encryptor('d', $this->input->post('expId')),
+                'c_amount' => $this->input->post('amount'),
+                'c_duedate' => $this->input->post('paydd'),
+                'c_paymentmode' => $this->input->post('pay_mode'),
+                'c_scheduleddate' => $this->input->post('paypd'),
+                'c_tags' => $this->input->post('Tags'),
+                'c_status' => "Unpaid",
+                // 'c_approval' => $this->input->post('approvalDoc'),
+            );
+        }
+
 
         if ($this->emp->insertEmpPay($data)) {
             echo "SUCCESS";
@@ -216,12 +247,13 @@ class EmployeesManagement extends CI_Controller
     public function showEmpPay()
     {
         $data['empPay'] = $this->emp->getEmpPay();
+        // echo json_encode($data['empPay']);
         $action = "";
         $date = "";
         $output = "";
         foreach ($data['empPay'] as $emps) {
             if ($emps->c_paymentmode == "manual" && strtolower($emps->c_status) == "unpaid") {
-                $action = '<img id="payout" src="' . base_url() . 'assets/icons/cash-stack.svg" width="60%" height="60%" alt="pay-now" data-bs-toggle="tooltip" title="Pay-Now">';
+                $action = '<img class="payout" id="' . $this->sec->encryptor('e', $emps->c_id) . '" src="' . base_url() . 'assets/icons/cash-stack.svg" width="60%" height="60%" alt="pay-now" data-bs-toggle="tooltip" title="Pay-Now">';
             } else if ($emps->c_paymentmode == "schedule" && strtolower($emps->c_status) == "unpaid") {
                 $action = '<img  src="' . base_url() . 'assets/icons/calendar-check.svg" width="60%" height="60%">';
             } else if (strtolower($emps->c_status) == "paid") {
@@ -234,15 +266,15 @@ class EmployeesManagement extends CI_Controller
                 $date = "Payment Is Manual";
             }
             $output .= '<tr>
-                <td>' . $emps->c_empid . '</td>
-				<td>' . $emps->c_amount . '</td>
-				<td>' . $date . '</td>
-				<td>' . $emps->c_paymentmode . '</td>
+                <td>' . $emps->c_fname . ' ' . $emps->c_lname . '</td>
+        		<td>' . $emps->c_amount . '</td>
+        		<td>' . $date . '</td>
+        		<td>' . $emps->c_paymentmode . '</td>
                 <td>' . $emps->c_status . '</td>           
-				<td>
+        		<td>
                  ' . $action . '
-				</td>
-			</tr>';
+        		</td>
+        	</tr>';
         }
         echo $output;
     }
@@ -276,12 +308,6 @@ class EmployeesManagement extends CI_Controller
             }
         }
         echo $output;
-    }
-
-    function payOut()
-    {
-        // echo "In payOut Function Controller";
-
     }
     // Employee Payout Code Ends Here ==================================================
 }

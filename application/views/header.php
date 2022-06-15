@@ -23,7 +23,8 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 	<!-- Sweet Alert CDN -->
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="<?php echo base_url(); ?>assets/sidebar.js"></script>
 
 
@@ -36,7 +37,7 @@
 			<h2><i class="fa fa-cubes" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management System</h2>
 		</a>
 		<button class="logout"> Logout </button>
-		
+
 	</nav>
 
 

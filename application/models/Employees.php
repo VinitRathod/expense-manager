@@ -56,8 +56,9 @@ class Employees extends CI_Model
     public function getEmpPay()
     {
         $this->db->select("*");
-        $this->db->from('t_emppayout');
-        $this->db->join('t_employees', 't_employees.c_id = t_emppayout.c_empid', 'inner');
+        $this->db->from('t_employees');
+        // to show Employee ID i have implemented joins
+        $this->db->join('t_emppayout', 't_emppayout.c_empid = t_employees.c_id', 'right');
         $emps = $this->db->get();
         if ($emps) {
             return $emps->result();
