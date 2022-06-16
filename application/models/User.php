@@ -17,5 +17,15 @@ class User extends CI_Model
         $this->db->where('c_id',$id);
         return $this->db->delete($this->tbl);
     }
+
+    public function getSingleUser($id) {
+        $this->db->where('c_id',$id);
+        return $this->db->get($this->tbl)->row();
+    }
+
+    public function updateUser($id, $data) {
+        $this->db->where('c_id',$id);
+        return $this->db->update($this->tbl,$data);
+    }
 }
 ?>

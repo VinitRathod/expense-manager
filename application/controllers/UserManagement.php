@@ -19,7 +19,7 @@ class UserManagement extends CI_Controller
                             <td>'.$user->c_fname.' '.$user->c_lname.'</td>
                             <td>'.$user->c_phoneno.'</td>
                             <td>'.$user->c_email.'</td>
-                            <td style="padding-right: 0px;"><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editUserModal" onclick="">Edit</a></td>
+                            <td style="padding-right: 0px;"><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editUserModal" onclick="usrEdit(`'.$this->sec->encryptor('e',$user->c_id).'`)">Edit</a></td>
 				            <td style="padding-left: 0px;"><a href="#" class="btn btn-danger" onclick="usrDelete(`'.$this->sec->encryptor('e',$user->c_id).'`)">Delete</a></td>
                         </tr>';
             }
@@ -50,6 +50,28 @@ class UserManagement extends CI_Controller
             echo "SUCCESS";
         } else {
             echo "FAILED";
+        }
+    }
+
+    public function editUsr($id) {
+        $data = $this->usr->getSingleUser($this->sec->encryptor('d',$id));
+        $data->c_id = $this->sec->encryptor('e',$data->c_id);
+        echo json_encode($data);
+    }
+
+    public function updateUsr($id) {
+        $name = explode(" ",$this->input->post('c_name'));
+        $data = array(
+            'c_fname' => $name[0],
+            'c_lname' => $name[1],
+            'c_email' => $this->input->post('c_email'),
+            'c_phoneno' => $this->input->post('c_phoneno')
+        );
+        $response = $this->usr->updateUser($this->sec->encryptor('d',$id), $data);
+        if($response) {
+            echo "SUCCESS";
+        } else {
+            echo "QUERY FAILED";
         }
     }
 }
