@@ -296,8 +296,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	$(document).on('change', '#empId', function() {
 		var id = $(this).val();
-		getEmpName(id);
-		getBanks(id);
+		if (id != "") {
+			getEmpName(id);
+			getBanks(id);
+		} else {
+			$("#employeename").val("");
+
+			var html = "<option>Please Select Employee ID</option>"
+			$("#c_banks").html(html);
+		}
+
 	});
 
 	function getEmpName(id) {
