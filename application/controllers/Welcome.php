@@ -27,11 +27,15 @@ class Welcome extends CI_Controller
 	// }
 	public function index()
 	{
+		redirect('/dashboard');
+	}
+	public function dashboard()
+	{
 		// $data['emp_details'] = $this->emp->getAllEmp();
 		$name = $this->session->userdata('username');
-		if(isset($name)) {
+		if (isset($name)) {
 			$this->load->view('header');
-			$this->load->view('dashboard');	
+			$this->load->view('dashboard');
 		} else {
 			redirect('LoginController/login');
 		}
@@ -51,7 +55,6 @@ class Welcome extends CI_Controller
 
 	public function employeePayout()
 	{
-		
 	}
 
 	public function add()
@@ -82,7 +85,8 @@ class Welcome extends CI_Controller
 		$this->load->view('edit_emp', $data);
 	}
 
-	public function login() {
+	public function login()
+	{
 		$this->load->view('login');
 	}
 }

@@ -29,6 +29,7 @@
 
 
 
+
 </head>
 
 <body>
@@ -36,7 +37,7 @@
 		<a id="top-nav1" class="navbar-brand ml-4 " href="#">
 			<h2><i class="fa fa-cubes" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management System</h2>
 		</a>
-		<a class="btn btn-light mr-4" id="Logout-x" href="<?php echo base_url(); ?>LoginController/logout" role="button"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;LOGOUT</a>	
+		<a class="btn btn-light mr-4" id="Logout-x" href="<?php echo base_url(); ?>LoginController/logout" role="button"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;LOGOUT</a>
 	</nav>
 
 
@@ -44,18 +45,61 @@
 	<div style="display:flex;">
 		<div class="sidebar pt-3" style="padding-left:20px;">
 			<div id="sidebar" class="w3-bar-block">
-				<a href="<?php echo base_url(); ?>" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;&nbsp;Dashboard</a>
-				<a href="<?php echo base_url(); ?>EmployeesManagement/empManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Employee Management</a>
-				<a href="<?php echo base_url(); ?>VendorManagement/venManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Management</a>
-				<a href="<?php echo base_url(); ?>VendorPayout/venPayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Payout</a>
-				<a href="<?php echo base_url(); ?>EmployeesManagement/empPayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;Employee Payout</a>
-				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management</a>
-				<a href="<?php echo base_url(); ?>UserManagement/usrManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;User Management</a>
+				<a href="<?php echo base_url(); ?>" id="side-select1" class="w3-bar-item w3-button-x"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;&nbsp;Dashboard</a>
+				<a href="<?php echo base_url(); ?>EmployeesManagement/empManagement" id="side-select2" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Employee Management</a>
+				<a href="<?php echo base_url(); ?>VendorManagement/venManagement" id="side-select3" class="w3-bar-item w3-button-x"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Management</a>
+				<a href="<?php echo base_url(); ?>VendorPayout/venPayout" id="side-select4" class="w3-bar-item w3-button-x"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Payout</a>
+				<a href="<?php echo base_url(); ?>EmployeesManagement/empPayout" id="side-select5" class="w3-bar-item w3-button-x"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;Employee Payout</a>
+				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" id="side-select6" class="w3-bar-item w3-button-x"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management</a>
+				<a href="<?php echo base_url(); ?>UserManagement/usrManagement" id="side-select7" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;User Management</a>
 			</div>
 		</div>
-
 		
-		 
+		<script>
+		const url = window.location.href;
+		if (url.includes("dashboard")) {
+			console.log(url);
+			let element = document.querySelector('#side-select1')
+			console.log(element);
+			element.classList.add("active");
+		}
+		if (url.includes("empManagement")) {
+			console.log(url);
+			let element = document.querySelector('#side-select2')
+			console.log(element);
+			element.classList.add("active");
+		}
+		if (url.includes("venManagement")) {
+			console.log(url);
+			let element = document.querySelector('#side-select3')
+			console.log(element);
+			element.classList.add("active");
+		}
+		if (url.includes("venPayout")) {
+			console.log(url);
+			let element = document.querySelector('#side-select4')
+			console.log(element);
+			element.classList.add("active");
+		}
+		if (url.includes("empPayout")) {
+			console.log(url);
+			let element = document.querySelector('#side-select5')
+			console.log(element);
+			element.classList.add("active");
+		}
+		if (url.includes("expManagement")) {
+			console.log(url);
+			let element = document.querySelector('#side-select6')
+			console.log(element);
+			element.classList.add("active");
+		}
+		if (url.includes("usrManagement")) {
+			console.log(url);
+			let element = document.querySelector('#side-select7')
+			console.log(element);
+			element.classList.add("active");
+		}
+	    </script>
 
 
 </body>

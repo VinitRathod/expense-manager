@@ -10,8 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/style-side.css" />
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
- </head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
 
 <body>
   <div class="container-x">
@@ -23,7 +23,7 @@
     <div class="main-container">
       <div class="form-container">
         <h4 class="title-xy"> WELCOME TO </h4>
-      <h1 class="title-x"><b> Expense Management </b></h1>
+        <h1 class="title-x"><b> Expense Management </b></h1>
 
         <div class="form-body">
           <h2 class="title"><b> LOG IN </b></h2>
@@ -47,29 +47,30 @@
   </div>
 </body>
 <script>
-  $("#loginForm").submit(function(e){
+  $("#loginForm").submit(function(e) {
     e.preventDefault();
     // alert();
     let form = new FormData(document.getElementById('loginForm'));
     $.ajax({
-      url : "<?php echo base_url(); ?>LoginController/index",
-      method : "POST",
+      url: "<?php echo base_url(); ?>LoginController/index",
+      method: "POST",
       processData: false,
-			contentType: false,
-			cache: false,
-			enctype: 'multipart/form-data',
-      data : form,
+      contentType: false,
+      cache: false,
+      enctype: 'multipart/form-data',
+      data: form,
       success: function(response) {
         let res = JSON.parse(response);
         // console.log(response);
-        if(res['error']) {
-          $("#alertBox").css("display","block");
+        if (res['error']) {
+          $("#alertBox").css("display", "block");
           $("#alertBox").html("Check your username and password and try again!");
         } else {
-          window.location = "<?php echo base_url(); ?>";
+          window.location = "<?php echo base_url(); ?>/dashboard";
         }
       }
     });
   });
 </script>
+
 </html>

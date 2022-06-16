@@ -236,7 +236,7 @@ class EmployeesManagement extends CI_Controller
     {
         $empIds = $this->emp->getAllEmp();
         $output = "";
-        $output .= '<option>Select Employee Id</option>';
+        $output .= '<option value="">Select Employee Id</option>';
         foreach ($empIds as $empId) {
 
             $output .= '<option value=' . $this->sec->encryptor('e', $empId->c_id) . '>' . $empId->c_empid . '</option>';
@@ -297,7 +297,7 @@ class EmployeesManagement extends CI_Controller
 
     public function getEmpBanks($id)
     {
-        $output = '<option value="null"> --SELECT BANK-- </option>';
+        $output = '<option value=""> --SELECT BANK-- </option>';
         $employee = $this->emp->getSingleEmp($this->sec->encryptor('d', $id));
         // echo $employee;
         if ($employee) {

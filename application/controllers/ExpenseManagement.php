@@ -32,6 +32,9 @@ class ExpenseManagement extends CI_Controller
 
 		$output = "";
 		foreach ($data['exp_details'] as $exps) {
+			if ($exps->c_expcode == "OTH") {
+				continue;
+			}
 
 			$output .= '<tr>
 				<td>' . $exps->c_expcode . '</td>

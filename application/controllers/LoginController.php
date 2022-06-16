@@ -12,7 +12,8 @@ class LoginController extends CI_Controller
         'c_phoneno' => ""
     );
 
-    public function login() {
+    public function login()
+    {
         $this->load->view('login');
     }
 
