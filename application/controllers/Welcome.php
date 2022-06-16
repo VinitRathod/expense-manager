@@ -28,8 +28,13 @@ class Welcome extends CI_Controller
 	public function index()
 	{
 		// $data['emp_details'] = $this->emp->getAllEmp();
-		$this->load->view('header');
-		$this->load->view('dashboard');
+		$name = $this->session->userdata('username');
+		if(isset($name)) {
+			$this->load->view('header');
+			$this->load->view('dashboard');	
+		} else {
+			redirect('LoginController/login');
+		}
 	}
 
 	public function vendorManagement()
@@ -46,8 +51,7 @@ class Welcome extends CI_Controller
 
 	public function employeePayout()
 	{
-		$this->load->view('header');
-		$this->load->view('emp_payout');
+		
 	}
 
 	public function add()

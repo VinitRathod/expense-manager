@@ -3,9 +3,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Payout extends CI_Model
 {
-    public $payout = "https://api.razorpay.com/v1/payouts";
+    private $payout = "https://api.razorpay.com/v1/payouts";
 
-    public function curlPayoutReq($data, $url)
+    public function curlPayoutReq($data)
     {
         $apiKEY = "rzp_test_kfinzduUHtfEu8";
         $apiSecret = "4Hmo4HjuS2LsKvmUKk57kzZO";
@@ -19,7 +19,7 @@ class Payout extends CI_Model
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
 
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_URL, $this->payout);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         return json_decode(curl_exec($ch), true);
     }

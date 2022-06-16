@@ -28,10 +28,10 @@ class VendorManagement extends CI_Controller
 		$output = "";
 		foreach ($data['ven_details'] as $ven) {
 			$doc = "";
-			if(!empty($ven->c_document)) {
+			if (!empty($ven->c_document)) {
 				$doc = '<td style="text-align: center;">
-						<a href="'.base_url().'DOCS/'.$ven->c_document.'" download >  
-						<img id="downloadIcon" src="'.base_url().'assets/icons/download.svg" width="50%" height="50%">  
+						<a href="' . base_url() . 'DOCS/' . $ven->c_document . '" download >  
+						<img id="downloadIcon" src="' . base_url() . 'assets/icons/download.svg" width="50%" height="50%">  
 						</a>
 					</td>';
 			} else {
@@ -46,17 +46,17 @@ class VendorManagement extends CI_Controller
 						<td>' . $ven->c_gstno . '</td>
 
 						<td>' . $ven->c_panno . '</td>
-						'.$doc.'
+						' . $doc . '
 						<td>' . $ven->c_designation . '</td>
 
-						<td><button id="color-x" type="button" class="btn btn-primary" data-toggle="modal" data-target="#bank" onclick="bankDetails('.$ven->c_banks.')">
+						<td><button id="color-x" type="button" class="btn btn-primary" data-toggle="modal" data-target="#bank" onclick="bankDetails(' . $ven->c_banks . ')">
 								BankDetails
 							</button></td>
-						<td><button id="color-x" type="button" class="btn btn-primary" data-toggle="modal" data-target="#contact" onclick="contactDetails('.$ven->c_id.')">
+						<td><button id="color-x" type="button" class="btn btn-primary" data-toggle="modal" data-target="#contact" onclick="contactDetails(' . $ven->c_id . ')">
 								ContactDetails
 							</button></td>
-						<td><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editVen" onclick="venUpdate(`'.$this->sec->encryptor('e',$ven->c_id).'`)" >Edit</a>
-							<a href="#" class="btn btn-danger" onclick="venDelete(`'.$this->sec->encryptor('e',$ven->c_id).'`)">Delete</a>
+						<td><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editVen" onclick="venUpdate(`' . $this->sec->encryptor('e', $ven->c_id) . '`)" >Edit</a>
+							<a href="#" class="btn btn-danger" onclick="venDelete(`' . $this->sec->encryptor('e', $ven->c_id) . '`)">Delete</a>
 						</td>
 					</tr>';
 		}
@@ -65,8 +65,13 @@ class VendorManagement extends CI_Controller
 
 	public function venManagement()
 	{
-		$this->load->view('header');
-		$this->load->view('vm');
+		$name = $this->session->userdata('username');
+		if (isset($name)) {
+			$this->load->view('header');
+			$this->load->view('vm');
+		} else {
+			redirect('LoginController/login');
+		}
 	}
 
 	public function addVendor()
@@ -162,34 +167,37 @@ class VendorManagement extends CI_Controller
 		$insert = $this->ven->insert($data);
 	}
 
-	public function getContactDetails($id) {
-        $result = $this->ven->getSingleVen($id);
+	public function getContactDetails($id)
+	{
+		$result = $this->ven->getSingleVen($id);
 		$output = "";
-		$contacts = explode(",",$result->c_contacts);
-        foreach($contacts as $con) {
+		$contacts = explode(",", $result->c_contacts);
+		foreach ($contacts as $con) {
 			$output .= "<tr>
-							<td>".$con."</td>
+							<td>" . $con . "</td>
 						</tr>";
 		}
 		echo $output;
-    }
+	}
 
-	public function venDelete($id) {
-		$result = $this->ven->getSingleVen($this->sec->encryptor('d',$id));
-		$banks = explode(",",$result->c_banks);
-		foreach($banks as $bk) {
+	public function venDelete($id)
+	{
+		$result = $this->ven->getSingleVen($this->sec->encryptor('d', $id));
+		$banks = explode(",", $result->c_banks);
+		foreach ($banks as $bk) {
 			$this->bank->deleteBank($bk);
 		}
-		
+
 		$res = $this->ven->deleteSingleVen($id);
-		if($res) {
+		if ($res) {
 			echo "SUCCESS";
 		}
 	}
 
-	public function fetchVen($id) {
-		$result = $this->ven->getSingleVen($this->sec->encryptor('d',$id));
-		
+	public function fetchVen($id)
+	{
+		$result = $this->ven->getSingleVen($this->sec->encryptor('d', $id));
+
 		$output = json_encode($result);
 		echo $output;
 	}

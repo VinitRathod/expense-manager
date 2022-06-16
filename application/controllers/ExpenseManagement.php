@@ -38,8 +38,8 @@ class ExpenseManagement extends CI_Controller
 				<td>' . $exps->c_category . '</td>
 				<td>' . $exps->c_description . '</td>
 				<td>' . $exps->c_type . '</td>
-				<td><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editEXPModal" onclick="expEdit(`' . $this->sec->encryptor('e',$exps->c_expid) . '`)">Edit</a>
-					<a href="#" class="btn btn-danger" onclick="expDelete(`' . $this->sec->encryptor('e',$exps->c_expid) . '`)">Delete</a>
+				<td><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editEXPModal" onclick="expEdit(`' . $this->sec->encryptor('e', $exps->c_expid) . '`)">Edit</a>
+					<a href="#" class="btn btn-danger" onclick="expDelete(`' . $this->sec->encryptor('e', $exps->c_expid) . '`)">Delete</a>
 				</td>
 			</tr>';
 		}
@@ -48,8 +48,14 @@ class ExpenseManagement extends CI_Controller
 
 	public function expManagement()
 	{
-		$this->load->view('header');
-		$this->load->view('exp_management');
+
+		$name = $this->session->userdata('username');
+		if (isset($name)) {
+			$this->load->view('header');
+			$this->load->view('exp_management');
+		} else {
+			redirect('LoginController/login');
+		}
 	}
 
 	public function addExpCat()
@@ -66,15 +72,15 @@ class ExpenseManagement extends CI_Controller
 
 	public function edit_Exp($id)
 	{
-		$data['exp_details'] = $this->exp->getSingleExp($this->sec->encryptor('d',$id));
+		$data['exp_details'] = $this->exp->getSingleExp($this->sec->encryptor('d', $id));
 		$response = $data['exp_details'];
-		$response->c_expid = $this->sec->encryptor('e',$response->c_expid);
+		$response->c_expid = $this->sec->encryptor('e', $response->c_expid);
 		echo json_encode($response);
 	}
 
 	public function expDelete($id)
 	{
-		$result = $this->exp->deleteExp($this->sec->encryptor('d',$id));
+		$result = $this->exp->deleteExp($this->sec->encryptor('d', $id));
 		if ($result) {
 			echo "SUCCESS";
 		}
@@ -83,16 +89,16 @@ class ExpenseManagement extends CI_Controller
 	public function expUpdate($id)
 	{
 		// if ($this->input->post("submit")) {
-			$data = array(
-				'c_expcode' => $this->input->post('expCode'),
-				'c_category' => $this->input->post('expCat'),
-				'c_type' => $this->input->post('expType'),
-				'c_description' => $this->input->post('expDesc')
-			);
-			$update = $this->exp->update($data, $this->sec->encryptor('d',$id));
-			if ($update) {
-				redirect('ExpenseManagement/expManagement');
-			}
+		$data = array(
+			'c_expcode' => $this->input->post('expCode'),
+			'c_category' => $this->input->post('expCat'),
+			'c_type' => $this->input->post('expType'),
+			'c_description' => $this->input->post('expDesc')
+		);
+		$update = $this->exp->update($data, $this->sec->encryptor('d', $id));
+		if ($update) {
+			redirect('ExpenseManagement/expManagement');
+		}
 		// }
 	}
 
