@@ -70,7 +70,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
 
     <!-- Another Modal -->
-    <div class="container" >
+    <div class="container">
         <!-- edit modal starts -->
         <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -152,9 +152,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script>
     function validation() {}
 
-    $("#add_exp").submit(function(e) {
+    $("#add_usr").submit(function(e) {
         e.preventDefault();
-        const form = new FormData(document.getElementById('add_exp'));
+        const form = new FormData(document.getElementById('add_usr'));
         // console.log(...form);
         $.ajax({
             method: 'POST',
@@ -162,17 +162,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
             contentType: false,
             cache: false,
             enctype: 'multipart/form-data',
-            url: "<?php echo base_url() ?>ExpenseManagement/addExpCat",
+            url: "<?php echo base_url() ?>UserManagement/addUser",
             data: form,
-            success: function() {
-                swal("New Expense Category Added Successfully.", "Insert Action Succeed.", "success").then(() => {
-
-                    loadExp();
-                    $("#expCode").val("");
-                    $("#expCat").val("");
-                    $("#expType").val("").change();
-                    $("#expDesc").val("");
-                });
+            success: function(response) {
+                if (response == "SUCCESS") {
+                    swal("New User Added Successfully.", "Insert Action Succeed.", "success").then(() => {
+                        // some call back actions comes here...
+                        loadUser();
+                    });
+                } else {
+                    alert(response);
+                    swal("New User Not Added!","Some unknown error occurred.","error").then(()=>{
+                        // some call back actions comes here...
+                    });
+                }
             }
         });
     });
