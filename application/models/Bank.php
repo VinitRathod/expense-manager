@@ -64,4 +64,13 @@ class Bank extends CI_Model
 
         return $this->db->get()->row();
     }
+
+    public function getBankDetailsVen($id) {
+        $this->db->select("*");
+        $this->db->from("t_vendorpayout");
+        $this->db->join('t_bank', 't_bank.c_id = t_vendorpayout.c_bankid', 'inner');
+        $this->db->where('t_vendorpayout.c_id', $id);
+
+        return $this->db->get()->row();
+    }
 }

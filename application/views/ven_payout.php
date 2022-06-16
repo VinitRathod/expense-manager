@@ -135,6 +135,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	<div class="card" style="width: 95%;">
 		<div class="card-body">
+			<button class="btn btn-primary" type="button" disabled>
+				<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+				<span class="sr-only">Loading...</span>
+			</button>
 			<div class="table-responsive-md mt-4" style="overflow-x:auto;">
 				<table class="table">
 					<thead>
@@ -269,6 +273,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			}
 		});
 	}
+	$(document).on('click', '.payout', function(ex) {
+		// alert("Payout Clicked")
+		// console.log($(this).attr("id"));
+		$.ajax({
+			url: "<?php echo base_url(); ?>PayoutController/payOutVen/" + $(this).attr("id"),
+			method: "POST",
+			// data: $(this).val(),
+			success: function(data) {
+				alert(data);
+			},
+			beforeSend: function(ex) {
+
+			}
+		});
+	});
 </script>
 </body>
 

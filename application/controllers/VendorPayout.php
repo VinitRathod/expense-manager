@@ -108,7 +108,7 @@ class VendorPayout extends CI_Controller
         $output = "";
         foreach ($allPayouts as $pay) {
             if ($pay->c_paymentmode == "manual" && $pay->c_status == "unpaid") {
-                $action = '<a href="#"><img src="' . base_url() . 'assets/icons/cash-stack.svg" width="60%" height="60%" alt="pay-now" data-bs-toggle="tooltip" title="Pay-Now"></a>';
+                $action = '<a href="#"><img class="payout" id="' . $this->sec->encryptor('e', $pay->c_id) . '" src="' . base_url() . 'assets/icons/cash-stack.svg" width="60%" height="60%" alt="pay-now" data-bs-toggle="tooltip" title="Pay-Now"></a>';
             } else if ($pay->c_paymentmode == "schedule" && $pay->c_status == "unpaid") {
                 $action = '<img src="' . base_url() . 'assets/icons/calendar-check.svg" width="60%" height="60%">';
             } else if ($pay->c_status == "paid") {
