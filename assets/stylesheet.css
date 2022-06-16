@@ -79,10 +79,10 @@ body {
 }
 
 .w3-button-x:hover {
-    background-color: white !important;
+    background-color: #1f475e60 !important;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    color: rgb(20, 21, 49) !important;
+    color: white!important;
     text-decoration: none;
 }
 
@@ -123,11 +123,7 @@ body {
     margin: 0px;
 }
 
-/* ...  */
-.active {
-    border: #ae261c solid 2px;
-    background-color: black !important;
-}
+
 
 .card-x {
     text-align: center;
@@ -153,4 +149,13 @@ body {
 #downloadI:hover {
     stroke: teal;
     color: teal;
+}
+
+/* ...  */
+.active {
+    background-color: white !important;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    color: rgb(20, 21, 49) !important;
+    text-decoration: none;
 }
