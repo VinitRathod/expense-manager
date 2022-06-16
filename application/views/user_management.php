@@ -28,7 +28,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <form action="" onsubmit="return validation()" id="add_usr" class="bg-light" method="post">
                             <div class="form-group">
                                 <label for="c_name" class="font-weight-regular"> Name </label>
-                                <input type="text" name="c_name" class="form-control" id="c_name" autocomplete="off" required />
+                                <input type="text" name="c_name" class="form-control" id="c_name" autocomplete="off" required placeholder="ex. John Doe" />
                                 <span id="warn_c_name" class="text-danger font-weight-regular">
 
                                 </span>
@@ -36,7 +36,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                             <div class="form-group">
                                 <label for="c_email" class="font-weight-regular"> User Email </label>
-                                <input type="text" name="c_email" class="form-control" id="c_email" autocomplete="off" required />
+                                <input type="text" name="c_email" class="form-control" id="c_email" autocomplete="off" required placeholder="ex. john@gmail.com" />
                                 <span id="warn_c_email" class="text-danger font-weight-regular">
 
                                 </span>
@@ -85,8 +85,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="modal-body">
 
                         <form action="" onsubmit="return validation()" id="edit_usr" class="bg-light" method="post">
+                            <input type="text" value="" name="usrID" id="usrID" hidden>
                             <div class="form-group">
-                                <label for="edit_c_name" class="font-weight-regular"> Name </label>
+                                <label for="edit_c_name" class="font-weight-regular"> Username </label>
                                 <input type="text" name="c_name" class="form-control" id="edit_c_name" autocomplete="off" required />
                                 <span id="warn_c_name" class="text-danger font-weight-regular">
 
@@ -101,13 +102,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 </span>
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="edit_c_password" class="font-weight-regular"> Password </label>
                                 <input type="password" name="c_password" class="form-control" id="edit_c_password" autocomplete="off" required />
                                 <span id="warn_c_password" class="text-danger font-weight-regular">
 
                                 </span>
-                            </div>
+                            </div> -->
 
                             <div class="form-group">
                                 <label for="edit_c_phoneno" class="font-weight-regular"> User Phone no. </label>
@@ -172,7 +173,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     });
                 } else {
                     alert(response);
-                    swal("New User Not Added!","Some unknown error occurred.","error").then(()=>{
+                    swal("New User Not Added!", "Some unknown error occurred.", "error").then(() => {
                         // some call back actions comes here...
                     });
                 }
@@ -184,25 +185,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     }
 
-    $("#edit_exp").submit(function(e) {
-        // alert();
+    $("#edit_usr").submit(function(e) {
         e.preventDefault();
-        const form = new FormData(document.getElementById('edit_exp'));
-        // console.log(form.get("ExpID"));
-        let id = form.get("ExpID");
+        const form = new FormData(document.getElementById('edit_usr'));
+        // just for initial debugging...
+        // console.log(form.get("usrID"));
+        let id = form.get("usrID");
         $.ajax({
             method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
             enctype: 'multipart/form-data',
-            url: "<?php echo base_url() ?>ExpenseManagement/expUpdate/" + id,
+            url: "<?php echo base_url() ?>UserManagement/updateUsr/" + id,
             data: form,
-            success: function() {
-                swal("Expense Category Updated Successfully.", "Update Action Succeed.", "success").then(() => {
-                    loadExp();
-                    expEdit(id);
-                });
+            success: function(response) {
+                if (response == "SUCCESS") {
+                    swal("This User Updated Successfully.", "", "success").then(() => {
+                        location.reload();
+                    });
+                } else {
+                    swal("User Not Updated!", "Operation failed, Please try again.", "error").then(() => {
+                        // location.reload();
+                    });
+                }
             }
         });
     });
@@ -218,19 +224,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
     }
     loadUser();
 
-    function expEdit(id) {
+    function usrEdit(id) {
+        // just for initial debugging...
         // alert(id);
         $.ajax({
-            url: "<?php echo  base_url(); ?>ExpenseManagement/editExp/" + id,
+            url: "<?php echo  base_url(); ?>UserManagement/editUsr/" + id,
             method: "POST",
             success: function(response) {
+                // just for debigging...
                 // console.log(JSON.parse(response));
                 let data = JSON.parse(response);
-                $("#EditexpCode").val(data.c_expcode);
-                $("#EditexpCat").val(data.c_category);
-                $("#EditexpType").val(data.c_type).change();
-                $("#expId").val(data.c_expid);
-                $("#EditexpDesc").html(data.c_description);
+                $("#edit_c_name").val(data.c_fname + " " + data.c_lname);
+                $("#edit_c_email").val(data.c_email);
+                $("#edit_c_phoneno").val(data.c_phoneno);
+                $("#usrID").val(data.c_id);
             }
         });
     }
@@ -254,8 +261,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             if (response == "SUCCESS") {
                                 swal("Poof! That user has been deleted!", {
                                     icon: "success",
-                                }).then(()=>{
-                                    location.reload();
+                                }).then(() => {
+                                    // location.reload();
+                                    loadUser();
                                 });
                             }
                         }
