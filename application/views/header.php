@@ -50,6 +50,7 @@
 				<a href="<?php echo base_url(); ?>VendorPayout/venPayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Payout</a>
 				<a href="<?php echo base_url(); ?>EmployeesManagement/empPayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;Employee Payout</a>
 				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management</a>
+				<a href="<?php echo base_url(); ?>UserManagement/usrManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;User Management</a>
 			</div>
 		</div>
 
