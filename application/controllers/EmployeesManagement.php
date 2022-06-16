@@ -208,6 +208,8 @@ class EmployeesManagement extends CI_Controller
                         'c_tags' => $this->input->post('Tags'),
                         'c_status' => "Unpaid",
                         'c_approval' => $new_doc_name,
+                        'created_at' => date("Y-m-d  H:i:s", time()),
+                        'modified_at' => date("Y-m-d  H:i:s", time()),
                     );
                 }
             }
@@ -223,6 +225,8 @@ class EmployeesManagement extends CI_Controller
                 'c_tags' => $this->input->post('Tags'),
                 'c_status' => "Unpaid",
                 // 'c_approval' => $this->input->post('approvalDoc'),
+                'created_at' => date("Y-m-d  H:i:s", time()),
+                'modified_at' => date("Y-m-d  H:i:s", time()),
             );
         }
 
@@ -310,4 +314,30 @@ class EmployeesManagement extends CI_Controller
         echo $output;
     }
     // Employee Payout Code Ends Here ==================================================
+
+    // Dashboard Code Starts Here
+
+    public function dashEmpPay()
+    {
+        $data['empPay'] = $this->emp->getEmpPayLatest();
+        // echo json_encode($data['empPay']);
+        $date = "";
+        $output = "";
+        foreach ($data['empPay'] as $emps) {
+
+            if (!empty($emps->c_scheduleddate)) {
+                $date = $emps->c_scheduleddate;
+            } else {
+                $date = "Payment Is Manual";
+            }
+            $output .= '<tr>
+                <td>' . $emps->c_fname . ' ' . $emps->c_lname . '</td>
+        		<td>' . $emps->c_amount . '</td>
+        		<td>' . $date . '</td>
+        	</tr>';
+        }
+        echo $output;
+    }
+
+    // Dashboard Code Ends Here
 }

@@ -15,7 +15,7 @@ class LoginController extends CI_Controller
     public function login()
     {
         $logindata = $this->session->userdata('username');
-        if(isset($logindata)) {
+        if (isset($logindata)) {
             // not yet logged out...
             redirect('dashboard');
         } else {
@@ -38,7 +38,7 @@ class LoginController extends CI_Controller
         foreach ($all_users as $user) {
             if ($user->c_email == $user_email && $user->c_password == $enc_pass) {
                 $_user = array(
-                    'username' => $user->c_fname." ".$user->c_lname,
+                    'username' => $user->c_fname . " " . $user->c_lname,
                 );
                 $response['success'] = true;
                 break;
@@ -61,6 +61,6 @@ class LoginController extends CI_Controller
         $this->session->unset_userdata($_newUser);
         $this->session->sess_destroy();
 
-        redirect('/');
+        redirect('dashboard');
     }
 }

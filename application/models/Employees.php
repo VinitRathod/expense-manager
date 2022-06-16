@@ -64,4 +64,18 @@ class Employees extends CI_Model
             return $emps->result();
         }
     }
+
+    public function getEmpPayLatest()
+    {
+        $this->db->select("*");
+        $this->db->from('t_employees');
+        // to show Employee ID i have implemented joins
+        $this->db->join('t_emppayout', 't_emppayout.c_empid = t_employees.c_id', 'right');
+
+        $this->db->order_by("modified_at", "desc");
+        $emps = $this->db->get();
+        if ($emps) {
+            return $emps->result();
+        }
+    }
 }
