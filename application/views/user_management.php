@@ -254,13 +254,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             if (response == "SUCCESS") {
                                 swal("Poof! That user has been deleted!", {
                                     icon: "success",
+                                }).then(()=>{
+                                    location.reload();
                                 });
-                                loadUser();
                             }
                         }
                     });
                 } else {
-                    swal("Your expense type is safe!", {
+                    swal("This user is safe!", {
                         icon: "info",
                     });
                 }
