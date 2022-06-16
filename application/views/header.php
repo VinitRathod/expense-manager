@@ -36,9 +36,7 @@
 		<a id="top-nav1" class="navbar-brand ml-4 " href="#">
 			<h2><i class="fa fa-cubes" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management System</h2>
 		</a>
-		<a class="btn btn-light mr-4" id="Logout-x" href="#" role="button"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;LOGOUT</a>
-
-		
+		<a class="btn btn-light mr-4" id="Logout-x" href="<?php echo base_url(); ?>LoginController/logout" role="button"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;LOGOUT</a>	
 	</nav>
 
 
@@ -52,8 +50,6 @@
 				<a href="<?php echo base_url(); ?>VendorPayout/venPayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;&nbsp;Vendor Payout</a>
 				<a href="<?php echo base_url(); ?>EmployeesManagement/empPayout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;&nbsp;Employee Payout</a>
 				<a href="<?php echo base_url(); ?>ExpenseManagement/expManagement" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management</a>
-				<a href="<?php echo base_url(); ?>LoginController/logout" id="side-select" class="w3-bar-item w3-button-x"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp;Logout</a>
-
 			</div>
 		</div>
 
