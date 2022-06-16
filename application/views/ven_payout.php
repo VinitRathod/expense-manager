@@ -135,6 +135,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	<div class="card" style="width: 95%;">
 		<div class="card-body">
+			<div class="" id="pbar">
+				<div id="bar" class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" ></div>
+			</div>
 			<div class="table-responsive-md mt-4" style="overflow-x:auto;">
 				<table class="table">
 					<thead>
@@ -269,6 +272,33 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			}
 		});
 	}
+	$(document).on('click', '.payout', function(ex) {
+		let pbar;
+		// alert("Payout Clicked")
+		// console.log($(this).attr("id"));
+		$.ajax({
+			url: "<?php echo base_url(); ?>PayoutController/payOutVen/" + $(this).attr("id"),
+			method: "POST",
+			// data: $(this).val(),
+			success: function(data) {
+				alert(data);
+				alert(status);
+				window.clearInterval(pbar);
+				$("#bar").css("width","100%");
+			},
+			beforeSend: function(ex) {
+				$("#pbar").toggleClass("progress");
+				let progress = 0;
+				let pbar = window.setInterval(()=>{
+					$("#bar").css("width",progress+"%");
+					progress += 10;
+				},50);
+			},
+			complete: function(ex) {
+				$("#pbar").toggleClass("progress progress-bar-animated");
+			},
+		});
+	});
 </script>
 </body>
 

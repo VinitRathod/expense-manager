@@ -36,4 +36,29 @@ class PayoutController extends CI_Controller
         // $this->db->get()->row();
         // $this->db->join('t_','','inner');
     }
+
+    public function payOutVen($id) {
+        // just for id debugging...
+        // echo $this->sec->encryptor('d', $id);
+        $pay = $this->bank->getBankDetailsVen($this->sec->encryptor('d', $id));
+        // just for response debugging...
+        // echo json_encode($pay);
+
+        $data = array(
+            'account_number' => $pay->c_accountno,
+            'fund_account_id' => $pay->c_fundsid,
+            'amount' => $pay->c_amount,
+            'currency' => 'INR',
+            'mode' => 'NEFT',
+            'purpose' => 'payout',
+        );
+
+        $result = $this->pout->curlPayoutReq($data);
+
+        if (!empty($result)) {
+            echo json_encode($result);
+        } else {
+            echo "Some Error Occured";
+        }
+    }
 }
