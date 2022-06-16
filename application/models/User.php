@@ -12,5 +12,10 @@ class User extends CI_Model
     public function insertUser($data) {
         return $this->db->insert($this->tbl,$data);
     }
+
+    public function deleteUser($id) {
+        $this->db->where('c_id',$id);
+        return $this->db->delete($this->tbl);
+    }
 }
 ?>
