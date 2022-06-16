@@ -166,9 +166,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
             data: form,
             success: function(response) {
                 if (response == "SUCCESS") {
-                    swal("New User Added Successfully.", "Insert Action Succeed.", "success").then(() => {
+                    swal("New User Added Successfully.", "", "success").then(() => {
                         // some call back actions comes here...
-                        loadUser();
+                        location.reload();
                     });
                 } else {
                     alert(response);
@@ -235,10 +235,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
         });
     }
 
-    function expDelete(id) {
+    function usrDelete(id) {
+        // just to debug things...
+        // alert(id);
         swal({
                 title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this expense type!",
+                text: "Once deleted, you will not be able to recover this user!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -246,14 +248,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: `<?php echo base_url(); ?>/ExpenseManagement/expDelete/${id}`,
+                        url: `<?php echo base_url(); ?>/UserManagement/deleteUser/${id}`,
                         method: "POST",
                         success: function(response) {
                             if (response == "SUCCESS") {
-                                swal("Poof! Your expense type has been deleted!", {
+                                swal("Poof! That user has been deleted!", {
                                     icon: "success",
                                 });
-                                loadExp();
+                                loadUser();
                             }
                         }
                     });
