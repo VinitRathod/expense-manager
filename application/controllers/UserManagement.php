@@ -26,5 +26,22 @@ class UserManagement extends CI_Controller
         }
         echo $output;
     }
+
+    public function addUser() {
+        // print_r($_POST); // to just debug some things...
+        $name = explode(" ",$this->input->post('c_name'));
+        $data = array(
+            'c_fname' => $name[0],
+            'c_lname' => $name[1],
+            'c_email' => $this->input->post('c_email'),
+            'c_password' => sha1($this->input->post('c_password')),
+            'c_phoneno' => $this->input->post('c_phoneno')
+        );
+        if($this->usr->insertUser($data)) {
+            echo "SUCCESS";
+        } else {
+            echo "QUERY FAILED";
+        }
+    }
 }
 ?>
