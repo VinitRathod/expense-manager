@@ -14,7 +14,13 @@ class LoginController extends CI_Controller
 
     public function login()
     {
-        $this->load->view('login');
+        $logindata = $this->session->userdata('username');
+        if(isset($logindata)) {
+            // not yet logged out...
+            redirect('dashboard');
+        } else {
+            $this->load->view('login');
+        }
     }
 
     public function index()
