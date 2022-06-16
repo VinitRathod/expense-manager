@@ -309,7 +309,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 								<th scope="col">Bank Details</th>
 								<th scope="col">Contact Details</th>
-								<th scope="col">Action</th>
+								<th scope="col" colspan="2">Action</th>
 							</tr>
 						</thead>
 						<tbody id="tblBody">

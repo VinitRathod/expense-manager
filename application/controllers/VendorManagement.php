@@ -55,8 +55,8 @@ class VendorManagement extends CI_Controller
 						<td><button id="color-x" type="button" class="btn btn-x" data-toggle="modal" data-target="#contact" onclick="contactDetails(' . $ven->c_id . ')">
 								ContactDetails
 							</button></td>
-						<td style="padding-right:0px"><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editVen" onclick="venUpdate(`' . $this->sec->encryptor('e', $ven->c_id) . '`)" >Edit</a></td>
-						<td style="padding-left:0px"><a href="#" class="btn btn-danger" onclick="venDelete(`' . $this->sec->encryptor('e', $ven->c_id) . '`)">Delete</a></td>
+						<td ><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editVen" onclick="venUpdate(`' . $this->sec->encryptor('e', $ven->c_id) . '`)" >Edit</a></td>
+						<td ><a href="#" class="btn btn-danger" onclick="venDelete(`' . $this->sec->encryptor('e', $ven->c_id) . '`)">Delete</a></td>
 						
 					</tr>';
 		}

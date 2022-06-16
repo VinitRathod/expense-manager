@@ -156,8 +156,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<th scope="col">Expense_Category</th>
 							<th scope="col">Expense_Description</th>
 							<th scope="col">Select_Expense_Type</th>
-							<th scope="col">Action</th>
-
+							<th scope="col" colspan="2">Action</th>
 						</tr>
 					</thead>
 					<tbody class="tblBody">
