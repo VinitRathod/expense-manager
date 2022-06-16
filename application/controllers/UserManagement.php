@@ -19,7 +19,8 @@ class UserManagement extends CI_Controller
                             <td>'.$user->c_fname.' '.$user->c_lname.'</td>
                             <td>'.$user->c_phoneno.'</td>
                             <td>'.$user->c_email.'</td>
-                            <td>Buttons</td>
+                            <td style="padding-right: 0px;"><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editUserModal" onclick="">Edit</a></td>
+				            <td style="padding-left: 0px;"><a href="#" class="btn btn-danger" onclick="">Delete</a></td>
                         </tr>';
             }
         }

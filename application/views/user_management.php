@@ -70,9 +70,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
 
     <!-- Another Modal -->
-    <div class="container" id="editExpModelContainer">
+    <div class="container" >
         <!-- edit modal starts -->
-        <div class="modal fade" id="EXPModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -138,7 +138,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th scope="col">Username</th>
                             <th scope="col">Phone number</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Action</th>
+                            <th scope="col" colspan="2">Action</th>
                         </tr>
                     </thead>
                     <tbody class="tblBody">
