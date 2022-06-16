@@ -35,7 +35,8 @@
 		<a id="top-nav1" class="navbar-brand ml-4 " href="#">
 			<h2><i class="fa fa-cubes" aria-hidden="true"></i>&nbsp;&nbsp;Expense Management System</h2>
 		</a>
-		<button class="logout"> Logout </button>
+		<a class="btn btn-light mr-4" id="Logout-x" href="#" role="button"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;LOGOUT</a>
+
 		
 	</nav>
 
