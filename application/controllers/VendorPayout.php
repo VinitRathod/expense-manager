@@ -134,4 +134,25 @@ class VendorPayout extends CI_Controller
         }
         echo $output;
     }
+
+    public function getAllPayoutsLatest()
+    {
+        $allPayouts = $this->venPay->getAllLatest();
+        $date = "";
+        $output = "";
+        foreach ($allPayouts as $pay) {
+
+            if (!empty($pay->c_scheduledDate)) {
+                $date = $pay->c_scheduledDate;
+            } else {
+                $date = "Payment Is Manual";
+            }
+            $output .= '<tr>
+                            <td>' . $pay->c_fname . ' ' . $pay->c_lname . '</td>
+                            <td>' . $pay->c_amount . '</td>
+                            <td>' . $date . '</td>
+                        </tr>';
+        }
+        echo $output;
+    }
 }

@@ -66,7 +66,7 @@
           $("#alertBox").css("display", "block");
           $("#alertBox").html("Check your username and password and try again!");
         } else {
-          window.location = "<?php echo base_url(); ?>/dashboard";
+          window.location = "<?php echo base_url(); ?>dashboard";
         }
       }
     });

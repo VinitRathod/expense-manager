@@ -26,20 +26,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Employee_ID</th>
+                                    <th scope="col">Employee Name</th>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Payment_Due_Date</th>
 
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-
-                                    <td>454</td>
-                                    <td>fdf</td>
-                                    <td>dfsdf</td>
-
-                                </tr>
+                            <tbody class="tblEmp">
                             </tbody>
                         </table>
                     </div>
@@ -52,20 +45,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Vendor_ID</th>
+                                    <th scope="col">Vendor Name</th>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Payment_Due_Date</th>
 
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ff</td>
-                                    <td>454</td>
-                                    <td>rfdf</td>
-
-
-                                </tr>
+                            <tbody class="tblVen">
                             </tbody>
                         </table>
                     </div>
@@ -74,3 +60,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
     </div>
 </div>
+
+<script>
+    function empPay() {
+        $.ajax({
+            url: "<?php echo base_url(); ?>EmployeesManagement/dashEmpPay",
+            method: "POST",
+            success: function(data) {
+                $(".tblEmp").html(data);
+            },
+        });
+    }
+
+    function venPay() {
+        $.ajax({
+            url: "<?php echo base_url(); ?>VendorPayout/getAllPayoutsLatest",
+            method: "POST",
+            success: function(data) {
+                $(".tblVen").html(data);
+            },
+        });
+    }
+
+    $(document).ready(function() {
+        empPay();
+        venPay();
+    });
+</script>

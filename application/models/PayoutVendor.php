@@ -10,5 +10,13 @@ class PayoutVendor extends CI_Model
         $this->db->join('t_vendors','t_vendors.c_id = '.$this->tbl.'.c_venid');
         return $this->db->get()->result();
     }
+
+    public function getAllLatest()
+    {
+        $this->db->select("*");
+        $this->db->from($this->tbl);
+        $this->db->join('t_vendors', 't_vendors.c_id = ' . $this->tbl . '.c_venid');
+        $this->db->order_by("modified_at","desc");
+        return $this->db->get()->result();
+    }
 }
-?>
