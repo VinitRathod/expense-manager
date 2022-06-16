@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2022 at 07:00 AM
+-- Generation Time: Jun 16, 2022 at 11:51 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -30,16 +30,15 @@ USE `expense_management`;
 --
 
 DROP TABLE IF EXISTS `t_bank`;
-CREATE TABLE IF NOT EXISTS `t_bank` (
-  `c_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `t_bank` (
+  `c_id` int(11) NOT NULL,
   `c_bankname` varchar(255) NOT NULL,
   `c_ifsc` varchar(255) NOT NULL,
   `c_accountno` varchar(255) NOT NULL,
   `c_status` varchar(255) NOT NULL,
   `c_contactid` varchar(255) NOT NULL,
-  `c_fundsid` varchar(255) NOT NULL,
-  PRIMARY KEY (`c_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COMMENT='This table is in weak relation with all payouts.';
+  `c_fundsid` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='This table is in weak relation with all payouts.';
 
 --
 -- Dumping data for table `t_bank`
@@ -67,17 +66,16 @@ INSERT INTO `t_bank` (`c_id`, `c_bankname`, `c_ifsc`, `c_accountno`, `c_status`,
 --
 
 DROP TABLE IF EXISTS `t_employees`;
-CREATE TABLE IF NOT EXISTS `t_employees` (
-  `c_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'pk_t_employees',
+CREATE TABLE `t_employees` (
+  `c_id` int(11) NOT NULL COMMENT 'pk_t_employees',
   `c_empid` int(11) DEFAULT NULL,
   `c_fname` varchar(255) NOT NULL,
   `c_lname` varchar(255) NOT NULL,
   `c_panno` varchar(255) NOT NULL,
   `c_contactno` varchar(255) NOT NULL,
   `c_banks` varchar(100) NOT NULL,
-  `c_email` varchar(255) NOT NULL,
-  PRIMARY KEY (`c_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='This table will hold employee details';
+  `c_email` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='This table will hold employee details';
 
 --
 -- Dumping data for table `t_employees`
@@ -95,8 +93,8 @@ INSERT INTO `t_employees` (`c_id`, `c_empid`, `c_fname`, `c_lname`, `c_panno`, `
 --
 
 DROP TABLE IF EXISTS `t_emppayout`;
-CREATE TABLE IF NOT EXISTS `t_emppayout` (
-  `c_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'pk_t_empPayout',
+CREATE TABLE `t_emppayout` (
+  `c_id` int(11) NOT NULL COMMENT 'pk_t_empPayout',
   `c_empid` int(11) NOT NULL,
   `c_bank` int(11) NOT NULL,
   `c_expcategory` int(11) NOT NULL,
@@ -107,25 +105,21 @@ CREATE TABLE IF NOT EXISTS `t_emppayout` (
   `c_status` varchar(100) NOT NULL,
   `c_approval` varchar(255) DEFAULT NULL,
   `c_tags` varchar(255) NOT NULL,
-  PRIMARY KEY (`c_id`),
-  KEY `fk_t_employee_t_emppayout` (`c_empid`),
-  KEY `fk_t_expcategories_t_emppayout` (`c_expcategory`),
-  KEY `fk_t_bank_t_emppayout` (`c_bank`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COMMENT='This table will hold employee payouts.';
+  `created_at` datetime DEFAULT NULL,
+  `modified_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='This table will hold employee payouts.';
 
 --
 -- Dumping data for table `t_emppayout`
 --
 
-INSERT INTO `t_emppayout` (`c_id`, `c_empid`, `c_bank`, `c_expcategory`, `c_amount`, `c_paymentmode`, `c_duedate`, `c_scheduleddate`, `c_status`, `c_approval`, `c_tags`) VALUES
-(14, 5, 22, 27, 50000, 'manual', '2022-06-15', NULL, 'Unpaid', NULL, 'Salary'),
-(15, 7, 25, 1, 75, 'schedule', '2022-03-13', '2022-06-15', 'Unpaid', 'DOC-62a9b6f952c7f3.48996030.pdf', 'Numquam repudiandae '),
-(16, 5, 22, 27, 63, 'schedule', '1991-12-06', '2023-12-07', 'Unpaid', NULL, 'Ex quis ex omnis eum'),
-(17, 5, 22, 27, 63, 'schedule', '1991-12-06', '2023-12-07', 'Unpaid', NULL, 'Ex quis ex omnis eum'),
-(18, 5, 22, 27, 45000, 'manual', '2022-06-15', NULL, 'Unpaid', NULL, 'Salary'),
-(19, 6, 23, 27, 75000, 'manual', '2022-06-06', NULL, 'Unpaid', NULL, 'Salary'),
-(20, 5, 22, 1, 100, 'schedule', '1997-11-04', '2022-06-16', 'Unpaid', 'DOC-62a9bd6adbd364.94579295.pdf', 'Est reiciendis et a'),
-(21, 7, 25, 1, 85000, 'manual', '2022-06-15', NULL, 'Unpaid', 'DOC-62a9bdcfe019f3.41274414.pdf', 'Salary');
+INSERT INTO `t_emppayout` (`c_id`, `c_empid`, `c_bank`, `c_expcategory`, `c_amount`, `c_paymentmode`, `c_duedate`, `c_scheduleddate`, `c_status`, `c_approval`, `c_tags`, `created_at`, `modified_at`) VALUES
+(14, 5, 22, 27, 50000, 'manual', '2022-06-15', NULL, 'Unpaid', NULL, 'Salary', NULL, NULL),
+(15, 7, 25, 1, 75, 'schedule', '2022-03-13', '2022-06-15', 'Unpaid', 'DOC-62a9b6f952c7f3.48996030.pdf', 'Numquam repudiandae ', NULL, NULL),
+(16, 5, 22, 27, 63, 'schedule', '1991-12-06', '2023-12-07', 'Unpaid', NULL, 'Ex quis ex omnis eum', NULL, NULL),
+(17, 5, 22, 27, 63, 'schedule', '1991-12-06', '2023-12-07', 'Unpaid', NULL, 'Ex quis ex omnis eum', NULL, NULL),
+(18, 5, 22, 27, 45000, 'manual', '2022-06-15', NULL, 'Unpaid', NULL, 'Salary', NULL, NULL),
+(23, 6, 23, 27, 75000, 'manual', '2022-06-16', NULL, 'Unpaid', NULL, 'Salary', '2022-06-16 10:31:58', '2022-06-16 10:31:58');
 
 -- --------------------------------------------------------
 
@@ -134,14 +128,13 @@ INSERT INTO `t_emppayout` (`c_id`, `c_empid`, `c_bank`, `c_expcategory`, `c_amou
 --
 
 DROP TABLE IF EXISTS `t_expcategories`;
-CREATE TABLE IF NOT EXISTS `t_expcategories` (
-  `c_expid` int(11) NOT NULL AUTO_INCREMENT COMMENT 'pk_t_expCategories',
+CREATE TABLE `t_expcategories` (
+  `c_expid` int(11) NOT NULL COMMENT 'pk_t_expCategories',
   `c_expcode` varchar(255) NOT NULL,
   `c_category` varchar(255) NOT NULL,
   `c_type` varchar(255) NOT NULL,
-  `c_description` varchar(255) NOT NULL,
-  PRIMARY KEY (`c_expid`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COMMENT='This table will hold expence type for all payouts';
+  `c_description` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='This table will hold expence type for all payouts';
 
 --
 -- Dumping data for table `t_expcategories`
@@ -160,8 +153,8 @@ INSERT INTO `t_expcategories` (`c_expid`, `c_expcode`, `c_category`, `c_type`, `
 --
 
 DROP TABLE IF EXISTS `t_paylogs`;
-CREATE TABLE IF NOT EXISTS `t_paylogs` (
-  `c_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `t_paylogs` (
+  `c_id` int(11) NOT NULL,
   `id` varchar(255) NOT NULL,
   `entity` varchar(255) NOT NULL,
   `fund_account_id` varchar(255) NOT NULL,
@@ -172,8 +165,7 @@ CREATE TABLE IF NOT EXISTS `t_paylogs` (
   `status` varchar(255) NOT NULL,
   `utr` varchar(255) NOT NULL,
   `mode` varchar(255) NOT NULL,
-  `purpose` varchar(255) NOT NULL,
-  PRIMARY KEY (`c_id`)
+  `purpose` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -183,23 +175,22 @@ CREATE TABLE IF NOT EXISTS `t_paylogs` (
 --
 
 DROP TABLE IF EXISTS `t_users`;
-CREATE TABLE IF NOT EXISTS `t_users` (
-  `c_id` int(11) NOT NULL AUTO_INCREMENT,
-  `c_username` varchar(255) NOT NULL,
+CREATE TABLE `t_users` (
+  `c_id` int(11) NOT NULL,
   `c_fname` varchar(255) NOT NULL,
   `c_lname` varchar(255) NOT NULL,
   `c_email` varchar(255) NOT NULL,
   `c_password` varchar(255) NOT NULL,
-  `c_phoneno` varchar(10) NOT NULL,
-  PRIMARY KEY (`c_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+  `c_phoneno` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `t_users`
 --
 
-INSERT INTO `t_users` (`c_id`, `c_username`, `c_fname`, `c_lname`, `c_email`, `c_password`, `c_phoneno`) VALUES
-(1, 'Admin', 'Admin', 'JemistryWala', 'admin@gmail.com', '23d42f5f3f66498b2c8ff4c20b8c5ac826e47146', '0123456789');
+INSERT INTO `t_users` (`c_id`, `c_fname`, `c_lname`, `c_email`, `c_password`, `c_phoneno`) VALUES
+(1, 'Admin', 'JemistryWala', 'admin@gmail.com', '23d42f5f3f66498b2c8ff4c20b8c5ac826e47146', '0123456789'),
+(2, 'Meet', 'Shroff', 'meets@gmail.com', 'd0f92ce4754c21e8e1915abbda3f86db41d519f6', '1234657890');
 
 -- --------------------------------------------------------
 
@@ -208,8 +199,8 @@ INSERT INTO `t_users` (`c_id`, `c_username`, `c_fname`, `c_lname`, `c_email`, `c
 --
 
 DROP TABLE IF EXISTS `t_vendorpayout`;
-CREATE TABLE IF NOT EXISTS `t_vendorpayout` (
-  `c_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `t_vendorpayout` (
+  `c_id` int(11) NOT NULL,
   `c_invoiceno` int(11) NOT NULL,
   `c_venid` int(11) NOT NULL,
   `c_expcategory` int(11) NOT NULL,
@@ -221,11 +212,16 @@ CREATE TABLE IF NOT EXISTS `t_vendorpayout` (
   `c_document` varchar(255) DEFAULT NULL,
   `c_status` varchar(255) NOT NULL,
   `c_tags` varchar(255) NOT NULL,
-  PRIMARY KEY (`c_id`),
-  KEY `fk_t_vendors_t_vendorpayout` (`c_venid`),
-  KEY `fk_t_expcategories_t_vendorpayouts` (`c_expcategory`),
-  KEY `fk_t_bank_t_vendorpayout` (`c_bankid`)
+  `created_at` datetime DEFAULT NULL,
+  `modified_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='This table will store vendor payouts.';
+
+--
+-- Dumping data for table `t_vendorpayout`
+--
+
+INSERT INTO `t_vendorpayout` (`c_id`, `c_invoiceno`, `c_venid`, `c_expcategory`, `c_amount`, `c_bankid`, `c_paymentmode`, `c_scheduledDate`, `c_reference`, `c_document`, `c_status`, `c_tags`, `created_at`, `modified_at`) VALUES
+(1, 123456789, 3, 3, 500000, 11, 'manual', NULL, 'Hello', 'DOC-62aad71b7bd256.22067651.pdf', 'unpaid', 'hello', '2022-06-14 15:12:44', '2022-06-14 15:12:55');
 
 -- --------------------------------------------------------
 
@@ -234,8 +230,8 @@ CREATE TABLE IF NOT EXISTS `t_vendorpayout` (
 --
 
 DROP TABLE IF EXISTS `t_vendors`;
-CREATE TABLE IF NOT EXISTS `t_vendors` (
-  `c_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'pk_t_vendors',
+CREATE TABLE `t_vendors` (
+  `c_id` int(11) NOT NULL COMMENT 'pk_t_vendors',
   `c_venid` int(11) NOT NULL,
   `c_fname` varchar(255) NOT NULL,
   `c_lname` varchar(255) NOT NULL,
@@ -248,9 +244,8 @@ CREATE TABLE IF NOT EXISTS `t_vendors` (
   `c_gstno` varchar(255) NOT NULL,
   `c_banks` varchar(100) NOT NULL,
   `c_panno` varchar(255) NOT NULL,
-  `c_document` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`c_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='This table will hold all vendor details.';
+  `c_document` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='This table will hold all vendor details.';
 
 --
 -- Dumping data for table `t_vendors`
@@ -262,6 +257,116 @@ INSERT INTO `t_vendors` (`c_id`, `c_venid`, `c_fname`, `c_lname`, `c_nickname`, 
 (5, 0, 'Lacey', 'Mcdowell', 'Halla Lambert', 'Veniam ab qui nemo ', 'Sunt est ea et conse', 'Ut soluta quidem eiu', '1622762144, 65', 'cycoly@mailinator.com', 'asdcsdwersfdxvfg', '14', 'Deserunt et assumend', 'DOC-62a4646184b246.56717532.pdf'),
 (7, 0, 'Eliana', 'Velazquez', 'Bo Newton', 'Quibusdam lorem mini', 'Asperiores et qui in', 'Rerum dolores dolor ', '5185360970, 46', 'vedu@mailinator.com', 'ascderfvgtbhjklo', '16', 'Ut aut reiciendis vo', NULL),
 (8, 0, 'Eliana', 'Velazquez', 'Bo Newton', 'Quibusdam lorem mini', 'Asperiores et qui in', 'Rerum dolores dolor ', '5185360970, 46', 'vedu@mailinator.com', 'ascderfvgtbhjklo', '17, 18', 'Ut aut reiciendis vo', NULL);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `t_bank`
+--
+ALTER TABLE `t_bank`
+  ADD PRIMARY KEY (`c_id`);
+
+--
+-- Indexes for table `t_employees`
+--
+ALTER TABLE `t_employees`
+  ADD PRIMARY KEY (`c_id`);
+
+--
+-- Indexes for table `t_emppayout`
+--
+ALTER TABLE `t_emppayout`
+  ADD PRIMARY KEY (`c_id`),
+  ADD KEY `fk_t_employee_t_emppayout` (`c_empid`),
+  ADD KEY `fk_t_expcategories_t_emppayout` (`c_expcategory`),
+  ADD KEY `fk_t_bank_t_emppayout` (`c_bank`);
+
+--
+-- Indexes for table `t_expcategories`
+--
+ALTER TABLE `t_expcategories`
+  ADD PRIMARY KEY (`c_expid`);
+
+--
+-- Indexes for table `t_paylogs`
+--
+ALTER TABLE `t_paylogs`
+  ADD PRIMARY KEY (`c_id`);
+
+--
+-- Indexes for table `t_users`
+--
+ALTER TABLE `t_users`
+  ADD PRIMARY KEY (`c_id`);
+
+--
+-- Indexes for table `t_vendorpayout`
+--
+ALTER TABLE `t_vendorpayout`
+  ADD PRIMARY KEY (`c_id`),
+  ADD KEY `fk_t_vendors_t_vendorpayout` (`c_venid`),
+  ADD KEY `fk_t_expcategories_t_vendorpayouts` (`c_expcategory`),
+  ADD KEY `fk_t_bank_t_vendorpayout` (`c_bankid`);
+
+--
+-- Indexes for table `t_vendors`
+--
+ALTER TABLE `t_vendors`
+  ADD PRIMARY KEY (`c_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `t_bank`
+--
+ALTER TABLE `t_bank`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `t_employees`
+--
+ALTER TABLE `t_employees`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'pk_t_employees', AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `t_emppayout`
+--
+ALTER TABLE `t_emppayout`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'pk_t_empPayout', AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `t_expcategories`
+--
+ALTER TABLE `t_expcategories`
+  MODIFY `c_expid` int(11) NOT NULL AUTO_INCREMENT COMMENT 'pk_t_expCategories', AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT for table `t_paylogs`
+--
+ALTER TABLE `t_paylogs`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `t_users`
+--
+ALTER TABLE `t_users`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `t_vendorpayout`
+--
+ALTER TABLE `t_vendorpayout`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `t_vendors`
+--
+ALTER TABLE `t_vendors`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'pk_t_vendors', AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
