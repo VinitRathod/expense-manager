@@ -43,5 +43,14 @@ class UserManagement extends CI_Controller
             echo "QUERY FAILED";
         }
     }
+
+    public function deleteUser($id) {
+        $res = $this->usr->deleteUser($this->sec->encryptor('d',$id));
+        if($res) {
+            echo "SUCCESS";
+        } else {
+            echo "FAILED";
+        }
+    }
 }
 ?>
