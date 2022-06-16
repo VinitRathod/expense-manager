@@ -295,8 +295,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<!-- Edit Modal Ends -->
 		<div class="card" style="width: 95%;">
 			<div class="card-body">
-				<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
-					<table class="table" style="overflow-x:scroll ;">
+				<div class="table-responsive-md mt-4 mr-2"style="overflow-x:auto;">
+					<table class="table" style="overflow-x:auto;">
 						<thead>
 							<tr>
 								<th scope="col">Vendor ID</th>

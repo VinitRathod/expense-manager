@@ -32,7 +32,7 @@ class EmployeesManagement extends CI_Controller
 				<td>' . $emps->c_fname . ' ' . $emps->c_lname . '</td>
 				<td>' . $emps->c_panno . '</td>
 				<td>' . $emps->c_contactno . '</td>
-                <td><a href="#" class="btn btn-primary" data-toggle="modal" bank_details" onclick="bankDetails(' . $emps->c_banks . ')" data-target="#bank">View Bank Details</a>
+                <td><a href="#" class="btn btn-x" data-toggle="modal" bank_details" onclick="bankDetails(' . $emps->c_banks . ')" data-target="#bank">View Bank Details</a>
                             
 				<td><a href="#" onclick="empEdit(' . $emps->c_id . ')" data="modal" data-target="editEMPModal" class="btn btn-success">Edit</a>
 					<a href="#" class="btn btn-danger" onclick="empDelete(`' . $this->sec->encryptor('e', $emps->c_id) . '`)">Delete</a>
