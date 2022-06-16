@@ -7,9 +7,6 @@
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/stylesheet.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
-	<!-- jQuery library -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
 	<!-- Popper JS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<!-- Font Awesome JS -->
@@ -19,7 +16,8 @@
 	<!-- Popper.JS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 	<!-- Bootstrap JS -->
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+	<!-- jQuery library -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 	<!-- Sweet Alert CDN -->
@@ -54,52 +52,52 @@
 				<a href="<?php echo base_url(); ?>UserManagement/usrManagement" id="side-select7" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;User Management</a>
 			</div>
 		</div>
-		
+
 		<script>
-		const url = window.location.href;
-		if (url.includes("dashboard")) {
-			console.log(url);
-			let element = document.querySelector('#side-select1')
-			console.log(element);
-			element.classList.add("active");
-		}
-		if (url.includes("empManagement")) {
-			console.log(url);
-			let element = document.querySelector('#side-select2')
-			console.log(element);
-			element.classList.add("active");
-		}
-		if (url.includes("venManagement")) {
-			console.log(url);
-			let element = document.querySelector('#side-select3')
-			console.log(element);
-			element.classList.add("active");
-		}
-		if (url.includes("venPayout")) {
-			console.log(url);
-			let element = document.querySelector('#side-select4')
-			console.log(element);
-			element.classList.add("active");
-		}
-		if (url.includes("empPayout")) {
-			console.log(url);
-			let element = document.querySelector('#side-select5')
-			console.log(element);
-			element.classList.add("active");
-		}
-		if (url.includes("expManagement")) {
-			console.log(url);
-			let element = document.querySelector('#side-select6')
-			console.log(element);
-			element.classList.add("active");
-		}
-		if (url.includes("usrManagement")) {
-			console.log(url);
-			let element = document.querySelector('#side-select7')
-			console.log(element);
-			element.classList.add("active");
-		}
-	    </script>
+			const url = window.location.href;
+			if (url.includes("dashboard")) {
+				console.log(url);
+				let element = document.querySelector('#side-select1')
+				console.log(element);
+				element.classList.add("active");
+			}
+			if (url.includes("empManagement")) {
+				console.log(url);
+				let element = document.querySelector('#side-select2')
+				console.log(element);
+				element.classList.add("active");
+			}
+			if (url.includes("venManagement")) {
+				console.log(url);
+				let element = document.querySelector('#side-select3')
+				console.log(element);
+				element.classList.add("active");
+			}
+			if (url.includes("venPayout")) {
+				console.log(url);
+				let element = document.querySelector('#side-select4')
+				console.log(element);
+				element.classList.add("active");
+			}
+			if (url.includes("empPayout")) {
+				console.log(url);
+				let element = document.querySelector('#side-select5')
+				console.log(element);
+				element.classList.add("active");
+			}
+			if (url.includes("expManagement")) {
+				console.log(url);
+				let element = document.querySelector('#side-select6')
+				console.log(element);
+				element.classList.add("active");
+			}
+			if (url.includes("usrManagement")) {
+				console.log(url);
+				let element = document.querySelector('#side-select7')
+				console.log(element);
+				element.classList.add("active");
+			}
+		</script>
 
 
 </body>
