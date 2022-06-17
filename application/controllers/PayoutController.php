@@ -21,6 +21,7 @@ class PayoutController extends CI_Controller
         $result = $this->pout->curlPayoutReq($data);
 
         if (!empty($result)) {
+            $this->emp->updateStatus($this->sec->encryptor('d', $id));
             echo json_encode($result);
         } else {
             echo "Some Error Occured";
@@ -37,7 +38,8 @@ class PayoutController extends CI_Controller
         // $this->db->join('t_','','inner');
     }
 
-    public function payOutVen($id) {
+    public function payOutVen($id)
+    {
         // just for id debugging...
         // echo $this->sec->encryptor('d', $id);
         $pay = $this->bank->getBankDetailsVen($this->sec->encryptor('d', $id));
@@ -62,5 +64,4 @@ class PayoutController extends CI_Controller
             echo "Some Error Occured";
         }
     }
-
 }
