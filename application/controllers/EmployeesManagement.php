@@ -257,11 +257,11 @@ class EmployeesManagement extends CI_Controller
         $output = "";
         foreach ($data['empPay'] as $emps) {
             if ($emps->c_paymentmode == "manual" && strtolower($emps->c_status) == "unpaid") {
-                $action = '<img class="payout" id="' . $this->sec->encryptor('e', $emps->c_id) . '" src="' . base_url() . 'assets/icons/cash-stack.svg" width="60%" height="60%" alt="pay-now" data-bs-toggle="tooltip" title="Pay-Now">';
+                $action = '<button type="button" class="btn btn-x mr-5 payout" id="' . $this->sec->encryptor('e', $emps->c_id) . '" > Pay now </button>';
             } else if ($emps->c_paymentmode == "schedule" && strtolower($emps->c_status) == "unpaid") {
-                $action = '<img  src="' . base_url() . 'assets/icons/calendar-check.svg" width="60%" height="60%">';
+                $action = '<button type="button" class="btn btn-outline-warning" disabled> Scheduled </button>';
             } else if (strtolower($emps->c_status) == "paid") {
-                $action = '<img src="' . base_url() . 'assets/icons/check2-circle.svg" width="60%" height="60%">';
+                $action = '<button type="button" class="btn btn-outline-success" disabled> Payment Done </button>';
             }
 
             if (!empty($emps->c_scheduleddate)) {
