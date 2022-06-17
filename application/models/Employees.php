@@ -78,4 +78,14 @@ class Employees extends CI_Model
             return $emps->result();
         }
     }
+
+    public function updateStatus($id)
+    {
+        $this->db->where('c_id', $id);
+        $arr = array(
+            'c_status' => "paid",
+            'modified_at' => date("Y-m-d H:i:s", time()),
+        );
+        $this->db->update('t_emppayout', $arr);
+    }
 }
