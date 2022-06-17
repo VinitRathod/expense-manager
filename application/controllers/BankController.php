@@ -9,7 +9,7 @@ class BankController extends CI_Controller
         for($i = 0; $i<count($id)-1; $i++) {
             // echo $id[$i];
             $bDetails = $this->bank->getSingleBankDetail($id[$i]);
-            print_r($bDetails);
+            // print_r($bDetails);
             $output .= "<tr>
                     <td>".$bDetails->c_bankname."</td>
                     <td>".$bDetails->c_ifsc."</td>
