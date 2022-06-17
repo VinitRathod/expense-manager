@@ -5,6 +5,7 @@
 	<title></title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/stylesheet.css">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/spinner.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
 	<!-- jQuery library -->
@@ -24,8 +25,6 @@
 	<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="<?php echo base_url(); ?>assets/sidebar.js"></script>
-
-
 
 
 </head>
@@ -56,45 +55,45 @@
 		<script>
 			const url = window.location.href;
 			if (url.includes("dashboard")) {
-				console.log(url);
+				// console.log(url);
 				let element = document.querySelector('#side-select1')
-				console.log(element);
+				// console.log(element);
 				element.classList.add("active");
 			}
 			if (url.includes("empManagement")) {
-				console.log(url);
+				// console.log(url);
 				let element = document.querySelector('#side-select2')
-				console.log(element);
+				// console.log(element);
 				element.classList.add("active");
 			}
 			if (url.includes("venManagement")) {
-				console.log(url);
+				// console.log(url);
 				let element = document.querySelector('#side-select3')
-				console.log(element);
+				// console.log(element);
 				element.classList.add("active");
 			}
 			if (url.includes("venPayout")) {
-				console.log(url);
+				// console.log(url);
 				let element = document.querySelector('#side-select4')
-				console.log(element);
+				// console.log(element);
 				element.classList.add("active");
 			}
 			if (url.includes("empPayout")) {
-				console.log(url);
+				// console.log(url);
 				let element = document.querySelector('#side-select5')
-				console.log(element);
+				// console.log(element);
 				element.classList.add("active");
 			}
 			if (url.includes("expManagement")) {
-				console.log(url);
+				// console.log(url);
 				let element = document.querySelector('#side-select6')
-				console.log(element);
+				// console.log(element);
 				element.classList.add("active");
 			}
 			if (url.includes("usrManagement")) {
-				console.log(url);
+				// console.log(url);
 				let element = document.querySelector('#side-select7')
-				console.log(element);
+				// console.log(element);
 				element.classList.add("active");
 			}
 		</script>
