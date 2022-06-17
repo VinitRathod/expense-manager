@@ -106,7 +106,9 @@ class VendorPayout extends CI_Controller
     public function getAllPayouts()
     {
         $allPayouts = $this->venPay->getAll();
+        // echo "<pre>";
         // print_r($allPayouts);
+        // echo "</pre>";
         $action = "";
         $date = "";
         $output = "";

@@ -285,6 +285,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			success: function(data) {
 				// alert(data);
 				console.log(data);
+				loadVenPayouts();
 			},
 			beforeSend: function(ex) {
 				$("#tblBlur").css("filter", "blur(4px)");

@@ -57,8 +57,10 @@ class PayoutController extends CI_Controller
 
         if (!empty($result)) {
             echo json_encode($result);
+            $this->venPay->updateStatus($this->sec->encryptor('d', $id));
         } else {
             echo "Some Error Occured";
         }
     }
+
 }
