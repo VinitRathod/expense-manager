@@ -77,7 +77,9 @@ class VendorPayout extends CI_Controller
                     'c_document' => $new_doc_name,
                     'c_status' => "unpaid",
                     'c_tags' => $this->input->post("Tags"),
-                    'c_paymentmode' => $this->input->post("pay_mode")
+                    'c_paymentmode' => $this->input->post("pay_mode"),
+                    'created_at' => date("Y-m-d  H:i:s", time()),
+                    'modified_at' => date("Y-m-d  H:i:s", time()),
                 );
             }
         } else {
@@ -91,7 +93,9 @@ class VendorPayout extends CI_Controller
                 "c_reference" => $this->input->post("references"),
                 'c_status' => "unpaid",
                 'c_tags' => $this->input->post("Tags"),
-                'c_paymentmode' => $this->input->post("pay_mode")
+                'c_paymentmode' => $this->input->post("pay_mode"),
+                'created_at' => date("Y-m-d  H:i:s", time()),
+                'modified_at' => date("Y-m-d  H:i:s", time()),
             );
         }
         if ($this->ven->insertVenPay($data)) {

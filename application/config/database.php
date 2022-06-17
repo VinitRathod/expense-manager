@@ -73,6 +73,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+define('MOD', 0);
+
+// MOD - 0 Development
+// MOD - 1 Production
+
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
