@@ -135,14 +135,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	<div class="card" style="width: 95%;">
 		<div class="card-body">
-			<div class="" id="pbar">
-				<div id="bar" class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" ></div>
+			<div class="spinnerDIV" style="display: none;">
+				<svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+					<circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+				</svg>
 			</div>
-			<div class="table-responsive-md mt-4" style="overflow-x:auto;">
+			<div class="table-responsive-md mt-4" style="overflow-x:auto; z-index: -1;" id="tblBlur">
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">Vendor ID</th>
 							<th scope="col">Vendor Name</th>
 							<th scope="col">Amount</th>
 							<th scope="col">Payment Processing Date</th>
@@ -273,6 +274,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	}
 	$(document).on('click', '.payout', function(ex) {
+		console.log("clicked");
 		let pbar;
 		// alert("Payout Clicked")
 		// console.log($(this).attr("id"));
@@ -281,20 +283,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			method: "POST",
 			// data: $(this).val(),
 			success: function(data) {
-				alert(data);
-				window.clearInterval(pbar);
-				$("#bar").css("width","0%");
+				// alert(data);
+				console.log(data);
 			},
 			beforeSend: function(ex) {
-				$("#pbar").toggleClass("progress");
-				let progress = 0;
-				pbar = window.setInterval(()=>{
-					$("#bar").css("width",progress+"%");
-					progress += 10;
-				},50);
+				$("#tblBlur").css("filter", "blur(4px)");
+				$(".spinnerDIV").css("display","block");
 			},
 			complete: function(ex) {
-				$("#pbar").toggleClass("progress progress-bar-animated");
+				$("#tblBlur").css("filter", "blur(0px)");
+				$(".spinnerDIV").css("display","none");
 			},
 		});
 	});
