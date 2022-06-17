@@ -121,7 +121,6 @@ class VendorPayout extends CI_Controller
                 $date = "Payment Is Manual";
             }
             $output .= '<tr>
-                            <td>' . $pay->c_venid . '</td>
                             <td>' . $pay->c_fname . ' ' . $pay->c_lname . '</td>
                             <td>' . $pay->c_amount . '</td>
                             <td>' . $date . '</td>
