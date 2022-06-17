@@ -282,14 +282,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			// data: $(this).val(),
 			success: function(data) {
 				alert(data);
-				alert(status);
 				window.clearInterval(pbar);
-				$("#bar").css("width","100%");
+				$("#bar").css("width","0%");
 			},
 			beforeSend: function(ex) {
 				$("#pbar").toggleClass("progress");
 				let progress = 0;
-				let pbar = window.setInterval(()=>{
+				pbar = window.setInterval(()=>{
 					$("#bar").css("width",progress+"%");
 					progress += 10;
 				},50);
