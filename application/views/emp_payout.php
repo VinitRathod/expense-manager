@@ -150,7 +150,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	<!-- table start  -->
 	<div class="card" style="width: 95%;">
 		<div class="card-body">
-			<div class="table-responsive mt-4" style="overflow-x:auto;">
+			<div class="spinnerDIV" style="display: none;">
+				<svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+					<circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+				</svg>
+			</div>
+			<div class="table-responsive mt-4" style="overflow-x:auto;" id="tblBlur">
 				<table class="table">
 					<thead>
 						<tr>
@@ -340,8 +345,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			method: "POST",
 			// data: $(this).val(),
 			success: function(data) {
-				alert(data)
-			}
+				// alert(data)
+				loadEmpPay();
+			},
+			beforeSend: function(ex) {
+				$("#tblBlur").css("filter", "blur(4px)");
+				$(".spinnerDIV").css("display", "block");
+			},
+			complete: function(ex) {
+				$("#tblBlur").css("filter", "blur(0px)");
+				$(".spinnerDIV").css("display", "none");
+			},
 		});
 	});
 </script>
