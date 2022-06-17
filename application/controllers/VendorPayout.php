@@ -112,11 +112,12 @@ class VendorPayout extends CI_Controller
         $output = "";
         foreach ($allPayouts as $pay) {
             if ($pay->c_paymentmode == "manual" && $pay->c_status == "unpaid") {
-                $action = '<a href="#"><img class="payout" id="' . $this->sec->encryptor('e', $pay->c_id) . '" src="' . base_url() . 'assets/icons/cash-stack.svg" width="60%" height="60%" alt="pay-now" data-bs-toggle="tooltip" title="Pay-Now"></a>';
+                $action = '<button type="button" class="btn btn-x mr-5 payout" id="' . $this->sec->encryptor('e', $pay->c_id) . '" > Pay now </button>';
+                // $action = '<a href="#"><img class="payout" id="' . $this->sec->encryptor('e', $pay->c_id) . '" src="' . base_url() . 'assets/icons/cash-stack.svg" width="60%" height="60%" alt="pay-now" data-bs-toggle="tooltip" title="Pay-Now"></a>';
             } else if ($pay->c_paymentmode == "schedule" && $pay->c_status == "unpaid") {
-                $action = '<img src="' . base_url() . 'assets/icons/calendar-check.svg" width="60%" height="60%">';
+                $action = '<button type="button" class="btn btn-outline-warning" disabled> Scheduled </button>';
             } else if ($pay->c_status == "paid") {
-                $action = '<img src="' . base_url() . 'assets/icons/check2-circle.svg" width="60%" height="60%">';
+                $action = '<button type="button" class="btn btn-outline-success" disabled> Payment Done </button>';
             }
 
             if (!empty($pay->c_scheduledDate)) {

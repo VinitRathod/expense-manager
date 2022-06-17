@@ -574,7 +574,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			method: "POST",
 			url: "<?php echo base_url(); ?>VendorManagement/fetchVen/" + id,
 			success: function(response) {
-				alert(response);
+				console.log(JSON.parse(response));
+				let data = JSON.parse(response);
+				let banks = data.c_banks.split(",");
+				console.log(banks);
 			}
 		});
 	}
