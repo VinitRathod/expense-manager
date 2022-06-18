@@ -73,4 +73,12 @@ class Bank extends CI_Model
 
         return $this->db->get()->row();
     }
+
+    public function getJSON($banks) {
+        $b_details = array();
+        foreach($banks as $bid) {
+            array_push($b_details,$this->getSingleBankDetail($bid));
+        }
+        return $b_details;
+    }
 }

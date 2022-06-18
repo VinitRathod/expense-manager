@@ -197,8 +197,32 @@ class VendorManagement extends CI_Controller
 	public function fetchVen($id)
 	{
 		$result = $this->ven->getSingleVen($this->sec->encryptor('d', $id));
+		$result->c_id = $this->sec->encryptor('e',$result->c_id);
 
 		$output = json_encode($result);
 		echo $output;
+	}
+
+	public function editVendor()
+	{
+		$id = $this->sec->encryptor('d',$this->input->post('ven'));
+		$name = explode(" ",$this->input->post('c_name'));
+		$data = array(
+			'c_fname' => $name[0],
+			'c_lname' => $name[1],
+			'c_nickname' => $this->input->post('c_nickname'),
+			'c_address' => $this->input->post('c_address'),
+			'c_gstno' => $this->input->post('c_gstno'),
+			'c_panno' => $this->input->post('c_panno'),
+			'c_email' => $this->input->post('c_email'),
+			'c_designation' => $this->input->post('c_designation'),
+			'c_tags' => $this->input->post('c_tags')
+		);
+		$updateBasicResult = $this->ven->updateBasic($id,$data);
+		if($updateBasicResult) {
+			echo "SUCCESS";
+		} else {
+			echo "ERROR";
+		}
 	}
 }
