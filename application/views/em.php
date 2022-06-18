@@ -253,7 +253,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function empDelete(id) {
 
-		alert(id);
+		// alert(id);
 		swal({
 				title: "Are you sure?",
 				text: "Once deleted, you will not be able to recover this Employee!",
