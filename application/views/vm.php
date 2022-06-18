@@ -170,114 +170,54 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 					<div class="modal-body">
 
-						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="editVen">
+						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="editVenBasic">
+							<input type="text" hidden id="ven" name="ven">
 							<div class="form-group">
-								<label for="vendorname" class="font-weight-regular">
-									Vendor Name
-								</label>
-								<input type="text" name="c_name" pattern="[a-zA-Z]{3,} [a-zA-Z]{3,}" class="form-control" id="c_name" autocomplete="off" required placeholder="ex. John Doe" />
+								<label for="vendorname" class="font-weight-regular"> Vendor Name </label>
+								<input type="text" name="c_name" pattern="[a-zA-Z]{3,} [a-zA-Z]{3,}" class="form-control" id="edit_c_name" autocomplete="off" required placeholder="ex. John Doe" />
 								<span id="VName" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
-								<label for="nickname" class="font-weight-regular">
-									Nick Name
-								</label>
-								<input type="text" name="c_nickname" pattern="[a-z A-Z]{3,}" class="form-control" id="c_nickname" autocomplete="off" required placeholder="ex. Johhny" />
+								<label for="nickname" class="font-weight-regular"> Nick Name </label>
+								<input type="text" name="c_nickname" pattern="[a-z A-Z]{3,}" class="form-control" id="edit_c_nickname" autocomplete="off" required placeholder="ex. Johhny" />
 								<span id="NName" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="Address" class="font-weight-regular"> Address </label>
 								<br />
-								<textarea rows="4" cols="50" name="c_address" form="usrform" required id="c_address"></textarea>
+								<textarea rows="4" cols="50" name="c_address" form="usrform" required id="edit_c_address"></textarea>
 							</div>
 
 							<div class="form-group">
 								<label for="gst" class="font-weight-regular"> GST </label>
-								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" minlength="16" class="form-control" id="c_gstno" autocomplete="off" required />
+								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" minlength="16" class="form-control" id="edit_c_gstno" autocomplete="off" required />
 							</div>
+
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<input type="text" name="c_panno" class="form-control" id="c_panno" autocomplete="off" required />
+								<input type="text" name="c_panno" class="form-control" id="edit_c_panno" autocomplete="off" required />
 							</div>
+
 							<div class="form-group">
 								<label class="font-weight-regular"> Email </label>
-								<input type="email" name="c_email" class="form-control" id="c_email" autocomplete="off" />
+								<input type="email" name="c_email" class="form-control" id="edit_c_email" autocomplete="off" />
 								<span id="emailids" class="text-danger font-weight-regular"> </span>
 							</div>
-							<div class="form-group">
-								<label class="font-weight-regular"> Mobile Number </label>
-								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="c_contacts[]" class="form-control" id="c_contacts" required />
-								<span id="mobileno" class="text-danger font-weight-regular"> </span>
-							</div>
-							<div class="form-group">
+
+							<!-- <div class="form-group">
 								<label for="document" class="font-weight-regular"> Document </label>
-								<input type="file" name="c_document" class="form-control" id="c_document" accept="application/pdf" />
-							</div>
+								<input type="file" name="c_document" class="form-control" id="edit_c_document" accept="application/pdf" />
+							</div> -->
 
 							<div class="form-group">
-								<label for="BankDetail" class="font-weight-regular"> Bank Details </label>
-
-								<div class="table-responsive">
-									<table class="table table-bordered" id="dynamic_fieldx">
-										<tr>
-											<td>Bank Name : <input type="text" name="c_bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td>
-										</tr>
-										<tr>
-											<td>
-												IFSC Code : <input type="text" name="c_ifsc[]" pattern = "^[A-Z]{4}0[A-Z0-9]{6}$" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td>
-										</tr>
-										<tr>
-											<td>Account Number : <input type="text" name="c_accountno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td>
-										</tr>
-										<tr>
-											<td>Account Status :<input type="text" name="c_status[]" placeholder="Enter your Account Status" class="form-control name_list" required="" /></td>
-										</tr>
-
-									</table>
-									<table>
-										<tr>
-											<td><button type="button" name="add" id="addx" class="btn btn-success">Add More Bank </button></td>
-										</tr>
-									</table>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="ContactDetail" class="font-weight-regular"> Contact Details </label>
-
-								<div class="table-responsive">
-									<table class="table table-bordered" id="dynamic_fieldy">
-										<!-- <tr>
-												<td>Name : <input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" required="" /></td>
-											</tr> -->
-										<tr>
-											<td>
-												Mobile Number : <input type="number" name="c_contacts[]" placeholder="Enter your mobile number" class="form-control name_list" required="" /></td>
-										</tr>
-										<!-- <tr>
-												<td>Email: <input type="email" name="email[]" placeholder="Enter your email" class="form-control name_list" required="" /></td>
-											</tr> -->
-									</table>
-									<table>
-										<tr>
-											<td><button type="button" name="add1" id="addy" class="btn btn-success">Add Another Mobile Number </button></td>
-										</tr>
-									</table>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="Designation" class="font-weight-regular">
-									Designation
-								</label>
-								<input type="text" name="c_designation" pattern="[a-z A-Z]{3,}" class="form-control" id="c_designation" autocomplete="off" required />
+								<label for="Designation" class="font-weight-regular"> Designation </label>
+								<input type="text" name="c_designation" pattern="[a-z A-Z]{3,}" class="form-control" id="edit_c_designation" autocomplete="off" required />
 
 							</div>
 							<div class="form-group">
-								<label for="Tag" class="font-weight-regular">
-									Tags
-								</label>
-								<input type="text" name="c_tags" pattern="[a-z A-Z]{1,}" class="form-control" id="c_tags" autocomplete="off" required />
+								<label for="Tag" class="font-weight-regular"> Tags </label>
+								<input type="text" name="c_tags" pattern="[a-z A-Z]{1,}" class="form-control" id="edit_c_tags" autocomplete="off" required />
 								<br />
-
 							</div>
 
 							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
@@ -285,8 +225,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						</form>
 
 						<br /><br />
-
-
 					</div>
 
 				</div>
@@ -295,7 +233,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<!-- Edit Modal Ends -->
 		<div class="card" style="width: 95%;">
 			<div class="card-body">
-				<div class="table-responsive-md mt-4 mr-2"style="overflow-x:auto;">
+				<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
 					<table class="table" style="overflow-x:auto;">
 						<thead>
 							<tr>
@@ -428,18 +366,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	}
 </script>
 <script type="text/javascript">
+	// global variables...
+	// to manage extra rows for bank details...
+	// to manage extra rows for add vendor ...
+	var i = 1;
+	// to manage extra rows for edit vendor...
+	var j = 1;
+
+	// to manage extra rows for contact details...
+	// to manage extra rows for add vendor ...
+	var k = 10;
+	// to manage extra rows for edit vendor ...
+	var l = 10;
+
 	$(document).ready(function() {
 		var postURL = "/addmore.php";
-		var i = 1;
-		var j = 1;
 		//   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+		// for add vendor modal...
 		$('#add').click(function() {
 			i++;
 			$('#dynamic_field').append('<tr id="row1' + i + '" class="dynamic-added"> <td><b>Enter Your Another Bank  Account  Details </b> </td></tr>',
-				'<tr id="row2' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row3' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row4' + i + '" class="dynamic-added"><td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row5' + i + '" class="dynamic-added"><td>Account Status : <input type="text" name="AccStatus[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row2' + i + '" class="dynamic-added"><td>Bank Name : <input type="text" name="c_bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row3' + i + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="c_ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row4' + i + '" class="dynamic-added"><td>Account Number : <input type="text" name="c_accountno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row5' + i + '" class="dynamic-added"><td>Account Status : <input type="text" name="c_status[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
 				'<tr id="row6' + i + '" class="dynamic-added"><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">Remove</button></td></tr>',
 			);
 		});
@@ -447,16 +397,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$('#addx').click(function() {
 			i++;
 			$('#dynamic_fieldx').append('<tr id="row1' + j + '" class="dynamic-added"> <td><b>Enter Your Another Bank  Account  Details </b> </td></tr>',
-				'<tr id="row2' + j + '" class="dynamic-added"><td>Bank Name : <input type="text" name="bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row3' + j + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="ifscCode[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row4' + j + '" class="dynamic-added"><td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row5' + j + '" class="dynamic-added"><td>Account Status : <input type="text" name="AccStatus[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row2' + j + '" class="dynamic-added"><td>Bank Name : <input type="text" name="c_bankname[]" placeholder="Enter your Bank Name" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row3' + j + '" class="dynamic-added"><td> IFSC Code : <input type="text" name="c_ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row4' + j + '" class="dynamic-added"><td>Account Number : <input type="text" name="c_accountno[]" placeholder="Enter your Account Number" class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row5' + j + '" class="dynamic-added"><td>Account Status : <input type="text" name="c_status[]" placeholder="Enter your Account status" class="form-control name_list" required="" /></td></tr>',
 				'<tr id="row6' + j + '" class="dynamic-added"><td><button type="button" name="remove" id="' + j + '" class="btn btn-danger btn_remove">Remove</button></td></tr>',
 			);
 		});
-
-
-
 
 		$(document).on('click', '.btn_remove', function() {
 			var button_id = $(this).attr("id");
@@ -506,37 +453,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			});
 	}
 	$(document).ready(function() {
-		var j = 10;
-		var k = 10;
-		// //   <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
+		// <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>
 		$('#add1').click(function() {
-			j++;
-			$('#dynamic_field1').append('<tr id="row11' + j + '" class="dynamic-added"> <td> <b>Enter Your Another Mobile Numbers </b></td></tr>',
-				'<tr id="row22' + j + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
-				'<tr id="row33' + j + '" class="dynamic-added"><td><button type="button" name="remove" id="' + j + '" class="btn btn-danger btn_remove">Remove</button></td></tr></tr>',
-
-			);
-		});
-
-		$('#addy').click(function() {
 			k++;
-			$('#dynamic_fieldy').append('<tr id="row11' + k + '" class="dynamic-added"> <td> <b>Enter Your Another Mobile Numbers </b></td></tr>',
-				'<tr id="row22' + k + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="mobileno[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
+			$('#dynamic_field1').append('<tr id="row11' + k + '" class="dynamic-added"> <td> <b>Enter Your Another Mobile Numbers </b></td></tr>',
+				'<tr id="row22' + k + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="c_contacts[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
 				'<tr id="row33' + k + '" class="dynamic-added"><td><button type="button" name="remove" id="' + k + '" class="btn btn-danger btn_remove">Remove</button></td></tr></tr>',
 
 			);
 		});
 
+		$('#addy').click(function() {
+			l++;
+			$('#dynamic_fieldy').append('<tr id="row11' + l + '" class="dynamic-added"> <td> <b>Enter Your Another Mobile Numbers </b></td></tr>',
+				'<tr id="row22' + l + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="c_contacts[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
+				'<tr id="row33' + l + '" class="dynamic-added"><td><button type="button" name="remove" id="' + l + '" class="btn btn-danger btn_remove">Remove</button></td></tr></tr>',
 
-
-
+			);
+		});
 
 		$(document).on('click', '.btn_remove', function() {
 			var button_id = $(this).attr("id");
 			$('#row11' + button_id + '').remove();
 			$('#row22' + button_id + '').remove();
 			$('#row33' + button_id + '').remove();
-
 
 		});
 
@@ -574,10 +514,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			method: "POST",
 			url: "<?php echo base_url(); ?>VendorManagement/fetchVen/" + id,
 			success: function(response) {
-				console.log(JSON.parse(response));
+				// just for response, and quick debugging...
+				console.log("Vendor Details :", (JSON.parse(response)));
+
 				let data = JSON.parse(response);
-				let banks = data.c_banks.split(",");
-				console.log(banks);
+
+				$("#ven").val(data.c_id);
+				$("#edit_c_name").val(data.c_fname + " " + data.c_lname);
+				$("#edit_c_nickname").val(data.c_nickname);
+				$("#edit_c_address").text(data.c_address);
+				$("#edit_c_gstno").val(data.c_gstno);
+				$("#edit_c_panno").val(data.c_panno);
+				$("#edit_c_email").val(data.c_email);
+				$("#edit_c_designation").val(data.c_designation);
+				$("#edit_c_tags").val(data.c_tags);
 			}
 		});
 	}
@@ -614,4 +564,28 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	}
 	loadVen();
+
+	$("#editVenBasic").submit(function(e){
+		e.preventDefault();
+		const form = new FormData(document.getElementById('editVenBasic'));
+		let t_area = document.getElementById('edit_c_address');
+		form.append(t_area.name,t_area.value);
+		$.ajax({
+			method: "POST",
+			processData: false,
+			contentType: false,
+			cache: false,
+			enctype: 'multipart/form-data',
+			url: `<?php echo base_url() ?>VendorManagement/editVendor`,
+			data: form,
+			success: function(response) {
+				if(response == "SUCCESS") {
+					swal("Basic Details Of Vendor Are Updates Successfully!","","success").then(()=>{
+						// call back function, after success something to be done... goes here...
+						loadVen();
+					});
+				}
+			}
+		});
+	});
 </script>

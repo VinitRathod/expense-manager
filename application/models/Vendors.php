@@ -46,4 +46,9 @@ class Vendors extends CI_Model
     public function insertVenPay($data) {
         return $this->db->insert('t_vendorpayout',$data);
     }
+
+    public function updateBasic($id,$data) {
+        $this->db->where('c_id',$id);
+        return $this->db->update('t_vendors',$data);
+    }
 }

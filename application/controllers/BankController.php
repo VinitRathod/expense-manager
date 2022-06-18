@@ -19,4 +19,10 @@ class BankController extends CI_Controller
         }
         echo $output;
     }
+
+    public function getJSONBank() {
+        $banks = explode(",",$this->input->post('banks_id'));
+        $bDetails = $this->bank->getJSON($banks);
+        echo json_encode($bDetails);
+    }
 }
