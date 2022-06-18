@@ -197,7 +197,7 @@ class VendorManagement extends CI_Controller
 	public function fetchVen($id)
 	{
 		$result = $this->ven->getSingleVen($this->sec->encryptor('d', $id));
-		$result->c_id = $this->sec->encryptor('e',$result->c_id);
+		$result->c_id = $this->sec->encryptor('e', $result->c_id);
 
 		$output = json_encode($result);
 		echo $output;
@@ -205,8 +205,8 @@ class VendorManagement extends CI_Controller
 
 	public function editVendor()
 	{
-		$id = $this->sec->encryptor('d',$this->input->post('ven'));
-		$name = explode(" ",$this->input->post('c_name'));
+		$id = $this->sec->encryptor('d', $this->input->post('ven'));
+		$name = explode(" ", $this->input->post('c_name'));
 		$data = array(
 			'c_fname' => $name[0],
 			'c_lname' => $name[1],
@@ -218,8 +218,8 @@ class VendorManagement extends CI_Controller
 			'c_designation' => $this->input->post('c_designation'),
 			'c_tags' => $this->input->post('c_tags')
 		);
-		$updateBasicResult = $this->ven->updateBasic($id,$data);
-		if($updateBasicResult) {
+		$updateBasicResult = $this->ven->updateBasic($id, $data);
+		if ($updateBasicResult) {
 			echo "SUCCESS";
 		} else {
 			echo "ERROR";
