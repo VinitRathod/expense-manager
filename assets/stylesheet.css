@@ -63,8 +63,9 @@ body {
 
 
 .w3-bar-item {
-    font-size: 1.13em !important;
+    font-size: 13px !important;
     background-color: #398AB9;
+    padding-right: 0 !important;
     color: white !important;
 }
 
@@ -72,9 +73,9 @@ body {
     color: white !important;
 }
 
-.w3-button {
-    background-color: rgb(20, 21, 49) !important;
+.w3-button-x{
     color: white !important;
+    padding-right: 0;
     font-style: none;
 }
 
@@ -92,7 +93,7 @@ body {
 .sidebar {
     background-color: #398AB9;
     height: 100vh !important;
-    width: 22%;
+    width: 17%;
 }
 
 #sidebar {
@@ -149,6 +150,12 @@ body {
 #downloadI:hover {
     stroke: teal;
     color: teal;
+}
+
+.error{
+  margin-bottom: 3px;
+  font-size: 12px;
+  color: red;
 }
 
 /* ...  */

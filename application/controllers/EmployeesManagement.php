@@ -32,9 +32,9 @@ class EmployeesManagement extends CI_Controller
 				<td>' . $emps->c_fname . ' ' . $emps->c_lname . '</td>
 				<td>' . $emps->c_panno . '</td>
 				<td>' . $emps->c_contactno . '</td>
-                <td><a href="#" class="btn btn-x" data-toggle="modal" bank_details" onclick="bankDetails(' . $emps->c_banks . ')" data-target="#bank">View Bank Details</a>
+                <td><a href="#" class="btn btn-x" data-toggle="modal" bank_details" onclick="bankDetails(`' . $this->sec->encryptor('e', $emps->c_banks)  . '`)" data-target="#bank">View Bank Details</a>
                             
-				<td><a href="#" onclick="empEdit(' . $emps->c_id . ')" data="modal" data-target="editEMPModal" class="btn btn-success">Edit</a>
+				<td><a href="#" onclick="empEdit(`' . $this->sec->encryptor('e', $emps->c_id) . '`)" data-toggle="modal" data-target="#editEMPModal" class="btn btn-success">Edit</a>
 					<a href="#" class="btn btn-danger" onclick="empDelete(`' . $this->sec->encryptor('e', $emps->c_id) . '`)">Delete</a>
 				</td>
 			</tr>';
@@ -125,8 +125,31 @@ class EmployeesManagement extends CI_Controller
 
     public function edit_Emp($id)
     {
-        $data['emp_details'] = $this->emp->getSingleEmp($id);
-        echo json_encode($data['emp_details']);
+        $res = $this->emp->getSingleEmp($this->sec->encryptor('d', $id));
+        $res->c_id = $this->sec->encryptor('e', $res->c_id);
+        $res->c_banks = $this->sec->encryptor('e', $res->c_banks);
+        echo json_encode($res);
+    }
+
+    public function editEmpBasic()
+    {
+        $id =  $this->sec->encryptor('d', $this->input->post('EmpID'));
+        $name = explode(" ", $this->input->post('employeename'));
+        $data = array(
+            'c_empid' => $this->input->post('empid'),
+            'c_fname' => $name[0],
+            'c_lname' => $name[1],
+            'c_panno' => $this->input->post('pan'),
+            'c_contactno' => $this->input->post('mobile'),
+            'c_email' => $this->input->post('c_email'),
+        );
+        $updateBasicResult = $this->emp->updateBasic($id, $data);
+        if ($updateBasicResult) {
+            echo "SUCCESS";
+        } else {
+            echo "ERROR";
+        }
+        // echo json_encode($this->input->post('employeename'));
     }
 
     public function empDelete($id)

@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 
 
-<div id="maincontent" class="contentblock mr-4" style="width:75vw">
+<div id="maincontent" class="contentblock mr-4" style="width:80vw">
 
 	<div id="top-header" style="display:flex; justify-content:space-between">
 		<h2 class="text-blue text-left font-weight-bold" style="font-size: 20px">
@@ -50,13 +50,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<input type="text" name="pan" class="form-control" id="pan" autocomplete="off" required />
+								<div id="lblPANCard" class="error"></div>
+								<input type="text" name="pan" class="form-control" onkeyup="validationPan()" id="pan" autocomplete="off" required />
 							</div>
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Mobile Number </label>
-								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="mobile" class="form-control" id="mobileNumber" required />
-								<span id="mobileno" name="mobileno" class="text-danger font-weight-regular"> </span>
+								<div id="mobileno" name="mobileno" class="error"> </div>
+								<input type="text" name="mobile" class="form-control" onkeyup="validationmob()" placeholder="+91-9999999999" id="mobileNumber" required />
+
 							</div>
 
 							<div class="form-group">
@@ -78,7 +80,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 												IFSC Code : <input type="text" name="ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list"></td>
 										</tr>
 										<tr>
-											<td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list"></td>
+											<td>Account Number : <div id="accno" name="accno" class="error"> </div> <input type="text" id="accnumber" name="accno[]" placeholder="Enter your Account Number" onkeyup="validationaccno()" class="form-control name_list"></td>
 										</tr>
 										<tr>
 											<td>Account Status :<input type="text" name="AccStatus[]" placeholder="Enter your Account Status" class="form-control name_list"></td>
@@ -96,7 +98,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
-							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
+							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" onclick="resetForm()" autocomplete="off" />
 
 						</form>
 
@@ -115,56 +117,65 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 	</div>
-	<div class="container" id="editExpModelContainer">
-		<div class="modal fade" id="editEXPModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Edit Expense</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-
-					<div class="modal-body">
-
-						<form onsubmit="return validation()" id="edit_emp" class="bg-light" method="post">
-							<div class="Expid">
-								<input type="text" name="EmpID" id="empId" hidden>
-							</div>
-							<div class="form-group">
-								<label for="employeename" class="font-weight-regular">
-									Employee Name
-								</label>
-								<input type="text" name="employeename" pattern="[a-z A-Z]{3,}" class="form-control" id="editEmpName" autocomplete="off" required />
-								<span id="EName" name="EName" class="text-danger font-weight-regular"> </span>
-							</div>
-
-							<div class="form-group">
-								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<input type="text" name="pan" class="form-control" id="editPan" autocomplete="off" required />
-							</div>
-
-							<div class="form-group">
-								<label class="font-weight-regular"> Mobile Number </label>
-								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="mobile" class="form-control" id="editmobileNumber" required />
-								<span id="mobileno" name="mobileno" class="text-danger font-weight-regular"> </span>
-							</div>
-
-							<div class="form-group">
-								<label class="font-weight-regular"> Email </label>
-								<input type="email" name="c_email" class="form-control" id="editemail" autocomplete="off" />
-								<span id="emailids" class="text-danger font-weight-regular"> </span>
-							</div>
-							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" data-tw-dismiss="modal" />
-							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
-						</form>
-					</div>
-
+	<!-- Edit Modal Start -->
+	<div class="modal fade" id="editEMPModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Edit Employee Details</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
+
+				<div class="modal-body">
+
+						
+					<form onsubmit="return validation()" class="bg-light" id="editEmpBasic">
+						<div class="Empid">
+							<input type="hidden" name="EmpID" id="editempId">
+						</div>
+						<div class="form-group">
+							<label class="font-weight-regular"> Employee ID </label>
+							<input type="text" name="empid" class="form-control" id="edit_empid" autocomplete="off" required />
+							<span id="employeeid" class="text-danger font-weight-regular">
+							</span>
+						</div>
+						<div class="form-group">
+							<label for="employeename" class="font-weight-regular">
+								Employee Name
+							</label>
+							<input type="text" name="employeename" pattern="[a-z A-Z]{3,}" class="form-control" id="editEmpName" autocomplete="off" required />
+							<span id="EName" name="EName" class="text-danger font-weight-regular"> </span>
+						</div>
+
+						<div class="form-group">
+							<label for="pan" class="font-weight-regular"> PAN Number </label>
+							<input type="text" name="pan" class="form-control" id="editPan" autocomplete="off" required />
+						</div>
+
+						<div class="form-group">
+							<label class="font-weight-regular"> Mobile Number </label>
+							<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="mobile" class="form-control" id="edit_mobileno" required />
+							<span id="mobileno" name="mobileno" class="text-danger font-weight-regular"> </span>
+						</div>
+
+						<div class="form-group">
+							<label class="font-weight-regular"> Email </label>
+							<input type="email" name="c_email" class="form-control" id="edit_email" autocomplete="off" />
+							<span id="emailids" class="text-danger font-weight-regular"> </span>
+						</div>
+						<input type="submit" name="submit" value="Edit Details" class="btn btn-primary" autocomplete="off" data-tw-dismiss="modal" />
+						<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
+					</form>
+
+					<br /><br />
+				</div>
+
 			</div>
 		</div>
 	</div>
+	<!-- Edit Modal Ends -->
 	<!-- BEGIN: Main Table  -->
 	<div class="card" style="width: 95%;">
 		<div class="card-body">
@@ -228,6 +239,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 </div>
 <script>
+	function resetForm() {
+		var lblPANCard = document.getElementById("lblPANCard")
+		lblPANCard.innerHTML = "";
+		var mobileno = document.getElementById("mobileno")
+		mobileno.innerHTML = "";
+
+	}
+
 	function bankDetails(...id) {
 		let url = "";
 		id.forEach((id) => {
@@ -245,7 +264,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function empDelete(id) {
 
-		alert(id);
+		// alert(id);
 		swal({
 				title: "Are you sure?",
 				text: "Once deleted, you will not be able to recover this Employee!",
@@ -263,7 +282,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								swal("Poof! Employee has been deleted!", {
 									icon: "success",
 								});
-								loadExp();
+								loadEmp();
 							}
 						}
 					});
@@ -318,17 +337,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: "<?php echo base_url() ?>EmployeesManagement/addEmp",
 			data: form,
 			success: function() {
-				// loadExp();
+				// loadEmp();
 
 				console.log("data added successfully")
-				loadExp();
+				loadEmp();
 				// document.g	etElementById("add_emp").reset();
 
 			}
 		});
 	});
 
-	function loadExp() {
+	function loadEmp() {
 		$.ajax({
 			url: "<?php echo base_url() ?>EmployeesManagement/index",
 			method: "POST",
@@ -338,7 +357,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			}
 		});
 	}
-	loadExp();
+	loadEmp();
 
 	function empEdit(id) {
 		// alert(id);
@@ -347,14 +366,88 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			method: "POST",
 			success: function(response) {
 				// console.log(JSON.parse(response));
-				let data = JSON.parse(response);
-				$("#editEmpName").val(data.c_fname, data.lname);
+				var data = JSON.parse(response);
+				// let data = JSON.parse(response);
+				$("#edit_empid").val(data.c_empid);
+				$("#editEmpName").val(data.c_fname + " " + data.c_lname);
 				$("#editPan").val(data.c_panno);
-				$("#editmobileNumber").val(data.c_phone);
-				$("#editemail").val(data.c_email);
-				$('#empId').val(data.c_id);
+				$("#edit_mobileno").val(data.c_contactno);
+				$("#edit_email").val(data.c_email);
+				$('#editempId').val(data.c_id);
 				// $("#EditexpDesc").html(data.c_description);
 			}
 		});
 	}
+
+	function validationmob() {
+
+		var mobileNumber = document.getElementById("mobileNumber");
+		var mobileno = document.getElementById("mobileno");
+		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		if (regexm.test(mobileNumber.value)) {
+			mobileno.innerHTML = "";
+			return true;
+		} else {
+			mobileno.innerHTML = "*Invalid Mobile Number";
+			return false;
+		}
+
+
+	}
+
+	function validationPan() {
+
+		var txtPANCard = document.getElementById("pan");
+		var lblPANCard = document.getElementById("lblPANCard")
+		var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+		if (regex.test(txtPANCard.value.toUpperCase())) {
+			lblPANCard.innerHTML = "";
+			return true;
+		} else {
+			lblPANCard.innerHTML = "*Invalid PAN Card Number";
+			return false;
+		}
+
+	}
+
+	function validationaccno() {
+
+		var mobileNumber = document.getElementById("mobileNumber");
+		var mobileno = document.getElementById("mobileno");
+		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		if (regexm.test(mobileNumber.value)) {
+			mobileno.innerHTML = "";
+			return true;
+		} else {
+			mobileno.innerHTML = "*Invalid Mobile Number";
+			return false;
+		}
+
+
+	}
+
+	$("#editEmpBasic").submit(function(e) {
+		e.preventDefault();
+		const form = new FormData(document.getElementById("editEmpBasic"));
+		// console.log(...form);
+		$.ajax({
+			url: "<?php echo base_url(); ?>EmployeesManagement/editEmpBasic",
+			method: "POST",
+			processData: false,
+			contentType: false,
+			cache: false,
+			data: form,
+			enctype: 'multipart/form-data',
+			success: function(response) {
+				// console.log(response);
+				if (response == "SUCCESS") {
+					swal("Basic Details Of Employee Are Updates Successfully!", "", "success").then(() => {
+						// call back function, after success something to be done... goes here...
+						loadEmp();
+					});
+				}
+			}
+
+		});
+	})
 </script>

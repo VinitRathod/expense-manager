@@ -44,7 +44,7 @@
 
 	<!-- ... -->
 	<div style="display:flex;">
-		<div class="sidebar pt-3" style="padding-left:20px;">
+		<div class="sidebar pt-3" style="padding-left:15px;">
 			<div id="sidebar" class="w3-bar-block">
 				<a href="<?php echo base_url(); ?>" id="side-select1" class="w3-bar-item w3-button-x"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;&nbsp;Dashboard</a>
 				<a href="<?php echo base_url(); ?>EmployeesManagement/empManagement" id="side-select2" class="w3-bar-item w3-button-x"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;Employee Management</a>
