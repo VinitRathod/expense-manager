@@ -56,4 +56,24 @@ class Vendors extends CI_Model
         $this->db->where('c_id',$id);
         return $this->db->update('t_vendors',$data);
     }
+
+    public function checkBankNotInPayout($id) {
+        $this->db->where('c_bankid',$id);
+        $rows = $this->db->get('t_vendorpayout')->result();
+        if(empty($rows)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getBanks($id) {
+        $this->db->where('c_id',$id);
+        return $this->db->get('t_vendors')->row()->c_banks;
+    }
+
+    public function setBanks($id,$data) {
+        $this->db->where('c_id',$id);
+        $this->db->update('t_vendors',$data);
+    }
 }
