@@ -6,10 +6,11 @@ class BankController extends CI_Controller
     public function getBankDetails($ids)
     {
         $output = "";
-        $id = explode("_", $ids);
-        for ($i = 0; $i < count($id) - 1; $i++) {
+        $id = explode(",",$this->sec->encryptor('d',$ids));
+        // print_r($id);
+        for ($i = 0; $i < count($id); $i++) {
             // echo $id[$i];
-            $bDetails = $this->bank->getSingleBankDetail($this->sec->encryptor('d', $id[$i]));
+            $bDetails = $this->bank->getSingleBankDetail($id[$i]);
             // print_r($bDetails);
             $output .= "<tr>
                     <td>" . $bDetails->c_bankname . "</td>
