@@ -155,8 +155,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
 				</svg>
 			</div>
-			<div class="table-responsive mt-4" style="overflow-x:auto;" id="tblBlur">
-				<table class="table">
+			<div class="table-responsive mt-4" style="overflow-x:auto" id="tblBlur">
+				<table class="table" id="payout">
 					<thead>
 						<tr>
 							<th scope="col">Employee Name</th>
@@ -268,6 +268,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			method: "POST",
 			success: function(response) {
 				$("#empId").html(response);
+				// $(document).ready(function() {
+				// 	$('#payout').DataTable({
+				// 		"order": [
+				// 			[0, 'asc'],
+				// 			[1, 'desc']
+				// 		],
+				// 		"lengthChange": false,
+				// 		"paging": true,
+				// 		"iDisplayLength": 10,
+				// 		retrieve: true,
+				// 	});
+				// });
 			}
 		});
 	}
@@ -281,6 +293,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			success: function(data) {
 				$(".tblBody").html(data);
 				// console.log(data);
+				$(document).ready(function() {
+					$('#payout').DataTable({
+						"order": [
+							[0, 'asc'],
+							[1, 'desc']
+						],
+						"lengthChange": false,
+						"paging": true,
+						"iDisplayLength": 10,
+						retrieve: true,
+					});
+				});
 			}
 		});
 	}
@@ -359,6 +383,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	});
 </script>
+
+	<!-- script table Data  -->
+	<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+
 
 </body>
 

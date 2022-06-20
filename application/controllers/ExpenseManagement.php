@@ -41,9 +41,8 @@ class ExpenseManagement extends CI_Controller
 				<td>' . $exps->c_category . '</td>
 				<td>' . $exps->c_description . '</td>
 				<td>' . $exps->c_type . '</td>
-				<td style="padding-right:0px"><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editEXPModal" onclick="expEdit(`' . $this->sec->encryptor('e', $exps->c_expid) . '`)">Edit</a></td>
-				<td style="padding-left:0px"><a href="#" class="btn btn-danger" onclick="expDelete(`' . $this->sec->encryptor('e', $exps->c_expid) . '`)">Delete</a></td>
-				
+				<td style="width:11vw"><a href="#" class="btn btn-success mr-2" data-toggle="modal" data-target="#editEXPModal" onclick="expEdit(`' . $this->sec->encryptor('e', $exps->c_expid) . '`)">Edit</a>
+				<a href="#" class="btn btn-danger" onclick="expDelete(`' . $this->sec->encryptor('e', $exps->c_expid) . '`)">Delete</a></td>
 			</tr>';
 		}
 		echo $output;

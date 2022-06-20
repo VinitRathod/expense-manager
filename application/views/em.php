@@ -130,7 +130,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 				<div class="modal-body">
 
-						
+
 					<form onsubmit="return validation()" class="bg-light" id="editEmpBasic">
 						<div class="Empid">
 							<input type="hidden" name="EmpID" id="editempId">
@@ -182,7 +182,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 			<div class="table-responsive-md mt-4" style="overflow-x:auto;">
-				<table class="table">
+				<table class="table" id="employee">
 					<thead>
 						<tr>
 							<th scope="col">Employee ID</th>
@@ -213,7 +213,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</div>
 				<div class="modal-body">
 					<div class="table-responsive-md mt-4">
-						<table class="table">
+						<table class="table" style="overflow-x:auto;" id="employee" >
 							<thead>
 								<tr>
 									<th scope="col">Bank Name</th>
@@ -353,6 +353,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			method: "POST",
 			success: function(data) {
 				$(".tblBody").html(data);
+				$(document).ready(function() {
+					$('#employee').DataTable({
+						"order": [
+							[0, 'asc'],
+							[1, 'desc']
+						],
+						"lengthChange": false,
+						"paging": true,
+						"iDisplayLength": 10,
+						retrieve: true,
+					});
+				});
 
 			}
 		});
@@ -451,3 +463,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	})
 </script>
+<!-- script table Data  -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+</body>
+
+</html>

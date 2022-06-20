@@ -141,7 +141,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</svg>
 			</div>
 			<div class="table-responsive-md mt-4" style="overflow-x:auto; z-index: -1;" id="tblBlur">
-				<table class="table">
+				<table class="table" id="payout">
 					<thead>
 						<tr>
 							<th scope="col">Vendor Name</th>
@@ -270,6 +270,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			success: function(response) {
 				// alert(response);
 				$("#tblBody").html(response);
+				$(document).ready(function() {
+					$('#payout').DataTable({
+						"order": [
+							[0, 'asc'],
+							[1, 'desc']
+						],
+						"lengthChange": false,
+						"paging": true,
+						"iDisplayLength": 10,
+						retrieve: true,
+					});
+				});
+
 			}
 		});
 	}
@@ -289,15 +302,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			},
 			beforeSend: function(ex) {
 				$("#tblBlur").css("filter", "blur(4px)");
-				$(".spinnerDIV").css("display","block");
+				$(".spinnerDIV").css("display", "block");
 			},
 			complete: function(ex) {
 				$("#tblBlur").css("filter", "blur(0px)");
-				$(".spinnerDIV").css("display","none");
+				$(".spinnerDIV").css("display", "none");
 			},
 		});
 	});
 </script>
+<!-- script table Data  -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

@@ -21,7 +21,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="mt-5" style="display: flex">
             <div class="card" style="width: 95%;">
                 <div class="card-body">
-                    <div class="table-responsive mt-2" style="overflow-x:auto;">
+                    <div class="table-responsive mt-2" style="overflow-x:auto; overflow-y:scroll">
                         <h3 style="font-weight:500"> Employee Payout</h3>
                         <table class="table">
                             <thead>

@@ -3,11 +3,12 @@
 
 <head>
 	<title></title>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/stylesheet.css">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/spinner.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-
+     
 	<!-- jQuery library -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<!-- Popper JS -->
@@ -25,6 +26,9 @@
 	<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="<?php echo base_url(); ?>assets/sidebar.js"></script>
+
+
+
 
 
 </head>
@@ -98,9 +102,8 @@
 			}
 		</script>
 
+		<!-- script table Data  -->
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
+	
 
-</body>
-
-
-
-</html>
