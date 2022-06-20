@@ -52,7 +52,7 @@ class VendorManagement extends CI_Controller
 						<td><button id="color-x" type="button" class="btn btn-x" data-toggle="modal" data-target="#bank" onclick="bankDetails(' . $ven->c_banks . ')">
 								BankDetails
 							</button></td>
-						<td><button id="color-x" type="button" class="btn btn-x" data-toggle="modal" data-target="#contact" onclick="contactDetails(' . $ven->c_id . ')">
+						<td><button id="color-x" type="button" class="btn btn-x" data-toggle="modal" data-target="#contact" onclick="contactDetails(`' . $this->sec->encryptor('e', $ven->c_id) . '`)">
 								ContactDetails
 							</button></td>
 						<td style="width:11vw;"><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editVen" onclick="venUpdate(`' . $this->sec->encryptor('e', $ven->c_id) . '`)" >Edit</a><a href="#" class="btn btn-danger" onclick="venDelete(`' . $this->sec->encryptor('e', $ven->c_id) . '`)">Delete</a></td>
@@ -168,11 +168,11 @@ class VendorManagement extends CI_Controller
 
 	public function getContactDetails($id)
 	{
-		$result = $this->ven->getSingleVen($id);
+		$result = $this->ven->getSingleVen($this->sec->encryptor('d',$id));
 		$output = "";
 		$contacts = explode(",", $result->c_contacts);
 		foreach ($contacts as $con) {
-			$output .= "<tr>
+			$output .= "<tr class='contacts'>
 							<td>" . $con . "</td>
 						</tr>";
 		}
@@ -219,6 +219,19 @@ class VendorManagement extends CI_Controller
 		);
 		$updateBasicResult = $this->ven->updateBasic($id, $data);
 		if ($updateBasicResult) {
+			echo "SUCCESS";
+		} else {
+			echo "ERROR";
+		}
+	}
+
+	public function editContacts() {
+		$contacts = $this->input->post('contacts');
+		$id = $this->sec->encryptor('d',$this->input->post('c_id'));
+		$data = array(
+			'c_contacts' => $contacts,
+		);
+		if($this->ven->updateContacts($id,$data)) {
 			echo "SUCCESS";
 		} else {
 			echo "ERROR";
