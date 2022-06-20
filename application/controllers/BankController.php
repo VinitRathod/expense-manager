@@ -12,7 +12,8 @@ class BankController extends CI_Controller
             // echo $id[$i];
             $bDetails = $this->bank->getSingleBankDetail($id[$i]);
             // print_r($bDetails);
-            $output .= "<tr>
+            $output .= "<tr class='banks'>
+                    <td style='display: none; visibility: hidden;'>".$this->sec->encryptor('e',$id[$i])."</td>
                     <td>" . $bDetails->c_bankname . "</td>
                     <td>" . $bDetails->c_ifsc . "</td>
                     <td>" . $bDetails->c_accountno . "</td>
