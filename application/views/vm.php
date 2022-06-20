@@ -384,6 +384,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	let addingContact = false;
 	let currentVendorId = undefined;
 
+	// edit contact details functions ....
 	function closeEditing() {
 		editingContact = false;
 		$("#contactDetails_tbl tbody tr td").filter(':nth-child(2)').remove();
@@ -482,6 +483,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$("#contactTbl").append('<tr class="contacts"><td>' + newContact + '</td><td><button type="button" class="close" aria-label="Close" onclick="removeContact(this)"><span aria-hidden="true">&times;</span> </button></td>');
 		addingContact = false;
 	}
+	// edit contact details function ends here...
 
 	$(document).ready(function() {
 		var postURL = "/addmore.php";
@@ -586,16 +588,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	});
 
-	function bankDetails(...id) {
-		let url = "";
-		id.forEach((id) => {
-			url += (id + "_");
-		});
+	function bankDetails(id) {
+		// let url = "";
+		// id.forEach((id) => {
+		// 	url += (id + "_");
+		// });
 		$.ajax({
 			method: "POST",
-			url: "<?php echo base_url(); ?>BankController/getBankDetails/" + url,
+			url: "<?php echo base_url(); ?>BankController/getBankDetails/" + id,
 			success: function(response) {
-				// alert(response);
+				// console.log(response);
 				$("#bankTbl").html(response);
 			}
 		});

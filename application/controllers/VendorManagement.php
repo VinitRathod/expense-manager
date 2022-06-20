@@ -49,7 +49,7 @@ class VendorManagement extends CI_Controller
 						' . $doc . '
 						<td>' . $ven->c_designation . '</td>
 
-						<td><button id="color-x" type="button" class="btn btn-x" data-toggle="modal" data-target="#bank" onclick="bankDetails(' . $ven->c_banks . ')">
+						<td><button id="color-x" type="button" class="btn btn-x" data-toggle="modal" data-target="#bank" onclick="bankDetails(`' . $this->sec->encryptor('e',$ven->c_banks) . '`)">
 								BankDetails
 							</button></td>
 						<td><button id="color-x" type="button" class="btn btn-x" data-toggle="modal" data-target="#contact" onclick="contactDetails(`' . $this->sec->encryptor('e', $ven->c_id) . '`)">
