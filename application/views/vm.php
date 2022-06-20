@@ -234,7 +234,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<div class="card" style="width: 95%;">
 			<div class="card-body">
 				<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
-					<table class="table" style="overflow-x:auto;">
+					<table class="table"  id="vendor" >
 						<thead>
 							<tr>
 								<th scope="col">Vendor ID</th>
@@ -244,10 +244,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<th scope="col">PAN Number</th>
 								<th scope="col">Document</th>
 								<th scope="col">Designation</th>
-
 								<th scope="col">Bank Details</th>
 								<th scope="col">Contact Details</th>
-								<th scope="col" colspan="2">Action</th>
+								<th scope="col">Action</th>
 							</tr>
 						</thead>
 						<tbody id="tblBody">
@@ -793,6 +792,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			success: function(data) {
 				// alert(data);
 				$("#tblBody").html(data);
+				$(document).ready(function() {
+					$('#vendor').DataTable({
+						"order": [
+							[0, 'asc'],
+							[1, 'desc']
+						],
+						"lengthChange": false,
+						"paging": true,
+						"iDisplayLength": 10,
+						retrieve: true,
+					});
+				});
 			}
 		});
 	}
@@ -822,3 +833,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	});
 </script>
+
+<!-- script table Data  -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+</body>
+</html>

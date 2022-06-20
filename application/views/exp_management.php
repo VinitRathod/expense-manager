@@ -149,14 +149,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	<div class="card" style="width: 95%;">
 		<div class="card-body">
 			<div class="table-responsive-md mt-4" style="overflow-x:auto;">
-				<table class="table">
+				<table class="table" id="expense">
 					<thead>
 						<tr>
 							<th scope="col">Expense_Code</th>
 							<th scope="col">Expense_Category</th>
 							<th scope="col">Expense_Description</th>
 							<th scope="col">Select_Expense_Type</th>
-							<th scope="col" colspan="2">Action</th>
+							<th scope="col">Action</th>
 						</tr>
 					</thead>
 					<tbody class="tblBody">
@@ -227,6 +227,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: "<?php echo base_url() ?>ExpenseManagement/index",
 			method: "POST",
 			success: function(data) {
+				$(document).ready(function() {
+					$('#expense').DataTable({
+						"order": [
+							[0, 'asc'],
+							[1, 'desc']
+						],
+						"lengthChange": false,
+						"paging": true,
+						"iDisplayLength": 10,
+						retrieve: true,
+					});
+				});
 				$(".tblBody").html(data);
 			}
 		});
@@ -280,6 +292,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			});
 	}
 </script>
+<!-- script table Data  -->
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

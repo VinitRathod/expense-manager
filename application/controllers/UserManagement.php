@@ -19,8 +19,7 @@ class UserManagement extends CI_Controller
                             <td>'.$user->c_fname.' '.$user->c_lname.'</td>
                             <td>'.$user->c_phoneno.'</td>
                             <td>'.$user->c_email.'</td>
-                            <td style="padding-right: 0px;"><a href="#" class="btn btn-success" data-toggle="modal" data-target="#editUserModal" onclick="usrEdit(`'.$this->sec->encryptor('e',$user->c_id).'`)">Edit</a></td>
-				            <td style="padding-left: 0px;"><a href="#" class="btn btn-danger" onclick="usrDelete(`'.$this->sec->encryptor('e',$user->c_id).'`)">Delete</a></td>
+                            <td style="width:11vw""><a href="#" class="btn btn-success mr-2" data-toggle="modal" data-target="#editUserModal" onclick="usrEdit(`'.$this->sec->encryptor('e',$user->c_id).'`)">Edit</a><a href="#" class="btn btn-danger" onclick="usrDelete(`'.$this->sec->encryptor('e',$user->c_id).'`)">Delete</a></td>
                         </tr>';
             }
         }
