@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<div id="maincontent" class="contentblock mr-4" style="width:75vw">
+<div id="maincontent" class="contentblock mr-4" style="width:80vw">
 
 
 
@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
     <div class="card ">
         <div class="card-body">
-            <img style="object-fit:cover ; width:69vw; height:48vh" src="<?php echo base_url(); ?>assets/DASHBOARD2.png" alt="yfu">
+            <img style="object-fit:cover ; width:75vw; height:48vh" src="<?php echo base_url(); ?>assets/DASHBOARD2.png" alt="yfu">
         </div>
     </div>
     <div class="container">

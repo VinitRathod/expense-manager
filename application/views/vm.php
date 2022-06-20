@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<div id="maincontent" class="contentblock mr-4" style="width:75vw">
+<div id="maincontent" class="contentblock mr-4" style="width:80vw">
 
 
 

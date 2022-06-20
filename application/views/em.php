@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 
 
-<div id="maincontent" class="contentblock mr-4" style="width:75vw">
+<div id="maincontent" class="contentblock mr-4" style="width:80vw">
 
 	<div id="top-header" style="display:flex; justify-content:space-between">
 		<h2 class="text-blue text-left font-weight-bold" style="font-size: 20px">
@@ -50,13 +50,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<input type="text" name="pan" class="form-control" id="pan" autocomplete="off" required />
+								<div id="lblPANCard" class="error"></div>
+								<input type="text" name="pan" class="form-control" onkeyup="validationPan()" id="pan" autocomplete="off" required />
 							</div>
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Mobile Number </label>
-								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="mobile" class="form-control" id="mobileNumber" required />
-								<span id="mobileno" name="mobileno" class="text-danger font-weight-regular"> </span>
+								<div id="mobileno" name="mobileno" class="error"> </div>
+								<input type="text" name="mobile" class="form-control" onkeyup="validationmob()" placeholder="+91-9999999999" id="mobileNumber" required />
+
 							</div>
 
 							<div class="form-group">
@@ -78,7 +80,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 												IFSC Code : <input type="text" name="ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list"></td>
 										</tr>
 										<tr>
-											<td>Account Number : <input type="text" name="accno[]" placeholder="Enter your Account Number" class="form-control name_list"></td>
+											<td>Account Number : <div id="accno" name="accno" class="error"> </div> <input type="text" id="accnumber" name="accno[]" placeholder="Enter your Account Number" onkeyup="validationaccno()" class="form-control name_list"></td>
 										</tr>
 										<tr>
 											<td>Account Status :<input type="text" name="AccStatus[]" placeholder="Enter your Account Status" class="form-control name_list"></td>
@@ -96,7 +98,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" />
-							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
+							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" onclick="resetForm()" autocomplete="off" />
 
 						</form>
 
@@ -142,12 +144,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<input type="text" name="pan" class="form-control" id="editPan" autocomplete="off" required />
+								<div id="lblPANCard" class="error"></div>
+								<input type="text" name="pan" class="form-control" id="editPan" onkeyup="validation()" autocomplete="off" required />
 							</div>
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Mobile Number </label>
-								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="mobile" class="form-control" id="editmobileNumber" required />
+								<input type="number" name="mobile" class="form-control" id="editmobileNumber" required />
 								<span id="mobileno" name="mobileno" class="text-danger font-weight-regular"> </span>
 							</div>
 
@@ -157,7 +160,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<span id="emailids" class="text-danger font-weight-regular"> </span>
 							</div>
 							<input type="submit" name="submit" value="Submit" class="btn btn-primary" autocomplete="off" data-tw-dismiss="modal" />
-							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
+							<input type="reset" name="reset" value="Reset" class="btn btn-secondary" onclick="resetForm()" autocomplete="off" />
 						</form>
 					</div>
 
@@ -228,6 +231,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 </div>
 <script>
+	function resetForm() {
+		var lblPANCard = document.getElementById("lblPANCard")
+		lblPANCard.innerHTML = "";
+		var mobileno = document.getElementById("mobileno")
+		mobileno.innerHTML = "";
+
+	}
+
 	function bankDetails(...id) {
 		let url = "";
 		id.forEach((id) => {
@@ -356,5 +367,52 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				// $("#EditexpDesc").html(data.c_description);
 			}
 		});
+	}
+
+	function validationmob() {
+
+		var mobileNumber = document.getElementById("mobileNumber");
+		var mobileno = document.getElementById("mobileno");
+		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		if (regexm.test(mobileNumber.value)) {
+			mobileno.innerHTML = "";
+			return true;
+		} else {
+			mobileno.innerHTML = "*Invalid Mobile Number";
+			return false;
+		}
+
+
+	}
+
+	function validationPan() {
+
+		var txtPANCard = document.getElementById("pan");
+		var lblPANCard = document.getElementById("lblPANCard")
+		var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+		if (regex.test(txtPANCard.value.toUpperCase())) {
+			lblPANCard.innerHTML = "";
+			return true;
+		} else {
+			lblPANCard.innerHTML = "*Invalid PAN Card Number";
+			return false;
+		}
+
+	}
+
+	function validationaccno() {
+
+		var mobileNumber = document.getElementById("mobileNumber");
+		var mobileno = document.getElementById("mobileno");
+		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		if (regexm.test(mobileNumber.value)) {
+			mobileno.innerHTML = "";
+			return true;
+		} else {
+			mobileno.innerHTML = "*Invalid Mobile Number";
+			return false;
+		}
+
+
 	}
 </script>
