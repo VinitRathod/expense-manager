@@ -51,4 +51,9 @@ class Vendors extends CI_Model
         $this->db->where('c_id',$id);
         return $this->db->update('t_vendors',$data);
     }
+
+    public function updateContacts($id,$data) {
+        $this->db->where('c_id',$id);
+        return $this->db->update('t_vendors',$data);
+    }
 }
