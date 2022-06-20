@@ -262,15 +262,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title" id="exampleModalLabel">Contact Details Table</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeEditing()">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
+								<button type="button" class="btn btn-x invisible" id="editContactAdd"> Add Contact </button>
 								<div class="table-responsive-md mt-4">
-									<table class="table">
+									<table class="table" id="contactDetails_tbl">
 										<thead>
-											<tr>
+											<tr id="contact_header">
 												<th scope="col">Mobile Number</th>
 											</tr>
 										</thead>
@@ -285,7 +286,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeEditing()">Close</button>
+								<button type="button" class="btn btn-success" id="editContacts">Edit Contacts</button>
 							</div>
 						</div>
 					</div>
@@ -378,6 +380,108 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	var k = 10;
 	// to manage extra rows for edit vendor ...
 	var l = 10;
+	let editingContact = false;
+	let addingContact = false;
+	let currentVendorId = undefined;
+
+	function closeEditing() {
+		editingContact = false;
+		$("#contactDetails_tbl tbody tr td").filter(':nth-child(2)').remove();
+		$("#contactDetails_tbl thead tr th").filter(':nth-child(2)').remove();
+		$("#editContactAdd").addClass("invisible");
+		$("#editContacts").html("Edit Contacts");
+	}
+	$("#editContacts").click(function(e) {
+		// check if not editing contact...
+		if (!editingContact) {
+			// actions to be performed when clicked on edit contacts button..
+			$("#contact_header").append('<th scope="col">Remove</th>');
+			$(".contacts").append('<td><button type="button" class="close" aria-label="Close" onclick="removeContact(this)"><span aria-hidden="true">&times;</span> </button></td>');
+			$("#editContactAdd").removeClass("invisible");
+			$("#editContacts").html("Update");
+			editingContact = true;
+		} else {
+			let contacts = [];
+			let all_rows = document.getElementById("contactDetails_tbl").rows;
+			for (let i = 1; i < all_rows.length; i++) {
+				contacts.push(all_rows[i].cells[0].innerHTML);
+			}
+			let contacts_str = contacts.join(",");
+			let form = new FormData();
+			form.append("contacts", contacts_str);
+			form.append("c_id",currentVendorId);
+			$.ajax({
+				method: 'POST',
+				processData: false,
+				contentType: false,
+				cache: false,
+				enctype: 'multipart/form-data',
+				url: `<?php echo base_url() ?>VendorManagement/editContacts`,
+				data: form,
+				success: function(response) {
+					if (response == "SUCCESS") {
+						swal("Contacts Has Been Updated!","","success").then(() => {
+							// call back after work is update is done, comes here...
+							closeEditing();
+						});
+					} else {
+						// just for quick debug...
+						alert(response);
+						swal("Some Unknown Error Occurred!","","error").then(()=>{
+							// call back after work is update is done, comes here...
+							closeEditing();
+						});
+					}
+				}
+			});
+
+		}
+	});
+
+	function removeContact(elem) {
+		// just for debugging...
+		// elem is button inside, on which this function is implemented when on click...
+		// elem -> parent node is current td...
+		// current td -> parent node is current tr...
+		// current tr -> parent node is current tables...
+		// to get current row's index -> pass current tr...
+		let current_tr = elem.parentNode.parentNode;
+		let current_tbl = elem.parentNode.parentNode.parentNode;
+		let index = $("#contactDetails_tbl tr").index(current_tr);
+		// quick debug...
+		// alert(index);
+		// since at least one contact is mandatory...
+		// to get how many rows in current table -> pass current table
+		let total_rows = current_tbl.rows.length;
+		if (total_rows > 1) { // if total rows > 1 -> means at least one contact is there...
+			// delete any clicked contact...
+			document.getElementById("contactDetails_tbl").deleteRow(index);
+		} else { // otherwise....
+			// give error...
+			swal("Cannot perform this action!", "At least one contact detail is mandatory!", "error").then(() => {
+				// some call back goes here...
+			})
+		}
+	}
+
+	$("#editContactAdd").click(function() {
+		if (!addingContact) {
+			$("#contactTbl").append('<tr><td><input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" id="intermediate" required /></td><td><button type="button" class="btn btn-success" onclick="addContact()">Add</button></td></tr>');
+			addingContact = true;
+		} else {
+			swal("Complete this action fisrt!", "Please finish adding one contact first.", "warning").then(() => {
+				// some callbaks to be called here if any...
+			});
+		}
+	});
+
+	function addContact() {
+		let newContact = $("#intermediate").val();
+		let index = document.getElementById("contactDetails_tbl").rows.length;
+		document.getElementById("contactDetails_tbl").deleteRow(index - 1);
+		$("#contactTbl").append('<tr class="contacts"><td>' + newContact + '</td><td><button type="button" class="close" aria-label="Close" onclick="removeContact(this)"><span aria-hidden="true">&times;</span> </button></td>');
+		addingContact = false;
+	}
 
 	$(document).ready(function() {
 		var postURL = "/addmore.php";
@@ -505,6 +609,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			success: function(response) {
 				// alert(response);
 				$("#contactTbl").html(response);
+				currentVendorId = id;
 			}
 		});
 	}
@@ -565,11 +670,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	}
 	loadVen();
 
-	$("#editVenBasic").submit(function(e){
+	$("#editVenBasic").submit(function(e) {
 		e.preventDefault();
 		const form = new FormData(document.getElementById('editVenBasic'));
 		let t_area = document.getElementById('edit_c_address');
-		form.append(t_area.name,t_area.value);
+		form.append(t_area.name, t_area.value);
 		$.ajax({
 			method: "POST",
 			processData: false,
@@ -579,8 +684,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: `<?php echo base_url() ?>VendorManagement/editVendor`,
 			data: form,
 			success: function(response) {
-				if(response == "SUCCESS") {
-					swal("Basic Details Of Vendor Are Updates Successfully!","","success").then(()=>{
+				if (response == "SUCCESS") {
+					swal("Basic Details Of Vendor Are Updates Successfully!", "", "success").then(() => {
 						// call back function, after success something to be done... goes here...
 						loadVen();
 					});
