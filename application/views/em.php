@@ -207,15 +207,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Bank Details Table</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeEditing()">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
+					<button type="button" class="btn btn-x invisible" id="editBankAdd">Add Bank</button>
 					<div class="table-responsive-md mt-4">
-						<table class="table" style="overflow-x:auto;" id="employee" >
+						<table class="table" id="bankDetails_tbl" style="overflow-x:auto;" id="employee">
 							<thead>
-								<tr>
+								<tr id="banks_header">
 									<th scope="col">Bank Name</th>
 									<th scope="col">IFSC Code </th>
 									<th scope="col">Account Number </th>
@@ -233,12 +234,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						</table>
 					</div>
 				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" data-dismiss="modal" onclick="closeEditing()">Close</button>
+					<button class="btn btn-success" type="button" id="editBanks">Edit Banks</button>
+				</div>
 			</div>
 		</div>
 	</div>
 
 </div>
 <script>
+	let editingBank = false;
+	let addingBank = false;
+	let currentBanksId = undefined;
+
 	function resetForm() {
 		var lblPANCard = document.getElementById("lblPANCard")
 		lblPANCard.innerHTML = "";
@@ -247,17 +256,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	}
 
-	function bankDetails(...id) {
-		let url = "";
-		id.forEach((id) => {
-			url += (id + "_");
-		});
+	function bankDetails(id) {
+		// let url = "";
+		// id.forEach((id) => {
+		// 	url += (id + "_");
+		// });
 		$.ajax({
 			method: "POST",
-			url: "<?php echo base_url(); ?>BankController/getBankDetails/" + url,
+			url: "<?php echo base_url(); ?>BankController/getBankDetails/" + id,
 			success: function(response) {
 				// alert(response);
 				$(".banktbl").html(response);
+				currentBanksId = id;
 			}
 		});
 	}
@@ -292,6 +302,103 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					});
 				}
 			});
+	}
+
+	// edit banks details start from here
+	$("#editBanks").click(function() {
+		if (!editingBank) {
+			$("#editBankAdd").removeClass("invisible");
+			$("#banks_header").append("<th scope='col'>Remove</th>")
+			$(".banks").append('<td><button class="close" type="button" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td>');
+			$("#editBanks").html("Update");
+			editingBank = true;
+		}
+	});
+
+	function removeBank(elem) {
+		// alert(elem);
+		let current_tr = elem.parentNode.parentNode;
+		let current_tbl = elem.parentNode.parentNode.parentNode;
+		let index = $("#bankDetails_tbl tr").index(current_tr);
+		current_tbl = document.getElementById("bankDetails_tbl");
+		let bankId = current_tbl.rows[index].cells[0].innerHTML;
+		let total_rows = current_tbl.rows.length;
+		// alert(bankId);
+
+		let form = new FormData();
+		form.append("c_id", bankId);
+		if (total_rows > 2) {
+			$.ajax({
+				method: 'POST',
+				processData: false,
+				contentType: false,
+				cache: false,
+				enctype: 'multipart/form-data',
+				url: `<?php echo base_url() ?>EmployeesManagement/checkBank`,
+				data: form,
+				success: function(response) {
+					if (response == "SUCCESS") {
+						document.getElementById("bankDetails_tbl").deleteRow(index);
+						swal("Contacts Has Been Updated!", "", "success").then(() => {
+
+						});
+					} else {
+						// just for quick debug...
+						// alert(response);
+						swal("Cannot Delete This Bank Details", "This Bank is in Payout Processing", "error").then(() => {
+							// call back after work is update is done, comes here...
+							// closeEditing();
+						});
+					}
+				}
+			});
+		} else { // otherwise....
+			// give error...
+			swal("Cannot perform this action!", "At least one Bank detail is mandatory!", "error").then(() => {
+				// some call back goes here...
+			})
+		}
+
+
+
+		// quick debug...
+		// alert(index);
+		// since at least one contact is mandatory...
+		// to get how many rows in current table -> pass current table
+
+	}
+
+	$("#editBankAdd").click(function() {
+		if (!addingBank) {
+			$(".banktbl").append('<tr><td><input type="text" id="intermediateBankName" required /></td><td><input type="text" id="intermediateIFSC" required /></td><td><input type="text" id="intermediateAccNo" required /></td><td><input type="text" id="intermediateAccStat" required /></td><td><button type="button" class="btn btn-success" onclick="addBank()">Add</button></td></tr>');
+			addingBank = true;
+		} else {
+			swal("Complete this action fisrt!", "Please finish adding one Bank first.", "warning").then(() => {
+				// some callbaks to be called here if any...
+			});
+		}
+	});
+
+	function closeEditing() {
+		editingBank = false;
+		$("#bankDetails_tbl tbody tr td").filter(":nth-child(5)").remove();
+		$("#bankDetails_tbl thead tr th").filter(":nth-child(5)").remove();
+		$("#editBankAdd").addClass("invisible");
+		$("#editBanks").html("Edit Banks");
+		addingBank = false;
+	}
+
+	function addBank() {
+		addingBank = false;
+		let bank_name = $("#intermediateBankName").val();
+		let ifsc = $("#intermediateIFSC").val();
+		let accno = $("#intermediateAccNo").val();
+		let accStat = $("#intermediateAccStat").val();
+
+		let index = document.getElementById("bankDetails_tbl").rows.length;
+		document.getElementById("bankDetails_tbl").deleteRow(index - 1);
+		$(".banktbl").append('<tr class="banks"><td>' + bank_name + '</td><td>' + ifsc + '</td><td>' + accno + '</td><td>' + accStat + '</td><td><button class="close" type="button" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td></tr>')
+		// alert("Hello world");
 	}
 
 

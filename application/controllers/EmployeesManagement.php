@@ -363,4 +363,11 @@ class EmployeesManagement extends CI_Controller
     }
 
     // Dashboard Code Ends Here
+
+    public function checkBank()
+    {
+        if (!$this->emp->checkBank($this->sec->encryptor('d', $this->input->post('c_id')))) {
+            echo "SUCCESS";
+        }
+    }
 }
