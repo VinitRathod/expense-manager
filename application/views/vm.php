@@ -299,15 +299,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title" id="exampleModalLabel">Bank Details Table</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeBankEditing()">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
+								<button type="button" class="btn btn-x invisible" id="editBankAdd"> Add Bank </button>
 								<div class="table-responsive-md mt-4">
-									<table class="table">
+									<table class="table" id="bankDetails_tbl">
 										<thead>
-											<tr>
+											<tr id="bank_header">
 												<th scope="col">Bank Name</th>
 												<th scope="col">IFSC Code </th>
 												<th scope="col">Account Number </th>
@@ -327,8 +328,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-
+								<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeBankEditing()">Close</button>
+								<button type="button" class="btn btn-success" id="editBanks">Edit Banks</button>
 							</div>
 						</div>
 					</div>
@@ -383,12 +384,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	let addingContact = false;
 	let currentVendorId = undefined;
 
+	let editingBank = false;
+	let addingBank = false;
+	let currentBanksId = undefined;
+
+	// edit contact details functions ....
 	function closeEditing() {
 		editingContact = false;
 		$("#contactDetails_tbl tbody tr td").filter(':nth-child(2)').remove();
 		$("#contactDetails_tbl thead tr th").filter(':nth-child(2)').remove();
 		$("#editContactAdd").addClass("invisible");
 		$("#editContacts").html("Edit Contacts");
+		addingContact = false;
 	}
 	$("#editContacts").click(function(e) {
 		// check if not editing contact...
@@ -408,7 +415,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			let contacts_str = contacts.join(",");
 			let form = new FormData();
 			form.append("contacts", contacts_str);
-			form.append("c_id",currentVendorId);
+			form.append("c_id", currentVendorId);
 			$.ajax({
 				method: 'POST',
 				processData: false,
@@ -419,14 +426,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				data: form,
 				success: function(response) {
 					if (response == "SUCCESS") {
-						swal("Contacts Has Been Updated!","","success").then(() => {
+						swal("Contacts Has Been Updated!", "", "success").then(() => {
 							// call back after work is update is done, comes here...
 							closeEditing();
 						});
 					} else {
 						// just for quick debug...
 						alert(response);
-						swal("Some Unknown Error Occurred!","","error").then(()=>{
+						swal("Some Unknown Error Occurred!", "", "error").then(() => {
 							// call back after work is update is done, comes here...
 							closeEditing();
 						});
@@ -481,6 +488,126 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$("#contactTbl").append('<tr class="contacts"><td>' + newContact + '</td><td><button type="button" class="close" aria-label="Close" onclick="removeContact(this)"><span aria-hidden="true">&times;</span> </button></td>');
 		addingContact = false;
 	}
+	// edit contact details function ends here...
+
+	// edit banks details functions starts from here ...
+	$("#editBanks").click(function(e) {
+		if (!editingBank) {
+			$("#editBankAdd").removeClass("invisible");
+			$("#bank_header").append('<th scope="col">Remove</th>');
+			$(".banks").append('<td><button type="button" class="close" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td>');
+			$("#editBanks").html("Update");
+			editingBank = true;
+		} else {
+			let existing_banks = [];
+			let other_banks = [];
+			let all_rows = document.getElementById("bankDetails_tbl").rows;
+			for(let i=1; i<all_rows.length; i++) {
+				if(all_rows[i].cells.length == 6) {
+					existing_banks.push(all_rows[i].cells[0].innerHTML);
+					// other_banks.push([all_rows[i].cells[1].innerHTML,all_rows[i].cells[2].innerHTML,all_rows[i].cells[3].innerHTML,all_rows[i].cells[4].innerHTML]);
+				} else {
+					other_banks.push([all_rows[i].cells[0].innerHTML,all_rows[i].cells[1].innerHTML,all_rows[i].cells[2].innerHTML,all_rows[i].cells[3].innerHTML]);
+				}
+			}
+			// for quick debugging...
+			console.log(existing_banks);
+			console.log(other_banks);
+			let form = new FormData();
+			form.append('existing_bank',existing_banks);
+			form.append('other_banks',other_banks);
+			form.append('c_id',currentBanksId);
+
+			$.ajax({
+				method: 'POST',
+				processData: false,
+				contentType: false,
+				cache: false,
+				enctype: 'multipart/form-data',
+				url: `<?php echo base_url() ?>VendorManagement/editBanks`,
+				data: form,
+				success: function(response) {
+					swal("Updated Bank Details Successfully!","","success").then(()=>{
+						closeBankEditing();
+					});
+				},
+			});
+		}
+	});
+
+	function removeBank(elem) {
+		let current_tr = elem.parentNode.parentNode;
+		let current_tbl = elem.parentNode.parentNode.parentNode;
+		let index = $("#bankDetails_tbl tr").index(current_tr);
+		current_tbl = document.getElementById("bankDetails_tbl");
+		let bankId = current_tbl.rows[index].cells[0].innerHTML;
+		let total_rows = current_tbl.rows.length;
+
+		if (total_rows > 2) {
+			let form = new FormData();
+			form.append('c_id', bankId);
+			$.ajax({
+				method: 'POST',
+				processData: false,
+				contentType: false,
+				cache: false,
+				enctype: 'multipart/form-data',
+				url: `<?php echo base_url() ?>VendorManagement/checkBank`,
+				data: form,
+				success: function(response) {
+					if (response == "BANK NOT IN PAYOUT") {
+						document.getElementById("bankDetails_tbl").deleteRow(index);
+						// swal("Bank Details Has Been Updated!", "", "success").then(() => {
+
+						// });
+					} else {
+						swal("Cannnot delete this bank details!", "This bank is in payout processing!", "error").then(() => {
+							// some call back goes here...
+						});
+					}
+				}
+			});
+		} else {
+			swal("Cannot perform this action!", "At least one bank detail is mandatory!", "error").then(() => {
+				// some call back goes here...
+			});
+		}
+	}
+
+	function closeBankEditing() {
+		editingBank = false;
+		addingBank = false;
+		$("#bankDetails_tbl tbody tr td").filter(':nth-child(5)').remove();
+		$("#bankDetails_tbl thead tr th").filter(':nth-child(5)').remove();
+		$("#editBankAdd").addClass("invisible");
+		$("#editBanks").html("Edit Banks");
+	}
+
+	$("#editBankAdd").click(function() {
+		if (!addingBank) {
+			$("#bankTbl").append('<tr><td><input type="text" id="intermediateBankname" required /></td><td><input type="text" id="intermediateIfsc" required /></td><td><input type="text" id="intermediateAccountNum" required /></td><td><input type="text" id="intermediateAccountStat" required /></td><td><button type="button" class="btn btn-success" onclick="addBank()">Add</button></td></tr>');
+			addingBank = true;
+		} else {
+			swal("Complete this action fisrt!", "Please finish adding one bank first.", "warning").then(() => {
+				// some callbaks to be called here if any...
+			});
+		}
+	});
+
+	function addBank() {
+		addingBank = false;
+		let bank_n = $("#intermediateBankname").val();
+		let ifsc = $("#intermediateIfsc").val();
+		let acc_no = $("#intermediateAccountNum").val();
+		let acc_stat = $("#intermediateAccountStat").val();
+
+		let index = document.getElementById("bankDetails_tbl").rows.length;
+		document.getElementById("bankDetails_tbl").deleteRow(index - 1);
+		$("#bankTbl").append('<tr class="banks"><td>'+bank_n+'</td><td>'+ifsc+'</td><td>'+acc_no+'</td><td>'+acc_stat+'</td><td><button type="button" class="close" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td></tr>');
+	}
+
+	// edit banks details functions ends from here...
+
 
 	$(document).ready(function() {
 		var postURL = "/addmore.php";
@@ -585,17 +712,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	});
 
-	function bankDetails(...id) {
-		let url = "";
-		id.forEach((id) => {
-			url += (id + "_");
-		});
+	function bankDetails(id) {
+		// let url = "";
+		// id.forEach((id) => {
+		// 	url += (id + "_");
+		// });
 		$.ajax({
 			method: "POST",
-			url: "<?php echo base_url(); ?>BankController/getBankDetails/" + url,
+			url: "<?php echo base_url(); ?>VendorManagement/getBankDetails/" + id,
 			success: function(response) {
-				// alert(response);
+				// console.log(response);
 				$("#bankTbl").html(response);
+				currentBanksId = id;
 			}
 		});
 	}
