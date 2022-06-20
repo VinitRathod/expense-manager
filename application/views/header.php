@@ -29,6 +29,14 @@
 		.invisible {
 			display: none;
 		}
+		.modal-dialog {
+			position: relative;
+			display: table;
+			overflow-y: auto;
+			overflow-x: auto;
+			width: auto;
+			min-width: 450px;
+		}
 	</style>
 
 </head>
