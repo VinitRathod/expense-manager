@@ -53,6 +53,12 @@ class Employees extends CI_Model
         }
     }
 
+    public function updateBasic($id, $data)
+    {
+        $this->db->where('c_id', $id);
+        return $this->db->update('t_employees', $data);
+    }
+
     public function getEmpPay()
     {
         $this->db->select("*");
