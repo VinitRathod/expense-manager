@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$csrf = array(
+    'name' => $this->security->get_csrf_token_name(),
+    'value' => $this->security->get_csrf_hash(),
+);
 ?>
 <div id="maincontent" class="contentblock mr-4" style="width:80vw">
 
@@ -62,22 +66,46 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </div>
 
 <script>
+    var csrf_token = "";
+
     function empPay() {
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
+        }
         $.ajax({
             url: "<?php echo base_url(); ?>EmployeesManagement/dashEmpPay",
             method: "POST",
+            data: {
+                "<?= $csrf['name']; ?>": csrf_token,
+            },
             success: function(data) {
-                $(".tblEmp").html(data);
+                let res = JSON.parse(data);
+                // console.log(res);
+                if (res.csrf) {
+                    csrf_token = res.csrf;
+                }
+                $(".tblEmp").html(res.output);
             },
         });
     }
 
     function venPay() {
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
+        }
         $.ajax({
             url: "<?php echo base_url(); ?>VendorPayout/getAllPayoutsLatest",
             method: "POST",
+            data: {
+                "<?= $csrf['name']; ?>": csrf_token,
+            },
             success: function(data) {
-                $(".tblVen").html(data);
+                let res = JSON.parse(data);
+                // console.log(res);
+                if (res.csrf) {
+                    csrf_token = res.csrf;
+                }
+                $(".tblVen").html(res.output);
             },
         });
     }

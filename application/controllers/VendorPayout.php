@@ -159,6 +159,7 @@ class VendorPayout extends CI_Controller
                             <td>' . $date . '</td>
                         </tr>';
         }
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 }
