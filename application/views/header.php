@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/stylesheet.css">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/spinner.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-     
+
 	<!-- jQuery library -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<!-- Popper JS -->
@@ -34,7 +34,6 @@
 		.modal-dialog {
 			position: relative;
 			display: table;
-			/* This is important */
 			overflow-y: auto;
 			overflow-x: auto;
 			width: auto;
@@ -117,7 +116,5 @@
 		</script>
 
 		<!-- script table Data  -->
-<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+		<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
-	
-

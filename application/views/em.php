@@ -308,12 +308,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	$("#editBanks").click(function() {
 		if (!editingBank) {
 			$("#editBankAdd").removeClass("invisible");
-			$("#banks_header").append("<th scope='col'>Remove</th>")
-			$(".banks").append('<td><button class="close" type="button" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td>');
+			$("#banks_header").append("<th scope='col'>Update</th><th scope='col'>Remove</th>")
+			$(".banks").append('<td><button class="update btn btn-success" type="button" aria-label="Close" onclick="updateBank(this)">Update</button></td><td><button class="close" type="button" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td>');
 			$("#editBanks").html("Update");
 			editingBank = true;
 		}
 	});
+
+
+	function updateBank(elem) {
+		// alert(elem)
+		let current_tr = elem.parentNode.parentNode;
+		let current_tbl = elem.parentNode.parentNode.parentNode;
+		let index = $("#bankDetails_tbl tr").index(current_tr);
+		current_tbl = document.getElementById("bankDetails_tbl");
+		let bankId = current_tbl.rows[index].cells[0].innerHTML;
+
+		console.log(bankId);
+		editingBank = false;
+	}
 
 	function removeBank(elem) {
 		// alert(elem);
@@ -381,8 +394,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function closeEditing() {
 		editingBank = false;
-		$("#bankDetails_tbl tbody tr td").filter(":nth-child(5)").remove();
-		$("#bankDetails_tbl thead tr th").filter(":nth-child(5)").remove();
+		$("#bankDetails_tbl tbody tr td").filter(":nth-child(7)").remove();
+		$("#bankDetails_tbl thead tr th").filter(":nth-child(7)").remove();
 		$("#editBankAdd").addClass("invisible");
 		$("#editBanks").html("Edit Banks");
 		addingBank = false;
