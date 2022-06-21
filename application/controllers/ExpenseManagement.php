@@ -45,7 +45,7 @@ class ExpenseManagement extends CI_Controller
 				<a href="#" class="btn btn-danger" onclick="expDelete(`' . $this->sec->encryptor('e', $exps->c_expid) . '`)">Delete</a></td>
 			</tr>';
 		}
-		echo $output;
+		echo json_encode(array('response' => $output, 'csrf' => $this->security->get_csrf_hash()));
 	}
 
 	public function expManagement()

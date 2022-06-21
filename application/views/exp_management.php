@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$csrf = array(
+	'name' => $this->security->get_csrf_token_name(),
+	'value' => $this->security->get_csrf_hash(),
+);
 ?>
 <div id="maincontent" class="contentblock mr-4" style="width:80vw">
 	<div id="top-header" style="display:flex; justify-content:space-between">
@@ -26,6 +30,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<div class="modal-body">
 
 						<form action="<?php echo base_url(); ?>ExpenseManagement/addExpCat" onsubmit="return validation()" id="add_exp" class="bg-light" method="post">
+							<input type="hidden" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['value']; ?>">
 							<div class="form-group">
 								<label for="expid" class="font-weight-regular"> Expense Code </label>
 								<input type="text" name="expCode" class="form-control" id="expCode" autocomplete="off" required />
@@ -222,11 +227,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	});
 
+	var csrf_token = "";
 	function loadExp() {
+
+		if(csrf_token == "") 
+		{
+			csrf_token = '<?=$csrf['value']?>';
+		}
+
 		$.ajax({
 			url: "<?php echo base_url() ?>ExpenseManagement/index",
 			method: "POST",
+			data: {
+				"<?=$csrf['name'];?>" : csrf_token,
+			},
 			success: function(data) {
+				let res = JSON.parse(data);
+				console.log(res);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}
 				$(document).ready(function() {
 					$('#expense').DataTable({
 						"order": [
@@ -239,7 +259,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						retrieve: true,
 					});
 				});
-				$(".tblBody").html(data);
+				$(".tblBody").html(res.response);
 			}
 		});
 	}

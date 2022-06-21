@@ -693,7 +693,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								swal("Poof! Your vendor has been deleted!", {
 									icon: "success",
 								});
-								loadVen();
+								// loadVen();
+								location.reload();
 							}
 						}
 					});
@@ -802,7 +803,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: `<?php echo base_url() ?>VendorManagement/addVendor`,
 			data: form,
 			success: function(response) {
-				loadVen();
+				// loadVen();
+				location.reload();
 				// document.getElementById("addVen").reset();
 			}
 		});
@@ -849,7 +851,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				if (response == "SUCCESS") {
 					swal("Basic Details Of Vendor Are Updates Successfully!", "", "success").then(() => {
 						// call back function, after success something to be done... goes here...
-						loadVen();
+						// loadVen();
+						location.reload();
 					});
 				}
 			}
