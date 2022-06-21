@@ -80,7 +80,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 												IFSC Code : <input type="text" name="ifsc[]" placeholder="Enter your IFSC Code" class="form-control name_list"></td>
 										</tr>
 										<tr>
-											<td>Account Number : <div id="accno" name="accno" class="error"> </div> <input type="text" id="accnumber" name="accno[]" placeholder="Enter your Account Number" onkeyup="validationaccno()" class="form-control name_list"></td>
+											<td>Account Number : <div id="accnom" name="accnom" class="error"> </div> <input type="number" id="accnumber" name="accno[]" placeholder="Enter your Account Number" onkeyup="validationaccno()" class="form-control name_list"></td>
 										</tr>
 										<tr>
 											<td>Account Status :<input type="text" name="AccStatus[]" placeholder="Enter your Account Status" class="form-control name_list"></td>
@@ -568,14 +568,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function validationaccno() {
 
-		var mobileNumber = document.getElementById("mobileNumber");
-		var mobileno = document.getElementById("mobileno");
-		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		var accnumber = document.getElementById("accnumber");
+		var accnom = document.getElementById("accnom");
+		var regexm = "[0-9]{9,18}";
 		if (regexm.test(mobileNumber.value)) {
-			mobileno.innerHTML = "";
+			accnom.innerHTML = "";
 			return true;
 		} else {
-			mobileno.innerHTML = "*Invalid Mobile Number";
+			maccnom.innerHTML = "*Invalid Account Number";
 			return false;
 		}
 
