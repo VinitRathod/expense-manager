@@ -94,4 +94,27 @@ class Employees extends CI_Model
         );
         $this->db->update('t_emppayout', $arr);
     }
+
+    public function checkBank($id)
+    {
+        $this->db->where("c_bank", $id);
+        $rows = $this->db->get('t_emppayout')->result();
+        if (empty($rows)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function getBanks($id)
+    {
+        $this->db->where('c_id', $id);
+        return $this->db->get('t_employees')->row()->c_banks;
+    }
+
+    public function setBanks($id, $data)
+    {
+        $this->db->where('c_id', $id);
+        $this->db->update('t_employees', $data);
+    }
 }
