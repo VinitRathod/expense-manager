@@ -49,7 +49,7 @@ class VendorManagement extends CI_Controller
 						' . $doc . '
 						<td>' . $ven->c_designation . '</td>
 
-						<td><button id="color-x" type="button" class="btn btn-x" data-toggle="modal" data-target="#bank" onclick="bankDetails(' . $ven->c_banks . ')">
+						<td><button id="color-x" type="button" class="btn btn-x" data-toggle="modal" data-target="#bank" onclick="bankDetails(`' . $this->sec->encryptor('e', $ven->c_id) . '`)">
 								BankDetails
 							</button></td>
 						<td><button id="color-x" type="button" class="btn btn-x" data-toggle="modal" data-target="#contact" onclick="contactDetails(`' . $this->sec->encryptor('e', $ven->c_id) . '`)">
@@ -168,7 +168,7 @@ class VendorManagement extends CI_Controller
 
 	public function getContactDetails($id)
 	{
-		$result = $this->ven->getSingleVen($this->sec->encryptor('d',$id));
+		$result = $this->ven->getSingleVen($this->sec->encryptor('d', $id));
 		$output = "";
 		$contacts = explode(",", $result->c_contacts);
 		foreach ($contacts as $con) {
@@ -225,16 +225,124 @@ class VendorManagement extends CI_Controller
 		}
 	}
 
-	public function editContacts() {
+	public function editContacts()
+	{
 		$contacts = $this->input->post('contacts');
-		$id = $this->sec->encryptor('d',$this->input->post('c_id'));
+		$id = $this->sec->encryptor('d', $this->input->post('c_id'));
 		$data = array(
 			'c_contacts' => $contacts,
 		);
-		if($this->ven->updateContacts($id,$data)) {
+		if ($this->ven->updateContacts($id, $data)) {
 			echo "SUCCESS";
 		} else {
 			echo "ERROR";
 		}
+	}
+
+	public function checkBank()
+	{
+		if ($this->ven->checkBankNotInPayout($this->sec->encryptor('d', $this->input->post('c_id')))) {
+			echo "BANK NOT IN PAYOUT";
+		} else {
+			echo "BANK IN PAYOUT";
+		}
+	}
+
+	public function getBankDetails($id)
+	{
+		$banks = $this->ven->getBanks($this->sec->encryptor('d', $id));
+		$output = "";
+		$id = explode(",", $banks);
+		for ($i = 0; $i < count($id); $i++) {
+			// echo $id[$i];
+			$bDetails = $this->bank->getSingleBankDetail($id[$i]);
+			// print_r($bDetails);
+			$output .= "<tr class='banks'>
+                    <td style='display: none; visibility: hidden;'>" . $this->sec->encryptor('e', $id[$i]) . "</td>
+                    <td>" . $bDetails->c_bankname . "</td>
+                    <td>" . $bDetails->c_ifsc . "</td>
+                    <td>" . $bDetails->c_accountno . "</td>
+                    <td>" . $bDetails->c_status . "</td>
+                </tr>";
+		}
+		echo $output;
+	}
+
+	public function setBankDetails($id, $bank)
+	{
+		$data = array(
+			'c_banks' => implode(",", $bank),
+		);
+		$this->ven->setBanks($id, $data);
+	}
+
+	public function editBanks()
+	{
+		$id = $this->sec->encryptor('d', $this->input->post('c_id'));
+		$existing_banks = explode(",", $this->input->post('existing_bank'));
+		for ($i = 0; $i < count($existing_banks); $i++) {
+			$existing_banks[$i] = $this->sec->encryptor('d', $existing_banks[$i]);
+		}
+		$other_banks = explode(",", $this->input->post('other_banks'));
+
+		$exist = array();
+		$banks = explode(",", $this->ven->getBanks($id));
+		foreach ($banks as $bank) {
+			if (!in_array($bank, $existing_banks)) {
+				$this->bank->deleteBank($bank);
+			} else {
+				array_push($exist, $bank);
+			}
+		}
+
+		// contact id generation...
+		$vendor = $this->ven->getSingleVen($id);
+		// print_r($vendor);
+		$details = array(
+			'name' => $vendor->c_fname . " " . $vendor->c_lname,
+			'email' => $vendor->c_email,
+			'contact' => explode(',', $vendor->c_contacts)[0],
+			'type' => "vendor",
+		);
+		$res = $this->bank->curlReq($details, $this->bank->contactURL);
+		$contactID = $res['id'];
+		// this is contact id...
+
+		for ($i = 3; $i <= count($other_banks); $i++) {
+			if ($i % 4 == 3) {
+				$data = array(
+					'c_bankname' => $other_banks[$i - 3],
+					'c_ifsc' => $other_banks[$i - 2],
+					'c_accountno' => $other_banks[$i - 1],
+					'c_status' => $other_banks[$i]
+				);
+				// print_r( $data);
+
+				$details = array(
+					"contact_id" => "$contactID",
+					"account_type" => "bank_account",
+					"bank_account" => array(
+						"name" => $vendor->c_fname . " " . $vendor->c_lname,
+						"ifsc" => $data['c_ifsc'],
+						"account_number" => $data['c_accountno']
+					)
+				);
+				$result = $this->bank->curlReq($details, $this->bank->fundURL);
+				$fundID = $result['id'];
+				$bankDetails = array(
+					'c_bankname' => $data['c_bankname'],
+					'c_ifsc' => $data['c_ifsc'],
+					'c_accountno' => $data['c_accountno'],
+					'c_status' => $data['c_status'],
+					'c_contactid' => $contactID,
+					'c_fundsid' => $fundID
+				);
+				$lastID = $this->bank->insert($bankDetails);
+				array_push($exist, $lastID);
+			}
+		}
+
+		print_r($exist);
+		$this->setBankDetails($id, $exist);
 	}
 }
