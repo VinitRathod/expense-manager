@@ -151,13 +151,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 						<div class="form-group">
 							<label for="pan" class="font-weight-regular"> PAN Number </label>
-							<input type="text" name="pan" class="form-control" id="editPan" autocomplete="off" required />
+							<div id="lblPANCardE" class="error"></div>
+							<input type="text" name="pan" class="form-control" onkeyup="validationPanE()" id="editPan" autocomplete="off" required />
 						</div>
 
 						<div class="form-group">
 							<label class="font-weight-regular"> Mobile Number </label>
-							<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="mobile" class="form-control" id="edit_mobileno" required />
-							<span id="mobileno" name="mobileno" class="text-danger font-weight-regular"> </span>
+							<div id="mobilenoE" name="mobileno" class="error"> </div>
+							<input type="text" placeholder="+91-9999999999"  name="mobile" class="form-control" onkeyup="validationmobE()" id="edit_mobileno" required />
+							
 						</div>
 
 						<div class="form-group">
@@ -551,10 +553,42 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	}
 
+	function validationmobE() {
+
+		var mobileNumber = document.getElementById("edit_mobileno");
+		var mobileno = document.getElementById("mobilenoE");
+		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		if (regexm.test(mobileNumber.value)) {
+			mobileno.innerHTML = "";
+			return true;
+		} else {
+			mobileno.innerHTML = "*Invalid Mobile Number";
+			return false;
+		}
+
+
+	}
+
+
 	function validationPan() {
 
 		var txtPANCard = document.getElementById("pan");
 		var lblPANCard = document.getElementById("lblPANCard")
+		var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+		if (regex.test(txtPANCard.value.toUpperCase())) {
+			lblPANCard.innerHTML = "";
+			return true;
+		} else {
+			lblPANCard.innerHTML = "*Invalid PAN Card Number";
+			return false;
+		}
+
+	}
+
+	function validationPanE() {
+
+		var txtPANCard = document.getElementById("editPan");
+		var lblPANCard = document.getElementById("lblPANCardE")
 		var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
 		if (regex.test(txtPANCard.value.toUpperCase())) {
 			lblPANCard.innerHTML = "";

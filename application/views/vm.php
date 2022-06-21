@@ -57,21 +57,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 							<div class="form-group">
 								<label for="gst" class="font-weight-regular"> GST </label>
-								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" minlength="16" class="form-control" id="c_gstno" autocomplete="off" required />
+								<div id="GSt" class="error"></div>
+								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" onkeyup="validationGST()" minlength="16" class="form-control" id="c_gstno" autocomplete="off" required />
 							</div>
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<input type="text" name="c_panno" class="form-control" id="c_panno" autocomplete="off" required />
+								<div id="lblPANCard" class="error"></div>
+								<input type="text" name="c_panno" class="form-control" onkeyup="validationPan()" id="c_panno" autocomplete="off" required />
 							</div>
 							<div class="form-group">
 								<label class="font-weight-regular"> Email </label>
 								<input type="email" name="c_email" class="form-control" id="c_email" autocomplete="off" />
-								<span id="emailids" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label class="font-weight-regular"> Mobile Number </label>
-								<input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" name="c_contacts[]" class="form-control" id="c_contacts" required />
-								<span id="mobileno" class="text-danger font-weight-regular"> </span>
+								<div id="mobileno" name="mobileno" class="error"> </div>
+								<input type="text" name="c_contacts[]" class="form-control" onkeyup="validationmob()" placeholder="+91-9999999999" id="c_contacts" required />
 							</div>
 							<div class="form-group">
 								<label for="document" class="font-weight-regular"> Document </label>
@@ -115,7 +116,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 										</tr> -->
 										<tr>
 											<td>
-												Mobile Number : <input type="number" name="c_contacts[]" placeholder="Enter your mobile number" class="form-control name_list" required="" /></td>
+
+												Mobile Number :<div id="mobilenof" name="mobileno" class="error"> </div> <input type="text" id="mobile_f" onkeyup="validationmobF()" name="c_contacts[]" placeholder="+91-9999999999" class="form-control name_list" required="" /></td>
 										</tr>
 										<!-- <tr>
 											<td>Email: <input type="email" name="email[]" placeholder="Enter your email" class="form-control name_list" required="" /></td>
@@ -190,12 +192,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 							<div class="form-group">
 								<label for="gst" class="font-weight-regular"> GST </label>
-								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" minlength="16" class="form-control" id="edit_c_gstno" autocomplete="off" required />
+								<div id="GStE" class="error"></div>
+								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" minlength="16" onkeyup="validationGSTE()" class="form-control" id="edit_c_gstno" autocomplete="off" required />
 							</div>
 
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<input type="text" name="c_panno" class="form-control" id="edit_c_panno" autocomplete="off" required />
+								<div id="lblPANCardE" class="error"></div>
+								<input type="text" name="c_panno" class="form-control" id="edit_c_panno" onkeyup="validationPanE()" autocomplete="off" required />
 							</div>
 
 							<div class="form-group">
@@ -234,7 +238,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<div class="card" style="width: 95%;">
 			<div class="card-body">
 				<div class="table-responsive-md mt-4 mr-2" style="overflow-x:auto;">
-					<table class="table"  id="vendor" >
+					<table class="table" id="vendor">
 						<thead>
 							<tr>
 								<th scope="col">Vendor ID</th>
@@ -472,7 +476,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	$("#editContactAdd").click(function() {
 		if (!addingContact) {
-			$("#contactTbl").append('<tr><td><input type="number" pattern="[0-9]{10}" maxlength="10" max="9999999999" step="1" id="intermediate" required /></td><td><button type="button" class="btn btn-success" onclick="addContact()">Add</button></td></tr>');
+			$("#contactTbl").append('<tr><td> <div id="mobilenoE" name="mobileno" class="error"> </div> <input  id="intermediate" placeholder="+91-9999999999" required /></td><td><button type="button" class="btn btn-success" onclick="addContact()">Add</button></td></tr>');
 			addingContact = true;
 		} else {
 			swal("Complete this action fisrt!", "Please finish adding one contact first.", "warning").then(() => {
@@ -482,11 +486,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 
 	function addContact() {
-		let newContact = $("#intermediate").val();
-		let index = document.getElementById("contactDetails_tbl").rows.length;
-		document.getElementById("contactDetails_tbl").deleteRow(index - 1);
-		$("#contactTbl").append('<tr class="contacts"><td>' + newContact + '</td><td><button type="button" class="close" aria-label="Close" onclick="removeContact(this)"><span aria-hidden="true">&times;</span> </button></td>');
-		addingContact = false;
+
+		let flag = 1;
+
+		var mobileNumber = document.getElementById("intermediate");
+		var mobileno = document.getElementById("mobilenoE");
+		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		if (regexm.test(mobileNumber.value)) {
+			mobileno.innerHTML = "";
+			// return true;
+		} else {
+			mobileno.innerHTML = "*Invalid Mobile Number";
+			flag = 0;
+			// return false;
+		}
+
+		if (flag==1) {
+			let newContact = $("#intermediate").val();
+			let index = document.getElementById("contactDetails_tbl").rows.length;
+			document.getElementById("contactDetails_tbl").deleteRow(index - 1);
+			$("#contactTbl").append('<tr class="contacts"><td>' + newContact + '</td><td><button type="button" class="close" aria-label="Close" onclick="removeContact(this)"><span aria-hidden="true">&times;</span> </button></td>');
+			addingContact = false;
+		}
+
 	}
 	// edit contact details function ends here...
 
@@ -502,21 +524,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			let existing_banks = [];
 			let other_banks = [];
 			let all_rows = document.getElementById("bankDetails_tbl").rows;
-			for(let i=1; i<all_rows.length; i++) {
-				if(all_rows[i].cells.length == 6) {
+			for (let i = 1; i < all_rows.length; i++) {
+				if (all_rows[i].cells.length == 6) {
 					existing_banks.push(all_rows[i].cells[0].innerHTML);
 					// other_banks.push([all_rows[i].cells[1].innerHTML,all_rows[i].cells[2].innerHTML,all_rows[i].cells[3].innerHTML,all_rows[i].cells[4].innerHTML]);
 				} else {
-					other_banks.push([all_rows[i].cells[0].innerHTML,all_rows[i].cells[1].innerHTML,all_rows[i].cells[2].innerHTML,all_rows[i].cells[3].innerHTML]);
+					other_banks.push([all_rows[i].cells[0].innerHTML, all_rows[i].cells[1].innerHTML, all_rows[i].cells[2].innerHTML, all_rows[i].cells[3].innerHTML]);
 				}
 			}
 			// for quick debugging...
 			console.log(existing_banks);
 			console.log(other_banks);
 			let form = new FormData();
-			form.append('existing_bank',existing_banks);
-			form.append('other_banks',other_banks);
-			form.append('c_id',currentBanksId);
+			form.append('existing_bank', existing_banks);
+			form.append('other_banks', other_banks);
+			form.append('c_id', currentBanksId);
 
 			$.ajax({
 				method: 'POST',
@@ -527,7 +549,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				url: `<?php echo base_url() ?>VendorManagement/editBanks`,
 				data: form,
 				success: function(response) {
-					swal("Updated Bank Details Successfully!","","success").then(()=>{
+					swal("Updated Bank Details Successfully!", "", "success").then(() => {
 						closeBankEditing();
 					});
 				},
@@ -603,7 +625,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 		let index = document.getElementById("bankDetails_tbl").rows.length;
 		document.getElementById("bankDetails_tbl").deleteRow(index - 1);
-		$("#bankTbl").append('<tr class="banks"><td>'+bank_n+'</td><td>'+ifsc+'</td><td>'+acc_no+'</td><td>'+acc_stat+'</td><td><button type="button" class="close" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td></tr>');
+		$("#bankTbl").append('<tr class="banks"><td>' + bank_n + '</td><td>' + ifsc + '</td><td>' + acc_no + '</td><td>' + acc_stat + '</td><td><button type="button" class="close" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td></tr>');
 	}
 
 	// edit banks details functions ends from here...
@@ -688,7 +710,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$('#add1').click(function() {
 			k++;
 			$('#dynamic_field1').append('<tr id="row11' + k + '" class="dynamic-added"> <td> <b>Enter Your Another Mobile Numbers </b></td></tr>',
-				'<tr id="row22' + k + '" class="dynamic-added"> <td>Mobile Number : <input type="text" name="c_contacts[]" placeholder="Enter your mobile number"class="form-control name_list" required="" /></td></tr>',
+
+				'<tr id="row22' + k + '" class="dynamic-added"> <td> Mobile Number :<div id="mobilenof' + k + '" name="mobileno" class="error"> </div> <input type="text" id="mobile_f" onkeyup="validationmobF()" name="c_contacts[]" placeholder="+91-9999999999" class="form-control name_list" required="" /> </td></tr>',
 				'<tr id="row33' + k + '" class="dynamic-added"><td><button type="button" name="remove" id="' + k + '" class="btn btn-danger btn_remove">Remove</button></td></tr></tr>',
 
 			);
@@ -835,6 +858,132 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			}
 		});
 	});
+
+	function validationGST() {
+
+		var c_gstno = document.getElementById("c_gstno");
+		var GSt = document.getElementById("GSt");
+		var regexm = /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/;
+		if (regexm.test(c_gstno.value)) {
+			GSt.innerHTML = "";
+			return true;
+		} else {
+			GSt.innerHTML = "*Invalid GST Number";
+			return false;
+		}
+
+
+	}
+
+	function validationmob() {
+
+		var mobileNumber = document.getElementById("c_contacts");
+		var mobileno = document.getElementById("mobileno");
+		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		if (regexm.test(mobileNumber.value)) {
+			mobileno.innerHTML = "";
+			return true;
+		} else {
+			mobileno.innerHTML = "*Invalid Mobile Number";
+			return false;
+		}
+
+
+	}
+
+	function validationmobF() {
+
+		var mobileNumber = document.getElementById("mobile_f");
+		var mobileno = document.getElementById("mobilenof");
+		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		if (regexm.test(mobileNumber.value)) {
+			mobileno.innerHTML = "";
+			return true;
+		} else {
+			mobileno.innerHTML = "*Invalid Mobile Number";
+			return false;
+		}
+
+
+	}
+
+	function validationPan() {
+
+		var txtPANCard = document.getElementById("c_gstno");
+		var lblPANCard = document.getElementById("lblPANCard")
+		var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+		if (regex.test(txtPANCard.value.toUpperCase())) {
+			lblPANCard.innerHTML = "";
+			return true;
+		} else {
+			lblPANCard.innerHTML = "*Invalid PAN Card Number";
+			return false;
+		}
+
+	}
+
+	function validationGSTE() {
+
+		var c_gstno = document.getElementById("edit_c_gstno");
+		var GSt = document.getElementById("GStE");
+		var regexm = /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/;
+		if (regexm.test(c_gstno.value)) {
+			GSt.innerHTML = "";
+			return true;
+		} else {
+			GSt.innerHTML = "*Invalid GST Number";
+			return false;
+		}
+
+
+	}
+
+	function validationmobE() {
+
+		var mobileNumber = document.getElementById("c_contacts");
+		var mobileno = document.getElementById("mobileno");
+		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		if (regexm.test(mobileNumber.value)) {
+			mobileno.innerHTML = "";
+			return true;
+		} else {
+			mobileno.innerHTML = "*Invalid Mobile Number";
+			return false;
+		}
+
+
+	}
+
+	function validationmobFE() {
+
+		var mobileNumber = document.getElementById("mobile_f");
+		var mobileno = document.getElementById("mobilenof");
+		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+		if (regexm.test(mobileNumber.value)) {
+			mobileno.innerHTML = "";
+			return true;
+		} else {
+			mobileno.innerHTML = "*Invalid Mobile Number";
+			return false;
+		}
+
+
+	}
+
+	function validationPanE() {
+
+		var txtPANCard = document.getElementById("edit_c_panno");
+		var lblPANCard = document.getElementById("lblPANCardE")
+		var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+		if (regex.test(txtPANCard.value.toUpperCase())) {
+			lblPANCard.innerHTML = "";
+			return true;
+		} else {
+			lblPANCard.innerHTML = "*Invalid PAN Card Number";
+			return false;
+		}
+
+	}
 </script>
 
 <!-- script table Data  -->
@@ -842,4 +991,5 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
 </body>
+
 </html>
