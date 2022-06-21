@@ -188,7 +188,7 @@ $csrf = array(
 			url: "<?php echo base_url() ?>ExpenseManagement/addExpCat",
 			data: form,
 			success: function() {
-				swal("New Expense Category Added Successfully.","Insert Action Succeed.","success").then(()=>{
+				swal("New Expense Category Added Successfully.", "Insert Action Succeed.", "success").then(() => {
 
 					loadExp();
 					$("#expCode").val("");
@@ -200,9 +200,7 @@ $csrf = array(
 		});
 	});
 
-	function Reset() {
-		
-	}
+	function Reset() {}
 
 	$("#edit_exp").submit(function(e) {
 		// alert();
@@ -216,10 +214,10 @@ $csrf = array(
 			contentType: false,
 			cache: false,
 			enctype: 'multipart/form-data',
-			url: "<?php echo base_url() ?>ExpenseManagement/expUpdate/"+id,
+			url: "<?php echo base_url() ?>ExpenseManagement/expUpdate/" + id,
 			data: form,
 			success: function() {
-				swal("Expense Category Updated Successfully.","Update Action Succeed.","success").then(()=>{
+				swal("Expense Category Updated Successfully.", "Update Action Succeed.", "success").then(() => {
 					loadExp();
 					expEdit(id);
 				});
