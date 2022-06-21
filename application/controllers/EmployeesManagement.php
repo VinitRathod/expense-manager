@@ -32,7 +32,7 @@ class EmployeesManagement extends CI_Controller
 				<td>' . $emps->c_fname . ' ' . $emps->c_lname . '</td>
 				<td>' . $emps->c_panno . '</td>
 				<td>' . $emps->c_contactno . '</td>
-                <td><a href="#" class="btn btn-x" data-toggle="modal" bank_details" onclick="bankDetails(`' . $this->sec->encryptor('e', $emps->c_banks)  . '`)" data-target="#bank">View Bank Details</a>
+                <td><a href="#" class="btn btn-x" data-toggle="modal" bank_details" onclick="bankDetails(`' . $this->sec->encryptor('e', $emps->c_id)  . '`)" data-target="#bank">View Bank Details</a>
                             
 				<td><a href="#" onclick="empEdit(`' . $this->sec->encryptor('e', $emps->c_id) . '`)" data-toggle="modal" data-target="#editEMPModal" class="btn btn-success">Edit</a>
 					<a href="#" class="btn btn-danger" onclick="empDelete(`' . $this->sec->encryptor('e', $emps->c_id) . '`)">Delete</a>
@@ -369,5 +369,102 @@ class EmployeesManagement extends CI_Controller
         if (!$this->emp->checkBank($this->sec->encryptor('d', $this->input->post('c_id')))) {
             echo "SUCCESS";
         }
+    }
+
+    public function getBankDetails($id)
+    {
+        $banks = $this->emp->getBanks($this->sec->encryptor('d', $id));
+        $output = "";
+        $id = explode(",", $banks);
+        for ($i = 0; $i < count($id); $i++) {
+            // echo $id[$i];
+            $bDetails = $this->bank->getSingleBankDetail($id[$i]);
+            // print_r($bDetails);
+            $output .= "<tr class='banks'>
+                    <td style='display: none; visibility: hidden;'>" . $this->sec->encryptor('e', $id[$i]) . "</td>
+                    <td>" . $bDetails->c_bankname . "</td>
+                    <td>" . $bDetails->c_ifsc . "</td>
+                    <td>" . $bDetails->c_accountno . "</td>
+                    <td>" . $bDetails->c_status . "</td>
+                </tr>";
+        }
+        echo $output;
+    }
+
+    public function editBanks()
+    {
+        $id = $this->sec->encryptor('d', $this->input->post('c_id'));
+        $existing_banks = explode(",", $this->input->post('existing_bank'));
+        for ($i = 0; $i < count($existing_banks); $i++) {
+            $existing_banks[$i] = $this->sec->encryptor('d', $existing_banks[$i]);
+        }
+        $other_banks = explode(",", $this->input->post('other_banks'));
+
+        $exist = array();
+        $banks = explode(",", $this->emp->getBanks($id));
+        foreach ($banks as $bank) {
+            if (!in_array($bank, $existing_banks)) {
+                $this->bank->deleteBank($bank);
+            } else {
+                array_push($exist, $bank);
+            }
+        }
+
+        // contact id generation...
+        $employee = $this->emp->getSingleEmp($id);
+        // print_r($employee);
+        $details = array(
+            'name' => $employee->c_fname . " " . $employee->c_lname,
+            'email' => $employee->c_email,
+            'contact' => $employee->c_contactno,
+            'type' => "employee",
+        );
+        $res = $this->bank->curlReq($details, $this->bank->contactURL);
+        $contactID = $res['id'];
+        // this is contact id...
+
+        for ($i = 3; $i <= count($other_banks); $i++) {
+            if ($i % 4 == 3) {
+                $data = array(
+                    'c_bankname' => $other_banks[$i - 3],
+                    'c_ifsc' => $other_banks[$i - 2],
+                    'c_accountno' => $other_banks[$i - 1],
+                    'c_status' => $other_banks[$i]
+                );
+                // print_r( $data);
+
+                $details = array(
+                    "contact_id" => "$contactID",
+                    "account_type" => "bank_account",
+                    "bank_account" => array(
+                        "name" => $employee->c_fname . " " . $employee->c_lname,
+                        "ifsc" => $data['c_ifsc'],
+                        "account_number" => $data['c_accountno']
+                    )
+                );
+                $result = $this->bank->curlReq($details, $this->bank->fundURL);
+                $fundID = $result['id'];
+                $bankDetails = array(
+                    'c_bankname' => $data['c_bankname'],
+                    'c_ifsc' => $data['c_ifsc'],
+                    'c_accountno' => $data['c_accountno'],
+                    'c_status' => $data['c_status'],
+                    'c_contactid' => $contactID,
+                    'c_fundsid' => $fundID
+                );
+                $lastID = $this->bank->insert($bankDetails);
+                array_push($exist, $lastID);
+            }
+        }
+
+        print_r($exist);
+        $this->setBankDetails($id, $exist);
+    }
+    public function setBankDetails($id, $bank)
+    {
+        $data = array(
+            'c_banks' => implode(",", $bank),
+        );
+        $this->emp->setBanks($id, $data);
     }
 }

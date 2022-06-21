@@ -251,7 +251,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				console.log(response);
 				if (response == "SUCCESS") {
 					swal("Employee Payout Created Successfully", "Action Succeed!", "success").then(() => {
-						loadEmpPay();
+						// loadEmpPay();
+						location.reload();
 						// $('#addEmpPay').trigger("reset");
 					});
 				} else {
@@ -370,7 +371,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			// data: $(this).val(),
 			success: function(data) {
 				// alert(data)
-				loadEmpPay();
+				// loadEmpPay();
+				location.reload();
 			},
 			beforeSend: function(ex) {
 				$("#tblBlur").css("filter", "blur(4px)");
@@ -384,9 +386,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 </script>
 
-	<!-- script table Data  -->
-	<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
-	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<!-- script table Data  -->
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
 
 

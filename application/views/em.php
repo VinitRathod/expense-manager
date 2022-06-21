@@ -263,7 +263,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		// });
 		$.ajax({
 			method: "POST",
-			url: "<?php echo base_url(); ?>BankController/getBankDetails/" + id,
+			url: "<?php echo base_url(); ?>EmployeesManagement/getBankDetails/" + id,
 			success: function(response) {
 				// alert(response);
 				$(".banktbl").html(response);
@@ -292,7 +292,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								swal("Poof! Employee has been deleted!", {
 									icon: "success",
 								});
-								loadEmp();
+								// loadEmp();
+								location.reload();
 							}
 						}
 					});
@@ -308,25 +309,47 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	$("#editBanks").click(function() {
 		if (!editingBank) {
 			$("#editBankAdd").removeClass("invisible");
-			$("#banks_header").append("<th scope='col'>Update</th><th scope='col'>Remove</th>")
-			$(".banks").append('<td><button class="update btn btn-success" type="button" aria-label="Close" onclick="updateBank(this)">Update</button></td><td><button class="close" type="button" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td>');
+			$("#banks_header").append("<th scope='col'>Remove</th>")
+			$(".banks").append('<td><button class="close" type="button" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td>');
 			$("#editBanks").html("Update");
 			editingBank = true;
+		} else {
+			let existing_banks = [];
+			let other_banks = [];
+			let all_rows = document.getElementById("bankDetails_tbl").rows;
+			for (let i = 1; i < all_rows.length; i++) {
+				if (all_rows[i].cells.length == 6) {
+					existing_banks.push(all_rows[i].cells[0].innerHTML);
+					// other_banks.push([all_rows[i].cells[1].innerHTML,all_rows[i].cells[2].innerHTML,all_rows[i].cells[3].innerHTML,all_rows[i].cells[4].innerHTML]);
+				} else {
+					other_banks.push([all_rows[i].cells[0].innerHTML, all_rows[i].cells[1].innerHTML, all_rows[i].cells[2].innerHTML, all_rows[i].cells[3].innerHTML]);
+				}
+			}
+			// for quick debugging...
+			console.log(existing_banks);
+			console.log(other_banks);
+			let form = new FormData();
+			form.append('existing_bank', existing_banks);
+			form.append('other_banks', other_banks);
+			form.append('c_id', currentBanksId);
+
+			$.ajax({
+				method: 'POST',
+				processData: false,
+				contentType: false,
+				cache: false,
+				enctype: 'multipart/form-data',
+				url: `<?php echo base_url() ?>EmployeesManagement/editBanks`,
+				data: form,
+				success: function(response) {
+					swal("Updated Bank Details Successfully!", "", "success").then(() => {
+						closeEditing();
+					});
+				},
+			});
 		}
 	});
 
-
-	function updateBank(elem) {
-		// alert(elem)
-		let current_tr = elem.parentNode.parentNode;
-		let current_tbl = elem.parentNode.parentNode.parentNode;
-		let index = $("#bankDetails_tbl tr").index(current_tr);
-		current_tbl = document.getElementById("bankDetails_tbl");
-		let bankId = current_tbl.rows[index].cells[0].innerHTML;
-
-		console.log(bankId);
-		editingBank = false;
-	}
 
 	function removeBank(elem) {
 		// alert(elem);
@@ -352,7 +375,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				success: function(response) {
 					if (response == "SUCCESS") {
 						document.getElementById("bankDetails_tbl").deleteRow(index);
-						swal("Contacts Has Been Updated!", "", "success").then(() => {
+						swal("Banks Has Been Updated!", "", "success").then(() => {
 
 						});
 					} else {
@@ -394,8 +417,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function closeEditing() {
 		editingBank = false;
-		$("#bankDetails_tbl tbody tr td").filter(":nth-child(7)").remove();
-		$("#bankDetails_tbl thead tr th").filter(":nth-child(7)").remove();
+		$("#bankDetails_tbl tbody tr td").filter(":nth-child(5)").remove();
+		$("#bankDetails_tbl thead tr th").filter(":nth-child(5)").remove();
 		$("#editBankAdd").addClass("invisible");
 		$("#editBanks").html("Edit Banks");
 		addingBank = false;
@@ -460,7 +483,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				// loadEmp();
 
 				console.log("data added successfully")
-				loadEmp();
+				// loadEmp();
+				location.reload();
 				// document.g	etElementById("add_emp").reset();
 
 			}
@@ -575,7 +599,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				if (response == "SUCCESS") {
 					swal("Basic Details Of Employee Are Updates Successfully!", "", "success").then(() => {
 						// call back function, after success something to be done... goes here...
-						loadEmp();
+						// loadEmp();
+						location.reload();
 					});
 				}
 			}
