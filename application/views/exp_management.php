@@ -200,7 +200,9 @@ $csrf = array(
 		});
 	});
 
-	function Reset() {}
+	function Reset() {
+
+	}
 
 	$("#edit_exp").submit(function(e) {
 		// alert();
@@ -226,23 +228,23 @@ $csrf = array(
 	});
 
 	var csrf_token = "";
+
 	function loadExp() {
 
-		if(csrf_token == "") 
-		{
-			csrf_token = '<?=$csrf['value']?>';
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
 		}
 
 		$.ajax({
 			url: "<?php echo base_url() ?>ExpenseManagement/index",
 			method: "POST",
 			data: {
-				"<?=$csrf['name'];?>" : csrf_token,
+				"<?= $csrf['name']; ?>": csrf_token,
 			},
 			success: function(data) {
 				let res = JSON.parse(data);
 				console.log(res);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				$(document).ready(function() {

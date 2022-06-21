@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$csrf = array(
+	'name' => $this->security->get_csrf_token_name(),
+	'value' => $this->security->get_csrf_hash(),
+);
 ?>
 
 
@@ -158,8 +162,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<div class="form-group">
 							<label class="font-weight-regular"> Mobile Number </label>
 							<div id="mobilenoE" name="mobileno" class="error"> </div>
-							<input type="text" placeholder="+91-9999999999"  name="mobile" class="form-control" onkeyup="validationmobE()" id="edit_mobileno" required />
-							
+							<input type="text" placeholder="+91-9999999999" name="mobile" class="form-control" onkeyup="validationmobE()" id="edit_mobileno" required />
+
 						</div>
 
 						<div class="form-group">
@@ -246,6 +250,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 </div>
 <script>
+	var csrf_token = "";
 	let editingBank = false;
 	let addingBank = false;
 	let currentBanksId = undefined;
@@ -263,18 +268,32 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		// id.forEach((id) => {
 		// 	url += (id + "_");
 		// });
+		if (csrf_token == "") {
+			csrf_token = '<?php echo $csrf['value'] ?>';
+		}
 		$.ajax({
 			method: "POST",
 			url: "<?php echo base_url(); ?>EmployeesManagement/getBankDetails/" + id,
-			success: function(response) {
+			data: {
+				"<?= $csrf['name']; ?>": csrf_token,
+			},
+			success: function(data) {
 				// alert(response);
-				$(".banktbl").html(response);
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$(".banktbl").html(res.output);
 				currentBanksId = id;
 			}
 		});
 	}
 
 	function empDelete(id) {
+		if (csrf_token == "") {
+			csrf_token = '<?php echo $csrf['value'] ?>';
+		}
 
 		// alert(id);
 		swal({
@@ -289,13 +308,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					$.ajax({
 						url: `<?php echo base_url(); ?>/EmployeesManagement/empDelete/${id}`,
 						method: "POST",
-						success: function(response) {
-							if (response == "SUCCESS") {
+						data: {
+							"<?= $csrf['name']; ?>": csrf_token,
+						},
+						success: function(data) {
+							let res = JSON.parse(data);
+							// console.log(res);
+							if (res.csrf) {
+								csrf_token = res.csrf;
+							}
+							if (res.output == "SUCCESS") {
 								swal("Poof! Employee has been deleted!", {
-									icon: "success",
-								});
+										icon: "success",
+									})
+									.then(() => {
+										location.reload();
+									});
 								// loadEmp();
-								location.reload();
+
 							}
 						}
 					});
@@ -309,6 +339,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	// edit banks details start from here
 	$("#editBanks").click(function() {
+		if (csrf_token == "") {
+			csrf_token = '<?php echo $csrf['value'] ?>';
+		}
 		if (!editingBank) {
 			$("#editBankAdd").removeClass("invisible");
 			$("#banks_header").append("<th scope='col'>Remove</th>")
@@ -328,12 +361,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				}
 			}
 			// for quick debugging...
-			console.log(existing_banks);
-			console.log(other_banks);
+			// console.log(existing_banks);
+			// console.log(other_banks);
 			let form = new FormData();
 			form.append('existing_bank', existing_banks);
 			form.append('other_banks', other_banks);
 			form.append('c_id', currentBanksId);
+			form.append("csrf_token", csrf_token);
 
 			$.ajax({
 				method: 'POST',
@@ -343,10 +377,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				enctype: 'multipart/form-data',
 				url: `<?php echo base_url() ?>EmployeesManagement/editBanks`,
 				data: form,
-				success: function(response) {
-					swal("Updated Bank Details Successfully!", "", "success").then(() => {
-						closeEditing();
-					});
+				// dataType: "json",
+				success: function(data) {
+					let res = JSON.parse(data);
+					// console.log(res);
+					if (res.csrf) {
+						csrf_token = res.csrf;
+					}
+					if (res.output == "SUCCESS") {
+						swal("Updated Bank Details Successfully!", "", "success").then(() => {
+							// closeEditing();
+							location.reload();
+						});
+					}
+
 				},
 			});
 		}
@@ -355,6 +399,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function removeBank(elem) {
 		// alert(elem);
+		if (csrf_token == "") {
+			csrf_token = '<?php echo $csrf['value'] ?>';
+		}
 		let current_tr = elem.parentNode.parentNode;
 		let current_tbl = elem.parentNode.parentNode.parentNode;
 		let index = $("#bankDetails_tbl tr").index(current_tr);
@@ -365,6 +412,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 		let form = new FormData();
 		form.append("c_id", bankId);
+		form.append("csrf_token", csrf_token);
+
 		if (total_rows > 2) {
 			$.ajax({
 				method: 'POST',
@@ -374,12 +423,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				enctype: 'multipart/form-data',
 				url: `<?php echo base_url() ?>EmployeesManagement/checkBank`,
 				data: form,
-				success: function(response) {
-					if (response == "SUCCESS") {
+				success: function(data) {
+					let res = JSON.parse(data);
+					// console.log(res);
+					if (res.csrf) {
+						csrf_token = res.csrf;
+					}
+					if (res.output == "SUCCESS") {
 						document.getElementById("bankDetails_tbl").deleteRow(index);
-						swal("Banks Has Been Updated!", "", "success").then(() => {
-
-						});
+						swal("Bank Has Been Deleted!", "", "success").then(() => {});
 					} else {
 						// just for quick debug...
 						// alert(response);
@@ -470,8 +522,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 
 	$("#add_emp").submit(function(e) {
+		if (csrf_token == "") {
+			csrf_token = '<?php echo $csrf['value'] ?>';
+		}
 		e.preventDefault();
 		const form = new FormData(document.getElementById('add_emp'));
+		form.append("csrf_token", csrf_token);
 		// console.log(...form);
 		$.ajax({
 			method: 'POST',
@@ -481,24 +537,38 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			enctype: 'multipart/form-data',
 			url: "<?php echo base_url() ?>EmployeesManagement/addEmp",
 			data: form,
-			success: function() {
+			success: function(data) {
 				// loadEmp();
-
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
 				console.log("data added successfully")
 				// loadEmp();
 				location.reload();
-				// document.g	etElementById("add_emp").reset();
+				// document.getElementById("add_emp").reset();
 
 			}
 		});
 	});
 
 	function loadEmp() {
+		if (csrf_token == "") {
+			csrf_token = '<?php echo $csrf['value'] ?>';
+		}
 		$.ajax({
 			url: "<?php echo base_url() ?>EmployeesManagement/index",
 			method: "POST",
+			data: {
+				"<?= $csrf['name']; ?>": csrf_token,
+			},
 			success: function(data) {
-				$(".tblBody").html(data);
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
 				$(document).ready(function() {
 					$('#employee').DataTable({
 						"order": [
@@ -511,7 +581,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						retrieve: true,
 					});
 				});
-
+				$(".tblBody").html(res.output);
 			}
 		});
 	}
@@ -519,20 +589,31 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function empEdit(id) {
 		// alert(id);
+		if (csrf_token == "") {
+			csrf_token = '<?php echo $csrf['value'] ?>';
+		}
 		$.ajax({
 			url: "<?php echo  base_url(); ?>EmployeesManagement/editEmp/" + id,
 			method: "POST",
-			success: function(response) {
+			data: {
+				"<?= $csrf['name']; ?>": csrf_token,
+			},
+			success: function(data) {
 				// console.log(JSON.parse(response));
-				var data = JSON.parse(response);
+				// var data = JSON.parse(response);
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
 				// let data = JSON.parse(response);
-				$("#edit_empid").val(data.c_empid);
-				$("#editEmpName").val(data.c_fname + " " + data.c_lname);
-				$("#editPan").val(data.c_panno);
-				$("#edit_mobileno").val(data.c_contactno);
-				$("#edit_email").val(data.c_email);
-				$('#editempId').val(data.c_id);
-				// $("#EditexpDesc").html(data.c_description);
+				$("#edit_empid").val(res.result.c_empid);
+				$("#editEmpName").val(res.result.c_fname + " " + res.result.c_lname);
+				$("#editPan").val(res.result.c_panno);
+				$("#edit_mobileno").val(res.result.c_contactno);
+				$("#edit_email").val(res.result.c_email);
+				$('#editempId').val(res.result.c_id);
+				$("#EditexpDesc").html(res.result.c_description);
 			}
 		});
 	}
@@ -619,6 +700,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	$("#editEmpBasic").submit(function(e) {
 		e.preventDefault();
 		const form = new FormData(document.getElementById("editEmpBasic"));
+		form.append("csrf_token", csrf_token);
 		// console.log(...form);
 		$.ajax({
 			url: "<?php echo base_url(); ?>EmployeesManagement/editEmpBasic",
@@ -628,9 +710,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			cache: false,
 			data: form,
 			enctype: 'multipart/form-data',
-			success: function(response) {
+			success: function(data) {
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
 				// console.log(response);
-				if (response == "SUCCESS") {
+				if (res.output == "SUCCESS") {
 					swal("Basic Details Of Employee Are Updates Successfully!", "", "success").then(() => {
 						// call back function, after success something to be done... goes here...
 						// loadEmp();
