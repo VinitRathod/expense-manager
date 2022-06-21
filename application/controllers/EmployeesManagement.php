@@ -189,7 +189,8 @@ class EmployeesManagement extends CI_Controller
     {
         $res = $this->emp->getSingleEmp($this->sec->encryptor('d', $id));
         $output = '<input type="text" name="pay_emp_name" pattern="[a-z A-Z]{3,}" minlength="3" value="' . $res->c_fname . ' ' . $res->c_lname . '" class="form-control" id="employeename" autocomplete="off" required />';
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
     public function addEmpPay()
     {
@@ -242,7 +243,7 @@ class EmployeesManagement extends CI_Controller
 
 
         if ($this->emp->insertEmpPay($data)) {
-            echo "SUCCESS";
+            echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
         }
     }
 
@@ -255,7 +256,8 @@ class EmployeesManagement extends CI_Controller
 
             $output .= '<option value=' . $this->sec->encryptor('e', $empId->c_id) . '>' . $empId->c_empid . '</option>';
         }
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     public function showEmpPay()
@@ -290,7 +292,8 @@ class EmployeesManagement extends CI_Controller
         		</td>
         	</tr>';
         }
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     public function getExpCat()
@@ -306,7 +309,8 @@ class EmployeesManagement extends CI_Controller
             }
             $output .= '<option value="' . $this->sec->encryptor('e', '1') . '"> Other </option>';
         }
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     public function getEmpBanks($id)
@@ -321,7 +325,7 @@ class EmployeesManagement extends CI_Controller
                 $output .= '<option value="' . $this->sec->encryptor('e', $bankDetails->c_id) . '">' . $bankDetails->c_bankname . '</option>';
             }
         }
-        echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
     // Employee Payout Code Ends Here ==================================================
 
@@ -346,7 +350,7 @@ class EmployeesManagement extends CI_Controller
         		<td>' . $date . '</td>
         	</tr>';
         }
-        echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     // Dashboard Code Ends Here
