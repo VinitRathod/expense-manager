@@ -65,7 +65,8 @@ class Bank extends CI_Model
         return $this->db->get()->row();
     }
 
-    public function getBankDetailsVen($id) {
+    public function getBankDetailsVen($id)
+    {
         $this->db->select("*");
         $this->db->from("t_vendorpayout");
         $this->db->join('t_bank', 't_bank.c_id = t_vendorpayout.c_bankid', 'inner');
@@ -74,10 +75,11 @@ class Bank extends CI_Model
         return $this->db->get()->row();
     }
 
-    public function getJSON($banks) {
+    public function getJSON($banks)
+    {
         $b_details = array();
-        foreach($banks as $bid) {
-            array_push($b_details,$this->getSingleBankDetail($bid));
+        foreach ($banks as $bid) {
+            array_push($b_details, $this->getSingleBankDetail($bid));
         }
         return $b_details;
     }
