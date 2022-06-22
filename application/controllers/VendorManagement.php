@@ -199,9 +199,9 @@ class VendorManagement extends CI_Controller
 	{
 		$result = $this->ven->getSingleVen($this->sec->encryptor('d', $id));
 		$result->c_id = $this->sec->encryptor('e', $result->c_id);
+		$result->csrf = $this->security->get_csrf_hash();
 
-		$output = json_encode($result);
-		echo $output;
+		echo json_encode($result);
 	}
 
 	public function editVendor()
@@ -221,9 +221,9 @@ class VendorManagement extends CI_Controller
 		);
 		$updateBasicResult = $this->ven->updateBasic($id, $data);
 		if ($updateBasicResult) {
-			echo "SUCCESS";
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
 		} else {
-			echo "ERROR";
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
 		}
 	}
 

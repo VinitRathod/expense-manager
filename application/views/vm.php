@@ -803,14 +803,23 @@ $csrf = array(
 	}
 
 	function venUpdate(id) {
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		$.ajax({
 			method: "POST",
 			url: "<?php echo base_url(); ?>VendorManagement/fetchVen/" + id,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
+			},
 			success: function(response) {
 				// just for response, and quick debugging...
 				console.log("Vendor Details :", (JSON.parse(response)));
 
 				let data = JSON.parse(response);
+				if(data.csrf) {
+					csrf_token = data.csrf;
+				}
 
 				$("#ven").val(data.c_id);
 				$("#edit_c_name").val(data.c_fname + " " + data.c_lname);
@@ -882,10 +891,14 @@ $csrf = array(
 	loadVen();
 
 	$("#editVenBasic").submit(function(e) {
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		e.preventDefault();
 		const form = new FormData(document.getElementById('editVenBasic'));
 		let t_area = document.getElementById('edit_c_address');
 		form.append(t_area.name, t_area.value);
+		form.append('<?=$csrf['name']?>',csrf_token);
 		$.ajax({
 			method: "POST",
 			processData: false,
@@ -895,7 +908,11 @@ $csrf = array(
 			url: `<?php echo base_url() ?>VendorManagement/editVendor`,
 			data: form,
 			success: function(response) {
-				if (response == "SUCCESS") {
+				let res = JSON.parse(response);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}
+				if (res.response == "SUCCESS") {
 					swal("Basic Details Of Vendor Are Updates Successfully!", "", "success").then(() => {
 						// call back function, after success something to be done... goes here...
 						// loadVen();
