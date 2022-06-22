@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 $csrf = array(
-    'name' => $this->security->get_csrf_token_name(),
-    'value' => $this->security->get_csrf_hash(),
+	'name' => $this->security->get_csrf_token_name(),
+	'value' => $this->security->get_csrf_hash(),
 );
 ?>
 <div id="maincontent" class="contentblock mr-4" style="width:80vw">
@@ -215,19 +215,19 @@ $csrf = array(
 	});
 
 	function loadAllVen() {
-		if(csrf_token == "") {
-			csrf_token = "<?=$csrf['value']?>";
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
 		}
 		$.ajax({
 			url: "<?php echo base_url() ?>VendorPayout/getAllVen",
 			method: "POST",
-			data:{
-				'<?=$csrf['name']?>': csrf_token,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
 			},
 			success: function(response) {
 				// alert(response);
 				let res = JSON.parse(response);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				$("#c_venid").html(res.response);
@@ -237,19 +237,19 @@ $csrf = array(
 
 	function getBanks(id) {
 		// alert(id);
-		if(csrf_token == "") {
-			csrf_token = "<?=$csrf['value']?>";
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
 		}
 		$.ajax({
 			url: "<?php echo base_url() ?>VendorPayout/getVendorBanks/" + id,
 			method: "POST",
-			data:{
-				'<?=$csrf['name']?>': csrf_token,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
 			},
 			success: function(response) {
 				// alert(response);
 				let res = JSON.parse(response);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				$("#c_banks").html(res.response);
@@ -258,18 +258,18 @@ $csrf = array(
 	}
 
 	function getAllExpCat() {
-		if(csrf_token == "") {
-			csrf_token = "<?=$csrf['value']?>";
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
 		}
 		$.ajax({
 			url: "<?php echo base_url(); ?>VendorPayout/getExpCat",
 			method: "POST",
-			data:{
-				'<?=$csrf['name']?>': csrf_token,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
 			},
 			success: function(response) {
 				let res = JSON.parse(response);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				$("#c_category").html(res.response);
@@ -278,12 +278,12 @@ $csrf = array(
 	}
 
 	$("#add_ven_payout").submit(function(e) {
-		if(csrf_token == "") {
-			csrf_token = "<?=$csrf['value']?>";
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
 		}
 		e.preventDefault();
 		const form = new FormData(document.getElementById("add_ven_payout"));
-		form.append('<?=$csrf['name']?>',csrf_token);
+		form.append('<?= $csrf['name'] ?>', csrf_token);
 		$.ajax({
 			method: "POST",
 			processData: false,
@@ -294,12 +294,13 @@ $csrf = array(
 			data: form,
 			success: function(response) {
 				let res = JSON.parse(response);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
-				}	
+				}
 				if (res.response == "SUCCESS") {
 					swal("Vendor Payout created successfully!", "Action succeed!", "success").then(() => {
-						loadVenPayouts();
+						location.reload();
+						// loadVenPayouts();
 					});
 				}
 			}
@@ -307,19 +308,19 @@ $csrf = array(
 	});
 
 	function loadVenPayouts() {
-		if(csrf_token == "") {
-			csrf_token = "<?=$csrf['value']?>";
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
 		}
 		$.ajax({
 			url: "<?php echo base_url(); ?>VendorPayout/getAllPayouts",
 			method: "POST",
-			data:{
-				'<?=$csrf['name']?>': csrf_token,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
 			},
 			success: function(response) {
 				// alert(response);
 				let res = JSON.parse(response);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				$("#tblBody").html(res.response);
@@ -340,8 +341,8 @@ $csrf = array(
 		});
 	}
 	$(document).on('click', '.payout', function(ex) {
-		if(csrf_token == "") {
-			csrf_token = "<?=$csrf['value']?>";
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
 		}
 		console.log("clicked");
 		let pbar;
@@ -350,15 +351,15 @@ $csrf = array(
 		$.ajax({
 			url: "<?php echo base_url(); ?>PayoutController/payOutVen/" + $(this).attr("id"),
 			method: "POST",
-			data:{
-				'<?=$csrf['name']?>': csrf_token,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
 			},
 			// data: $(this).val(),
 			success: function(data) {
 				// alert(data);
 				console.log(data);
 				let res = JSON.parse(data);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				// loadVenPayouts();

@@ -571,7 +571,8 @@ $csrf = array(
 						csrf_token = res.csrf;
 					}
 					swal("Updated Bank Details Successfully!", "", "success").then(() => {
-						closeBankEditing();
+						location.reload();
+						// closeBankEditing();
 					});
 				},
 			});
@@ -603,7 +604,7 @@ $csrf = array(
 				data: form,
 				success: function(response) {
 					let res = JSON.parse(response);
-					if(res.csrf) {
+					if (res.csrf) {
 						csrf_token = res.csrf;
 					}
 					if (res.response == "BANK NOT IN PAYOUT") {
@@ -958,7 +959,7 @@ $csrf = array(
 		});
 	});
 
-	let test = true;
+	let test = false;
 
 	function validationGST() {
 

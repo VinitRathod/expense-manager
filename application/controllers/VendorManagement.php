@@ -122,7 +122,7 @@ class VendorManagement extends CI_Controller
 
 
 		if ($img_error == 0) {
-			echo "\nInside img if";
+			// echo "\nInside img if";
 			$doc_ex = pathinfo($doc_name, PATHINFO_EXTENSION);
 			$doc_ex_lc = strtolower($doc_ex);
 
@@ -164,7 +164,7 @@ class VendorManagement extends CI_Controller
 			);
 		}
 		$insert = $this->ven->insert(html_escape($data));
-		if($insert) {
+		if ($insert) {
 			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
 		} else {
 			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
