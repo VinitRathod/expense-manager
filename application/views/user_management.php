@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$csrf = array(
+    'name' => $this->security->get_csrf_token_name(),
+    'value' => $this->security->get_csrf_hash(),
+);
 ?>
 <div id="maincontent" class="contentblock mr-4" style="width:80vw">
     <div id="top-header" style="display:flex; justify-content:space-between">
@@ -151,6 +155,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
 </div>
 <script>
+    let csrf_token = "";
     function validation() {}
 
     $("#add_usr").submit(function(e) {
@@ -214,11 +219,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
     });
 
     function loadUser() {
+        if(csrf_token == "") {
+            csrf_token = '<?=$csrf['value']?>';
+        }
         $.ajax({
             url: "<?php echo base_url() ?>UserManagement/getAllUsers",
             method: "POST",
+            data: {
+                '<?=$csrf['name']?>' : csrf_token,
+            },
             success: function(data) {
-                $(".tblBody").html(data);
+                let res = JSON.parse(data);
+                if(res.csrf) {
+                    csrf_token = res.csrf;
+                }
+                $(".tblBody").html(res.response);
                 $(document).ready(function() {
                     $('#user').DataTable({
                         "order": [
