@@ -41,50 +41,6 @@ class Welcome extends CI_Controller
 		}
 	}
 
-	public function vendorManagement()
-	{
-		$this->load->view('header');
-		$this->load->view('vm');
-	}
-
-	public function vendorPayout()
-	{
-		$this->load->view('header');
-		$this->load->view('ven_payout');
-	}
-
-	public function employeePayout()
-	{
-	}
-
-	public function add()
-	{
-		// echo "Hello from add";
-		if ($this->input->post('submit')) {
-			$emp_name = $this->input->post('employeename');
-			$emp_name = explode(" ", $emp_name);
-			// in array key name same as the database column name
-			$data = array(
-				'c_fname' => $emp_name[0],
-				'c_lname' => $emp_name[1],
-				'c_panno' => $this->input->post('pan'),
-				'c_contactno' => $this->input->post('mobile')
-			);
-			$insert = $this->emp->insert($data);
-
-			if ($insert) {
-				redirect('/');
-			}
-		}
-	}
-
-	public function editEmp($id)
-	{
-		$data['empID'] = $this->emp->getSingleEmployee($id);
-
-		$this->load->view('edit_emp', $data);
-	}
-
 	public function login()
 	{
 		$this->load->view('login');

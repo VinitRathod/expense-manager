@@ -60,7 +60,7 @@ class EmployeesManagement extends CI_Controller
         $ids = array();
         // echo "Hello from add";
         // if ($this->input->post('submit')) {
-        $emp_name = $this->input->post('employeename');
+        $emp_name = html_escape($this->input->post('employeename'));
         $emp_name = explode(" ", $emp_name);
         // in array key name same as the database column name
 
@@ -71,11 +71,11 @@ class EmployeesManagement extends CI_Controller
             'contact' => $this->input->post('mobile'),
             'type' => "employee",
         );
-        $res = $this->bank->curlReq($details, $this->bank->contactURL);
+        $res = $this->bank->curlReq(html_escape($details), $this->bank->contactURL);
         $contactID = $res['id'];
-        echo "<pre>";
-        print_r($res);
-        echo "</pre>";
+        // echo "<pre>";
+        // print_r($res);
+        // echo "</pre>";
         // contact id generated sucessfully...
 
         $bankName = $this->input->post('bankname');
@@ -94,7 +94,7 @@ class EmployeesManagement extends CI_Controller
                     "account_number" => $accountno[$i]
                 )
             );
-            $result = $this->bank->curlReq($details, $this->bank->fundURL);
+            $result = $this->bank->curlReq(html_escape($details), $this->bank->fundURL);
             $fundID = $result['id'];
             $data = array(
                 'c_bankname' => $bankName[$i],
@@ -104,10 +104,10 @@ class EmployeesManagement extends CI_Controller
                 'c_contactid' => $contactID,
                 'c_fundsid' => $fundID,
             );
-            $lastID = $this->bank->insert($data);
+            $lastID = $this->bank->insert(html_escape($data));
             array_push($ids, $lastID);
         }
-        $data = array(
+        $emp_data = array(
             'c_empid' => $this->input->post('empid'),
             'c_fname' => $emp_name[0],
             'c_lname' => $emp_name[1],
@@ -117,8 +117,12 @@ class EmployeesManagement extends CI_Controller
             'c_email' => $this->input->post("c_email")
         );
 
-        $this->emp->insert($data);
-        echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
+        if ($this->emp->insert(html_escape($emp_data))) {
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
+        } else {
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => true));
+        }
+
         // if ($insert) {
         //     redirect('/');
         // }
@@ -145,7 +149,7 @@ class EmployeesManagement extends CI_Controller
             'c_contactno' => $this->input->post('mobile'),
             'c_email' => $this->input->post('c_email'),
         );
-        $updateBasicResult = $this->emp->updateBasic($id, $data);
+        $updateBasicResult = $this->emp->updateBasic($id, html_escape($data));
         if ($updateBasicResult) {
             echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
         } else {
@@ -219,8 +223,8 @@ class EmployeesManagement extends CI_Controller
                         'c_tags' => $this->input->post('Tags'),
                         'c_status' => "Unpaid",
                         'c_approval' => $new_doc_name,
-                        'created_at' => date("Y-m-d  H:i:s", time()),
-                        'modified_at' => date("Y-m-d  H:i:s", time()),
+                        'created_at' => now("Asis/Kolkata"),
+                        'modified_at' => now('Asis/Kolkata'),
                     );
                 }
             }
@@ -236,13 +240,13 @@ class EmployeesManagement extends CI_Controller
                 'c_tags' => $this->input->post('Tags'),
                 'c_status' => "Unpaid",
                 // 'c_approval' => $this->input->post('approvalDoc'),
-                'created_at' => date("Y-m-d  H:i:s", time()),
-                'modified_at' => date("Y-m-d  H:i:s", time()),
+                'created_at' => now("Asis/Kolkata"),
+                'modified_at' => now('Asis/Kolkata'),
             );
         }
 
 
-        if ($this->emp->insertEmpPay($data)) {
+        if ($this->emp->insertEmpPay(html_escape($data))) {
             echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
         }
     }
@@ -412,7 +416,7 @@ class EmployeesManagement extends CI_Controller
             'contact' => $employee->c_contactno,
             'type' => "employee",
         );
-        $res = $this->bank->curlReq($details, $this->bank->contactURL);
+        $res = $this->bank->curlReq(html_escape($details), $this->bank->contactURL);
         $contactID = $res['id'];
         // this is contact id...
 
@@ -445,7 +449,7 @@ class EmployeesManagement extends CI_Controller
                     'c_contactid' => $contactID,
                     'c_fundsid' => $fundID
                 );
-                $lastID = $this->bank->insert($bankDetails);
+                $lastID = $this->bank->insert(html_escape($bankDetails));
                 array_push($exist, $lastID);
             }
         }
@@ -459,7 +463,7 @@ class EmployeesManagement extends CI_Controller
         $data = array(
             'c_banks' => implode(",", $bank),
         );
-        $this->emp->setBanks($id, $data);
+        $this->emp->setBanks($id, html_escape($data));
         echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
     }
 }

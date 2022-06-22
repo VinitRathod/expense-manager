@@ -68,7 +68,7 @@ class ExpenseManagement extends CI_Controller
 			'c_type' => $this->input->post('expType'),
 			'c_description' => $this->input->post('expDesc')
 		);
-		$insert = $this->exp->insert($data);
+		$insert = $this->exp->insert(html_escape($data));
 		if ($insert) {
 			echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
 		}
@@ -101,7 +101,7 @@ class ExpenseManagement extends CI_Controller
 			'c_type' => $this->input->post('expType'),
 			'c_description' => $this->input->post('expDesc')
 		);
-		$update = $this->exp->update($data, $this->sec->encryptor('d', $id));
+		$update = $this->exp->update(html_escape($data), $this->sec->encryptor('d', $id));
 		if ($update) {
 			// redirect('ExpenseManagement/expManagement');
 			echo json_encode(array('csrf' => $this->security->get_csrf_hash()));

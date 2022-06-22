@@ -245,7 +245,7 @@ $csrf = array(
 		});
 	});
 
-	var csrf_token = "";
+	// var csrf_token = "";
 	function loadExp() {
 
 		if (csrf_token == "") {
