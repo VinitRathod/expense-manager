@@ -58,10 +58,10 @@ class PayoutController extends CI_Controller
         $result = $this->pout->curlPayoutReq($data);
 
         if (!empty($result)) {
-            echo json_encode($result);
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(),'response' => json_encode($result)));
             $this->venPay->updateStatus($this->sec->encryptor('d', $id));
         } else {
-            echo "Some Error Occured";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(),'response' => json_encode($result)));
         }
     }
 }

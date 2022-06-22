@@ -21,7 +21,7 @@ class VendorPayout extends CI_Controller
         foreach ($allVen as $vendor) {
             $output .= '<option value="' . $this->sec->encryptor('e', $vendor->c_id) . '">' . $vendor->c_fname . ' ' . $vendor->c_lname . ' - ' . $vendor->c_id . '</option>';
         }
-        echo $output;
+        echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => $output));
     }
 
     public function getVendorBanks($id)
@@ -35,7 +35,7 @@ class VendorPayout extends CI_Controller
                 $output .= '<option value="' . $this->sec->encryptor('e', $bankDetails->c_id) . '">' . $bankDetails->c_bankname . '</option>';
             }
         }
-        echo $output;
+        echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => $output));
     }
 
     public function getExpCat()
@@ -47,7 +47,7 @@ class VendorPayout extends CI_Controller
                 $output .= '<option value="' . $this->sec->encryptor('e', $cat->c_expid) . '"> ' . $cat->c_category . ' </option>';
             }
         }
-        echo $output;
+        echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => $output));
     }
 
     public function addVenPay()
@@ -99,7 +99,7 @@ class VendorPayout extends CI_Controller
             );
         }
         if ($this->ven->insertVenPay($data)) {
-            echo "SUCCESS";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
         }
     }
 
@@ -138,7 +138,7 @@ class VendorPayout extends CI_Controller
                             </td>
                         </tr>';
         }
-        echo $output;
+        echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => $output));
     }
 
     public function getAllPayoutsLatest()
