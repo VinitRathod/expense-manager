@@ -62,7 +62,6 @@ class ExpenseManagement extends CI_Controller
 
 	public function addExpCat()
 	{
-
 		$data = array(
 			'c_expcode' => $this->input->post('expCode'),
 			'c_category' => $this->input->post('expCat'),
@@ -70,6 +69,7 @@ class ExpenseManagement extends CI_Controller
 			'c_description' => $this->input->post('expDesc')
 		);
 		$insert = $this->exp->insert($data);
+		echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
 	}
 
 	public function edit_Exp($id)

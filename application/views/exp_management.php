@@ -30,7 +30,6 @@ $csrf = array(
 					<div class="modal-body">
 
 						<form action="<?php echo base_url(); ?>ExpenseManagement/addExpCat" onsubmit="return validation()" id="add_exp" class="bg-light" method="post">
-							<input type="hidden" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['value']; ?>">
 							<div class="form-group">
 								<label for="expid" class="font-weight-regular"> Expense Code </label>
 								<input type="text" name="expCode" class="form-control" id="expCode" autocomplete="off" required />
@@ -174,10 +173,15 @@ $csrf = array(
 </div>
 <script>
 	function validation() {}
-
+	let csrf_token = "";
 	$("#add_exp").submit(function(e) {
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
+
 		e.preventDefault();
 		const form = new FormData(document.getElementById('add_exp'));
+		form.append("csrf_token", csrf_token);
 		// console.log(...form);
 		$.ajax({
 			method: 'POST',
@@ -187,8 +191,13 @@ $csrf = array(
 			enctype: 'multipart/form-data',
 			url: "<?php echo base_url() ?>ExpenseManagement/addExpCat",
 			data: form,
-			success: function() {
-				swal("New Expense Category Added Successfully.","Insert Action Succeed.","success").then(()=>{
+			success: function(data) {
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				swal("New Expense Category Added Successfully.", "Insert Action Succeed.", "success").then(() => {
 
 					loadExp();
 					$("#expCode").val("");
@@ -201,7 +210,7 @@ $csrf = array(
 	});
 
 	function Reset() {
-		
+
 	}
 
 	$("#edit_exp").submit(function(e) {
@@ -216,10 +225,10 @@ $csrf = array(
 			contentType: false,
 			cache: false,
 			enctype: 'multipart/form-data',
-			url: "<?php echo base_url() ?>ExpenseManagement/expUpdate/"+id,
+			url: "<?php echo base_url() ?>ExpenseManagement/expUpdate/" + id,
 			data: form,
 			success: function() {
-				swal("Expense Category Updated Successfully.","Update Action Succeed.","success").then(()=>{
+				swal("Expense Category Updated Successfully.", "Update Action Succeed.", "success").then(() => {
 					loadExp();
 					expEdit(id);
 				});
@@ -227,24 +236,22 @@ $csrf = array(
 		});
 	});
 
-	var csrf_token = "";
 	function loadExp() {
 
-		if(csrf_token == "") 
-		{
-			csrf_token = '<?=$csrf['value']?>';
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
 		}
 
 		$.ajax({
 			url: "<?php echo base_url() ?>ExpenseManagement/index",
 			method: "POST",
 			data: {
-				"<?=$csrf['name'];?>" : csrf_token,
+				"<?= $csrf['name']; ?>": csrf_token,
 			},
 			success: function(data) {
 				let res = JSON.parse(data);
-				console.log(res);
-				if(res.csrf) {
+				// console.log(res);
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				$(document).ready(function() {
@@ -283,6 +290,10 @@ $csrf = array(
 	}
 
 	function expDelete(id) {
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
+
 		swal({
 				title: "Are you sure?",
 				text: "Once deleted, you will not be able to recover this expense type!",
@@ -295,8 +306,16 @@ $csrf = array(
 					$.ajax({
 						url: `<?php echo base_url(); ?>/ExpenseManagement/expDelete/${id}`,
 						method: "POST",
+						data: {
+							'csrf_token': csrf_token,
+						},
 						success: function(response) {
-							if (response == "SUCCESS") {
+							let res = JSON.parse(response);
+							// console.log(res);
+							if (res.csrf) {
+								csrf_token = res.csrf;
+							}
+							if (res.response == "SUCCESS") {
 								swal("Poof! Your expense type has been deleted!", {
 									icon: "success",
 								});
