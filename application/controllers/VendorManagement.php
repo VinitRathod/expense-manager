@@ -164,6 +164,11 @@ class VendorManagement extends CI_Controller
 			);
 		}
 		$insert = $this->ven->insert($data);
+		if($insert) {
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+		} else {
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
+		}
 	}
 
 	public function getContactDetails($id)

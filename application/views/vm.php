@@ -197,7 +197,7 @@ $csrf = array(
 							<div class="form-group">
 								<label for="gst" class="font-weight-regular"> GST </label>
 								<div id="GStE" class="error"></div>
-								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" minlength="16" onkeyup="validationGSTE()" class="form-control" id="edit_c_gstno" autocomplete="off" required />
+								<input type="text" name="c_gstno" minlength="16" onkeyup="validationGSTE()" class="form-control" id="edit_c_gstno" autocomplete="off" required />
 							</div>
 
 							<div class="form-group">
@@ -702,13 +702,13 @@ $csrf = array(
 						success: function(response) {
 							// alert(response);
 							let res = JSON.parse(response);
-							if(res.csrf) {
+							if (res.csrf) {
 								csrf_token = res.csrf;
 							}
 							if (res.response == "SUCCESS") {
 								swal("Poof! Your vendor has been deleted!", {
 									icon: "success",
-								}).then(()=>{
+								}).then(() => {
 									// loadVen();
 									location.reload();
 								});
@@ -817,7 +817,7 @@ $csrf = array(
 				console.log("Vendor Details :", (JSON.parse(response)));
 
 				let data = JSON.parse(response);
-				if(data.csrf) {
+				if (data.csrf) {
 					csrf_token = data.csrf;
 				}
 
@@ -835,10 +835,14 @@ $csrf = array(
 	}
 
 	$("#addVen").submit(function(e) {
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		e.preventDefault();
 		const form = new FormData(document.getElementById('addVen'));
 		var add = document.getElementById("c_address").value;
 		form.append("c_address", add);
+		form.append('<?= $csrf['name'] ?>', csrf_token);
 		// console.log(...form);
 		$.ajax({
 			method: 'POST',
@@ -850,7 +854,15 @@ $csrf = array(
 			data: form,
 			success: function(response) {
 				// loadVen();
-				location.reload();
+				let res = JSON.parse(response);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				if (res.response == "SUCCESS") {
+					swal("New Vendor Added Successfully!", "", "success").then(() => {
+						location.reload();
+					});
+				}
 				// document.getElementById("addVen").reset();
 			}
 		});
@@ -898,7 +910,7 @@ $csrf = array(
 		const form = new FormData(document.getElementById('editVenBasic'));
 		let t_area = document.getElementById('edit_c_address');
 		form.append(t_area.name, t_area.value);
-		form.append('<?=$csrf['name']?>',csrf_token);
+		form.append('<?= $csrf['name'] ?>', csrf_token);
 		$.ajax({
 			method: "POST",
 			processData: false,
@@ -909,7 +921,7 @@ $csrf = array(
 			data: form,
 			success: function(response) {
 				let res = JSON.parse(response);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				if (res.response == "SUCCESS") {
@@ -923,17 +935,21 @@ $csrf = array(
 		});
 	});
 
+	let test = true;
+
 	function validationGST() {
 
-		var c_gstno = document.getElementById("c_gstno");
-		var GSt = document.getElementById("GSt");
-		var regexm = /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/;
-		if (regexm.test(c_gstno.value)) {
-			GSt.innerHTML = "";
-			return true;
-		} else {
-			GSt.innerHTML = "*Invalid GST Number";
-			return false;
+		if (!test) {
+			var c_gstno = document.getElementById("c_gstno");
+			var GSt = document.getElementById("GSt");
+			var regexm = /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/;
+			if (regexm.test(c_gstno.value)) {
+				GSt.innerHTML = "";
+				return true;
+			} else {
+				GSt.innerHTML = "*Invalid GST Number";
+				return false;
+			}
 		}
 
 
@@ -941,15 +957,17 @@ $csrf = array(
 
 	function validationmob() {
 
-		var mobileNumber = document.getElementById("c_contacts");
-		var mobileno = document.getElementById("mobileno");
-		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
-		if (regexm.test(mobileNumber.value)) {
-			mobileno.innerHTML = "";
-			return true;
-		} else {
-			mobileno.innerHTML = "*Invalid Mobile Number";
-			return false;
+		if (!test) {
+			var mobileNumber = document.getElementById("c_contacts");
+			var mobileno = document.getElementById("mobileno");
+			var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+			if (regexm.test(mobileNumber.value)) {
+				mobileno.innerHTML = "";
+				return true;
+			} else {
+				mobileno.innerHTML = "*Invalid Mobile Number";
+				return false;
+			}
 		}
 
 
@@ -957,15 +975,17 @@ $csrf = array(
 
 	function validationmobF() {
 
-		var mobileNumber = document.getElementById("mobile_f");
-		var mobileno = document.getElementById("mobilenof");
-		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
-		if (regexm.test(mobileNumber.value)) {
-			mobileno.innerHTML = "";
-			return true;
-		} else {
-			mobileno.innerHTML = "*Invalid Mobile Number";
-			return false;
+		if (!test) {
+			var mobileNumber = document.getElementById("mobile_f");
+			var mobileno = document.getElementById("mobilenof");
+			var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+			if (regexm.test(mobileNumber.value)) {
+				mobileno.innerHTML = "";
+				return true;
+			} else {
+				mobileno.innerHTML = "*Invalid Mobile Number";
+				return false;
+			}
 		}
 
 
@@ -973,15 +993,17 @@ $csrf = array(
 
 	function validationPan() {
 
-		var txtPANCard = document.getElementById("c_gstno");
-		var lblPANCard = document.getElementById("lblPANCard")
-		var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
-		if (regex.test(txtPANCard.value.toUpperCase())) {
-			lblPANCard.innerHTML = "";
-			return true;
-		} else {
-			lblPANCard.innerHTML = "*Invalid PAN Card Number";
-			return false;
+		if (!test) {
+			var txtPANCard = document.getElementById("c_panno");
+			var lblPANCard = document.getElementById("lblPANCard")
+			var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+			if (regex.test(txtPANCard.value.toUpperCase())) {
+				lblPANCard.innerHTML = "";
+				return true;
+			} else {
+				lblPANCard.innerHTML = "*Invalid PAN Card Number";
+				return false;
+			}
 		}
 
 	}
