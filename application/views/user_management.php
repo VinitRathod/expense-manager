@@ -160,8 +160,12 @@ $csrf = array(
     function validation() {}
 
     $("#add_usr").submit(function(e) {
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
+        }
         e.preventDefault();
         const form = new FormData(document.getElementById('add_usr'));
+        form.append('<?=$csrf['name']?>',csrf_token);
         // console.log(...form);
         $.ajax({
             method: 'POST',
@@ -172,13 +176,17 @@ $csrf = array(
             url: "<?php echo base_url() ?>UserManagement/addUser",
             data: form,
             success: function(response) {
-                if (response == "SUCCESS") {
+                let res = JSON.parse(response);
+                if(res.csrf) {
+                    csrf_token = res.csrf;
+                }
+                if (res.response == "SUCCESS") {
                     swal("New User Added Successfully.", "", "success").then(() => {
                         // some call back actions comes here...
                         location.reload();
                     });
                 } else {
-                    alert(response);
+                    // alert(response);
                     swal("New User Not Added!", "Some unknown error occurred.", "error").then(() => {
                         // some call back actions comes here...
                     });

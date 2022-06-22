@@ -37,9 +37,9 @@ class UserManagement extends CI_Controller
             'c_phoneno' => $this->input->post('c_phoneno')
         );
         if($this->usr->insertUser($data)) {
-            echo "SUCCESS";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
         } else {
-            echo "QUERY FAILED";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'QUERY FAILED'));
         }
     }
 
