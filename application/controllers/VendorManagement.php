@@ -176,7 +176,7 @@ class VendorManagement extends CI_Controller
 							<td>" . $con . "</td>
 						</tr>";
 		}
-		echo $output;
+		echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => $output));
 	}
 
 	public function venDelete($id)
@@ -265,7 +265,7 @@ class VendorManagement extends CI_Controller
                     <td>" . $bDetails->c_status . "</td>
                 </tr>";
 		}
-		echo $output;
+		echo json_encode(array('response' => $output, 'csrf' => $this->security->get_csrf_hash()));
 	}
 
 	public function setBankDetails($id, $bank)

@@ -746,12 +746,22 @@ $csrf = array(
 		// id.forEach((id) => {
 		// 	url += (id + "_");
 		// });
+		if(csrf_token == "") {
+			csrf_token = "<?=$csrf['value']?>";
+		}
 		$.ajax({
 			method: "POST",
-			url: "<?php echo base_url(); ?>VendorManagement/getBankDetails/" + id,
+			url: "<?php echo base_url(); ?>VendorManagement/getBankDetails/"+id,
+			data: {
+				'<?=$csrf['name']?>': csrf_token,
+			},
 			success: function(response) {
 				// console.log(response);
-				$("#bankTbl").html(response);
+				let res = JSON.parse(response);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#bankTbl").html(res.response);
 				currentBanksId = id;
 			}
 		});
@@ -759,12 +769,22 @@ $csrf = array(
 
 	function contactDetails(id) {
 		// alert(id);
+		if(csrf_token == "") {
+			csrf_token = "<?=$csrf['value']?>";
+		}
 		$.ajax({
 			method: "POST",
 			url: "<?php echo base_url(); ?>VendorManagement/getContactDetails/" + id,
+			data: {
+				'<?=$csrf['name']?>': csrf_token,
+			},
 			success: function(response) {
 				// alert(response);
-				$("#contactTbl").html(response);
+				let res = JSON.parse(response);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#contactTbl").html(res.response);
 				currentVendorId = id;
 			}
 		});
