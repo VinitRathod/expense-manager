@@ -52,9 +52,10 @@ class UserManagement extends CI_Controller
         }
     }
 
-    public function editUsr($id) {
-        $data = $this->usr->getSingleUser($this->sec->encryptor('d',$id));
+    public function editUsr() {
+        $data = $this->usr->getSingleUser($this->sec->encryptor('d',$this->input->post('id')));
         $data->c_id = $this->sec->encryptor('e',$data->c_id);
+        $data->csrf = $this->security->get_csrf_hash();
         echo json_encode($data);
     }
 

@@ -263,13 +263,23 @@ $csrf = array(
     function usrEdit(id) {
         // just for initial debugging...
         // alert(id);
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
+        }
         $.ajax({
-            url: "<?php echo  base_url(); ?>UserManagement/editUsr/" + id,
+            url: "<?php echo  base_url(); ?>UserManagement/editUsr/",
             method: "POST",
+            data: {
+                'id': id,
+                '<?= $csrf['name'] ?>': csrf_token,
+            },
             success: function(response) {
                 // just for debigging...
                 // console.log(JSON.parse(response));
                 let data = JSON.parse(response);
+                if(data.csrf) {
+                    csrf_token = data.csrf;
+                }
                 $("#edit_c_name").val(data.c_fname + " " + data.c_lname);
                 $("#edit_c_email").val(data.c_email);
                 $("#edit_c_phoneno").val(data.c_phoneno);
