@@ -178,7 +178,6 @@ $csrf = array(
 		if (csrf_token == "") {
 			csrf_token = '<?= $csrf['value'] ?>';
 		}
-
 		e.preventDefault();
 		const form = new FormData(document.getElementById('add_exp'));
 		form.append("csrf_token", csrf_token);
@@ -198,12 +197,12 @@ $csrf = array(
 					csrf_token = res.csrf;
 				}
 				swal("New Expense Category Added Successfully.", "Insert Action Succeed.", "success").then(() => {
-
-					loadExp();
-					$("#expCode").val("");
-					$("#expCat").val("");
-					$("#expType").val("").change();
-					$("#expDesc").val("");
+					location.reload();
+					// loadExp();
+					// $("#expCode").val("");
+					// $("#expCat").val("");
+					// $("#expType").val("").change();
+					// $("#expDesc").val("");
 				});
 			}
 		});
@@ -215,8 +214,12 @@ $csrf = array(
 
 	$("#edit_exp").submit(function(e) {
 		// alert();
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
 		e.preventDefault();
 		const form = new FormData(document.getElementById('edit_exp'));
+		form.append('csrf_token', csrf_token);
 		// console.log(form.get("ExpID"));
 		let id = form.get("ExpID");
 		$.ajax({
@@ -227,15 +230,22 @@ $csrf = array(
 			enctype: 'multipart/form-data',
 			url: "<?php echo base_url() ?>ExpenseManagement/expUpdate/" + id,
 			data: form,
-			success: function() {
+			success: function(data) {
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
 				swal("Expense Category Updated Successfully.", "Update Action Succeed.", "success").then(() => {
-					loadExp();
-					expEdit(id);
+					// loadExp();
+					location.reload()
+					// expEdit(id);
 				});
 			}
 		});
 	});
 
+	var csrf_token = "";
 	function loadExp() {
 
 		if (csrf_token == "") {
@@ -274,17 +284,28 @@ $csrf = array(
 
 	function expEdit(id) {
 		// alert(id);
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
 		$.ajax({
 			url: "<?php echo  base_url(); ?>ExpenseManagement/editExp/" + id,
 			method: "POST",
-			success: function(response) {
+			data: {
+				"<?= $csrf['name']; ?>": csrf_token,
+			},
+			success: function(data) {
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
 				// console.log(JSON.parse(response));
-				let data = JSON.parse(response);
-				$("#EditexpCode").val(data.c_expcode);
-				$("#EditexpCat").val(data.c_category);
-				$("#EditexpType").val(data.c_type).change();
-				$("#expId").val(data.c_expid);
-				$("#EditexpDesc").html(data.c_description);
+				// let data = JSON.parse(response);
+				$("#EditexpCode").val(res.result.c_expcode);
+				$("#EditexpCat").val(res.result.c_category);
+				$("#EditexpType").val(res.result.c_type).change();
+				$("#expId").val(res.result.c_expid);
+				$("#EditexpDesc").html(res.result.c_description);
 			}
 		});
 	}
@@ -293,7 +314,6 @@ $csrf = array(
 		if (csrf_token == "") {
 			csrf_token = '<?= $csrf['value'] ?>';
 		}
-
 		swal({
 				title: "Are you sure?",
 				text: "Once deleted, you will not be able to recover this expense type!",
@@ -307,15 +327,15 @@ $csrf = array(
 						url: `<?php echo base_url(); ?>/ExpenseManagement/expDelete/${id}`,
 						method: "POST",
 						data: {
-							'csrf_token': csrf_token,
+							"<?= $csrf['name']; ?>": csrf_token,
 						},
-						success: function(response) {
-							let res = JSON.parse(response);
+						success: function(data) {
+							let res = JSON.parse(data);
 							// console.log(res);
 							if (res.csrf) {
 								csrf_token = res.csrf;
 							}
-							if (res.response == "SUCCESS") {
+							if (res.output == "SUCCESS") {
 								swal("Poof! Your expense type has been deleted!", {
 									icon: "success",
 								});

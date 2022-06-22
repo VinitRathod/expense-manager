@@ -22,7 +22,7 @@ class PayoutController extends CI_Controller
 
         if (!empty($result)) {
             $this->emp->updateStatus($this->sec->encryptor('d', $id));
-            echo json_encode($result);
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
         } else {
             echo "Some Error Occured";
         }

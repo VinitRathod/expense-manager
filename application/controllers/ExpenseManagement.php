@@ -69,7 +69,9 @@ class ExpenseManagement extends CI_Controller
 			'c_description' => $this->input->post('expDesc')
 		);
 		$insert = $this->exp->insert($data);
-		echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
+		if ($insert) {
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
+		}
 	}
 
 	public function edit_Exp($id)
@@ -77,14 +79,16 @@ class ExpenseManagement extends CI_Controller
 		$data['exp_details'] = $this->exp->getSingleExp($this->sec->encryptor('d', $id));
 		$response = $data['exp_details'];
 		$response->c_expid = $this->sec->encryptor('e', $response->c_expid);
-		echo json_encode($response);
+		// echo json_encode($response);
+		echo json_encode(array('result' => $response, 'csrf' => $this->security->get_csrf_hash()));
 	}
 
 	public function expDelete($id)
 	{
 		$result = $this->exp->deleteExp($this->sec->encryptor('d', $id));
 		if ($result) {
-			echo "SUCCESS";
+			// echo "SUCCESS";
+			echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
 		}
 	}
 
@@ -99,7 +103,8 @@ class ExpenseManagement extends CI_Controller
 		);
 		$update = $this->exp->update($data, $this->sec->encryptor('d', $id));
 		if ($update) {
-			redirect('ExpenseManagement/expManagement');
+			// redirect('ExpenseManagement/expManagement');
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
 		}
 		// }
 	}

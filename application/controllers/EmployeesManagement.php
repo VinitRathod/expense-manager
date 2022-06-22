@@ -39,7 +39,8 @@ class EmployeesManagement extends CI_Controller
 				</td>
 			</tr>';
         }
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     public function empManagement()
@@ -117,6 +118,7 @@ class EmployeesManagement extends CI_Controller
         );
 
         $this->emp->insert($data);
+        echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
         // if ($insert) {
         //     redirect('/');
         // }
@@ -128,7 +130,7 @@ class EmployeesManagement extends CI_Controller
         $res = $this->emp->getSingleEmp($this->sec->encryptor('d', $id));
         $res->c_id = $this->sec->encryptor('e', $res->c_id);
         $res->c_banks = $this->sec->encryptor('e', $res->c_banks);
-        echo json_encode($res);
+        echo json_encode(array('result' => $res, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     public function editEmpBasic()
@@ -145,7 +147,7 @@ class EmployeesManagement extends CI_Controller
         );
         $updateBasicResult = $this->emp->updateBasic($id, $data);
         if ($updateBasicResult) {
-            echo "SUCCESS";
+            echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
         } else {
             echo "ERROR";
         }
@@ -163,23 +165,8 @@ class EmployeesManagement extends CI_Controller
         }
         $result = $this->emp->deleteEmp($id);
         if ($result) {
-            echo "SUCCESS";
-        }
-    }
-
-    public function expUpdate($id)
-    {
-        if ($this->input->post("submit")) {
-            $data = array(
-                'fname' => $this->input->post('expCode'),
-                'c_category' => $this->input->post('expCat'),
-                'c_type' => $this->input->post('expType'),
-                'c_description' => $this->input->post('expDesc')
-            );
-            $update = $this->exp->update($data, $id);
-            if ($update) {
-                redirect('ExpenseManagement/expManagement');
-            }
+            // echo "SUCCESS";
+            echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
         }
     }
 
@@ -202,7 +189,8 @@ class EmployeesManagement extends CI_Controller
     {
         $res = $this->emp->getSingleEmp($this->sec->encryptor('d', $id));
         $output = '<input type="text" name="pay_emp_name" pattern="[a-z A-Z]{3,}" minlength="3" value="' . $res->c_fname . ' ' . $res->c_lname . '" class="form-control" id="employeename" autocomplete="off" required />';
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
     public function addEmpPay()
     {
@@ -255,7 +243,7 @@ class EmployeesManagement extends CI_Controller
 
 
         if ($this->emp->insertEmpPay($data)) {
-            echo "SUCCESS";
+            echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
         }
     }
 
@@ -268,7 +256,8 @@ class EmployeesManagement extends CI_Controller
 
             $output .= '<option value=' . $this->sec->encryptor('e', $empId->c_id) . '>' . $empId->c_empid . '</option>';
         }
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     public function showEmpPay()
@@ -303,7 +292,8 @@ class EmployeesManagement extends CI_Controller
         		</td>
         	</tr>';
         }
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     public function getExpCat()
@@ -319,7 +309,8 @@ class EmployeesManagement extends CI_Controller
             }
             $output .= '<option value="' . $this->sec->encryptor('e', '1') . '"> Other </option>';
         }
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     public function getEmpBanks($id)
@@ -334,7 +325,7 @@ class EmployeesManagement extends CI_Controller
                 $output .= '<option value="' . $this->sec->encryptor('e', $bankDetails->c_id) . '">' . $bankDetails->c_bankname . '</option>';
             }
         }
-        echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
     // Employee Payout Code Ends Here ==================================================
 
@@ -359,7 +350,7 @@ class EmployeesManagement extends CI_Controller
         		<td>' . $date . '</td>
         	</tr>';
         }
-        echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     // Dashboard Code Ends Here
@@ -367,7 +358,8 @@ class EmployeesManagement extends CI_Controller
     public function checkBank()
     {
         if (!$this->emp->checkBank($this->sec->encryptor('d', $this->input->post('c_id')))) {
-            echo "SUCCESS";
+            // echo "SUCCESS";
+            echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
         }
     }
 
@@ -388,7 +380,8 @@ class EmployeesManagement extends CI_Controller
                     <td>" . $bDetails->c_status . "</td>
                 </tr>";
         }
-        echo $output;
+        // echo $output;
+        echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
     public function editBanks()
@@ -431,7 +424,7 @@ class EmployeesManagement extends CI_Controller
                     'c_accountno' => $other_banks[$i - 1],
                     'c_status' => $other_banks[$i]
                 );
-                // print_r( $data);
+                // print_r($data);
 
                 $details = array(
                     "contact_id" => "$contactID",
@@ -457,8 +450,9 @@ class EmployeesManagement extends CI_Controller
             }
         }
 
-        print_r($exist);
+        // print_r($exist);
         $this->setBankDetails($id, $exist);
+        // echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
     }
     public function setBankDetails($id, $bank)
     {
@@ -466,5 +460,6 @@ class EmployeesManagement extends CI_Controller
             'c_banks' => implode(",", $bank),
         );
         $this->emp->setBanks($id, $data);
+        echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
     }
 }

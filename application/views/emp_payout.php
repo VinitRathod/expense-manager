@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$csrf = array(
+	'name' => $this->security->get_csrf_token_name(),
+	'value' => $this->security->get_csrf_hash(),
+);
 ?>
 <div id="maincontent" class="contentblock mr-4" style="width:80vw">
 	<div id="top-header" style="display:flex; justify-content:space-between">
@@ -232,9 +236,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </script>
 
 <script>
+	var csrf_token = "";
 	$("#addEmpPay").submit(function(e) {
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
 		e.preventDefault();
 		const form = new FormData(document.getElementById('addEmpPay'));
+		form.append('csrf_token', csrf_token);
 		// var add = document.getElementById("c_address").value;
 		// form.append("c_address", add);
 		// console.log(...form);
@@ -246,10 +255,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			enctype: 'multipart/form-data',
 			url: `<?php echo base_url() ?>EmployeesManagement/addEmpPay`,
 			data: form,
-			success: function(response) {
+			success: function(data) {
 				// alert(response);
-				console.log(response);
-				if (response == "SUCCESS") {
+				// console.log(response);
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				if (res.output == "SUCCESS") {
 					swal("Employee Payout Created Successfully", "Action Succeed!", "success").then(() => {
 						// loadEmpPay();
 						location.reload();
@@ -264,11 +278,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 	function loadEmpId() {
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
 		$.ajax({
 			url: "<?php echo base_url(); ?>EmployeesManagement/getEmpId",
 			method: "POST",
-			success: function(response) {
-				$("#empId").html(response);
+			data: {
+				"<?= $csrf['name']; ?>": csrf_token,
+			},
+			success: function(data) {
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#empId").html(res.output);
 				// $(document).ready(function() {
 				// 	$('#payout').DataTable({
 				// 		"order": [
@@ -288,11 +313,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	loadEmpId();
 
 	function loadEmpPay() {
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
 		$.ajax({
 			url: "<?php echo base_url(); ?>EmployeesManagement/showEmpPay",
 			method: "POST",
+			data: {
+				"<?= $csrf['name']; ?>": csrf_token,
+			},
 			success: function(data) {
-				$(".tblBody").html(data);
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$(".tblBody").html(res.output);
 				// console.log(data);
 				$(document).ready(function() {
 					$('#payout').DataTable({
@@ -312,11 +348,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	loadEmpPay();
 
 	function getAllExpCat() {
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
 		$.ajax({
 			url: "<?php echo base_url(); ?>EmployeesManagement/getExpCat",
 			method: "POST",
-			success: function(response) {
-				$("#expId").html(response);
+			data: {
+				"<?= $csrf['name']; ?>": csrf_token,
+			},
+			success: function(data) {
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#expId").html(res.output);
 			}
 		});
 	}
@@ -339,11 +386,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 
 	function getEmpName(id) {
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
 		$.ajax({
 			url: "<?php echo base_url(); ?>EmployeesManagement/getEmpName/" + id,
 			method: "POST",
+			data: {
+				"<?= $csrf['name']; ?>": csrf_token,
+			},
 			success: function(data) {
-				$(".empName").html(data);
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$(".empName").html(res.output);
 			},
 			error: function() {
 				console.log("Some Error Occured");
@@ -353,11 +411,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function getBanks(id) {
 		// alert(id);
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
 		$.ajax({
 			url: "<?php echo base_url(); ?>EmployeesManagement/getEmpBanks/" + id,
 			method: "POST",
-			success: function(response) {
-				$("#c_banks").html(response);
+			data: {
+				"<?= $csrf['name']; ?>": csrf_token,
+			},
+			success: function(data) {
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#c_banks").html(res.output);
 			}
 		});
 	}
@@ -365,11 +434,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	$(document).on('click', '.payout', function() {
 		// alert("Payout Clicked")
 		// console.log($(this).attr("id"));
+		if (csrf_token == "") {
+			csrf_token = '<?= $csrf['value'] ?>';
+		}
 		$.ajax({
 			url: "<?php echo base_url(); ?>PayoutController/payOutEmp/" + $(this).attr("id"),
 			method: "POST",
+			data: {
+				"<?= $csrf['name']; ?>": csrf_token,
+			},
 			// data: $(this).val(),
 			success: function(data) {
+				let res = JSON.parse(data);
+				// console.log(res);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
 				// alert(data)
 				// loadEmpPay();
 				location.reload();
