@@ -40,9 +40,9 @@ class UserManagement extends CI_Controller
             'c_phoneno' => $this->input->post('c_phoneno')
         );
         if ($this->usr->insertUser(html_escape($data))) {
-            echo "SUCCESS";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
         } else {
-            echo "QUERY FAILED";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'QUERY FAILED'));
         }
     }
 
@@ -50,16 +50,17 @@ class UserManagement extends CI_Controller
     {
         $res = $this->usr->deleteUser($this->sec->encryptor('d', $id));
         if ($res) {
-            echo "SUCCESS";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
         } else {
-            echo "FAILED";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
         }
     }
 
-    public function editUsr($id)
+    public function editUsr()
     {
-        $data = $this->usr->getSingleUser($this->sec->encryptor('d', $id));
+        $data = $this->usr->getSingleUser($this->sec->encryptor('d', $this->input->post('id')));
         $data->c_id = $this->sec->encryptor('e', $data->c_id);
+        $data->csrf = $this->security->get_csrf_hash();
         echo json_encode($data);
     }
 
@@ -74,9 +75,9 @@ class UserManagement extends CI_Controller
         );
         $response = $this->usr->updateUser($this->sec->encryptor('d', $id), html_escape($data));
         if ($response) {
-            echo "SUCCESS";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
         } else {
-            echo "QUERY FAILED";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
         }
     }
 }

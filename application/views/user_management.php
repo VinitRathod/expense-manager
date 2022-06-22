@@ -156,11 +156,16 @@ $csrf = array(
 </div>
 <script>
     let csrf_token = "";
+
     function validation() {}
 
     $("#add_usr").submit(function(e) {
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
+        }
         e.preventDefault();
         const form = new FormData(document.getElementById('add_usr'));
+        form.append('<?=$csrf['name']?>',csrf_token);
         // console.log(...form);
         $.ajax({
             method: 'POST',
@@ -171,13 +176,17 @@ $csrf = array(
             url: "<?php echo base_url() ?>UserManagement/addUser",
             data: form,
             success: function(response) {
-                if (response == "SUCCESS") {
+                let res = JSON.parse(response);
+                if(res.csrf) {
+                    csrf_token = res.csrf;
+                }
+                if (res.response == "SUCCESS") {
                     swal("New User Added Successfully.", "", "success").then(() => {
                         // some call back actions comes here...
                         location.reload();
                     });
                 } else {
-                    alert(response);
+                    // alert(response);
                     swal("New User Not Added!", "Some unknown error occurred.", "error").then(() => {
                         // some call back actions comes here...
                     });
@@ -191,8 +200,12 @@ $csrf = array(
     }
 
     $("#edit_usr").submit(function(e) {
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
+        }
         e.preventDefault();
         const form = new FormData(document.getElementById('edit_usr'));
+        form.append('<?=$csrf['name']?>',csrf_token);
         // just for initial debugging...
         // console.log(form.get("usrID"));
         let id = form.get("usrID");
@@ -205,7 +218,11 @@ $csrf = array(
             url: "<?php echo base_url() ?>UserManagement/updateUsr/" + id,
             data: form,
             success: function(response) {
-                if (response == "SUCCESS") {
+                let res = JSON.parse(response);
+                if(res.csrf) {
+                    csrf_token = res.csrf;
+                }
+                if (res.response == "SUCCESS") {
                     swal("This User Updated Successfully.", "", "success").then(() => {
                         location.reload();
                     });
@@ -219,18 +236,18 @@ $csrf = array(
     });
 
     function loadUser() {
-        if(csrf_token == "") {
-            csrf_token = '<?=$csrf['value']?>';
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
         }
         $.ajax({
             url: "<?php echo base_url() ?>UserManagement/getAllUsers",
             method: "POST",
             data: {
-                '<?=$csrf['name']?>' : csrf_token,
+                '<?= $csrf['name'] ?>': csrf_token,
             },
             success: function(data) {
                 let res = JSON.parse(data);
-                if(res.csrf) {
+                if (res.csrf) {
                     csrf_token = res.csrf;
                 }
                 $(".tblBody").html(res.response);
@@ -254,13 +271,23 @@ $csrf = array(
     function usrEdit(id) {
         // just for initial debugging...
         // alert(id);
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
+        }
         $.ajax({
-            url: "<?php echo  base_url(); ?>UserManagement/editUsr/" + id,
+            url: "<?php echo  base_url(); ?>UserManagement/editUsr/",
             method: "POST",
+            data: {
+                'id': id,
+                '<?= $csrf['name'] ?>': csrf_token,
+            },
             success: function(response) {
                 // just for debigging...
                 // console.log(JSON.parse(response));
                 let data = JSON.parse(response);
+                if(data.csrf) {
+                    csrf_token = data.csrf;
+                }
                 $("#edit_c_name").val(data.c_fname + " " + data.c_lname);
                 $("#edit_c_email").val(data.c_email);
                 $("#edit_c_phoneno").val(data.c_phoneno);
@@ -272,6 +299,9 @@ $csrf = array(
     function usrDelete(id) {
         // just to debug things...
         // alert(id);
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
+        }
         swal({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to recover this user!",
@@ -284,8 +314,15 @@ $csrf = array(
                     $.ajax({
                         url: `<?php echo base_url(); ?>/UserManagement/deleteUser/${id}`,
                         method: "POST",
+                        data: {
+                            '<?= $csrf['name'] ?>': csrf_token,
+                        },
                         success: function(response) {
-                            if (response == "SUCCESS") {
+                            let res = JSON.parse(response);
+                            if(res.csrf) {
+                                csrf_token = res.csrf;
+                            }
+                            if (res.response == "SUCCESS") {
                                 swal("Poof! That user has been deleted!", {
                                     icon: "success",
                                 }).then(() => {
