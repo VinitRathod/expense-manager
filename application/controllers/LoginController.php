@@ -32,7 +32,8 @@ class LoginController extends CI_Controller
         $enc_pass = sha1($user_pass);
         $response = array(
             'error' => "",
-            'success' => ""
+            'success' => "",
+            'csrf' => $this->security->get_csrf_hash(),
         );
 
         foreach ($all_users as $user) {

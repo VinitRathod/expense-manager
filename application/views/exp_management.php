@@ -30,7 +30,6 @@ $csrf = array(
 					<div class="modal-body">
 
 						<form action="<?php echo base_url(); ?>ExpenseManagement/addExpCat" onsubmit="return validation()" id="add_exp" class="bg-light" method="post">
-							<input type="hidden" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['value']; ?>">
 							<div class="form-group">
 								<label for="expid" class="font-weight-regular"> Expense Code </label>
 								<input type="text" name="expCode" class="form-control" id="expCode" autocomplete="off" required />
@@ -174,7 +173,7 @@ $csrf = array(
 </div>
 <script>
 	function validation() {}
-
+	let csrf_token = "";
 	$("#add_exp").submit(function(e) {
 		if (csrf_token == "") {
 			csrf_token = '<?= $csrf['value'] ?>';
@@ -247,7 +246,6 @@ $csrf = array(
 	});
 
 	var csrf_token = "";
-
 	function loadExp() {
 
 		if (csrf_token == "") {

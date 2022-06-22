@@ -23,7 +23,7 @@ class UserManagement extends CI_Controller
                         </tr>';
             }
         }
-        echo $output;
+        echo json_encode(array('response'=>$output,'csrf'=>$this->security->get_csrf_hash()));
     }
 
     public function addUser() {

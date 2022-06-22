@@ -62,7 +62,6 @@ class ExpenseManagement extends CI_Controller
 
 	public function addExpCat()
 	{
-
 		$data = array(
 			'c_expcode' => $this->input->post('expCode'),
 			'c_category' => $this->input->post('expCat'),
