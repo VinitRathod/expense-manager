@@ -1,3 +1,9 @@
+<?php
+$csrf = array(
+  'name' => $this->security->get_csrf_token_name(),
+  'value' => $this->security->get_csrf_hash(),
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,10 +53,15 @@
   </div>
 </body>
 <script>
+  let csrf_token = "";
   $("#loginForm").submit(function(e) {
+    if (csrf_token == "") {
+      csrf_token = '<?= $csrf['value'] ?>';
+    }
     e.preventDefault();
     // alert();
     let form = new FormData(document.getElementById('loginForm'));
+    form.append('csrf_token',csrf_token);
     $.ajax({
       url: "<?php echo base_url(); ?>LoginController/index",
       method: "POST",
@@ -61,6 +72,9 @@
       data: form,
       success: function(response) {
         let res = JSON.parse(response);
+        if (res.csrf) {
+          csrf_token = res.csrf;
+        }
         // console.log(response);
         if (res['error']) {
           $("#alertBox").css("display", "block");
