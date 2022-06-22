@@ -82,7 +82,7 @@ class VendorManagement extends CI_Controller
 			'contact' => $this->input->post('c_contacts')[0],
 			'type' => "vendor",
 		);
-		$res = $this->bank->curlReq($details, $this->bank->contactURL);
+		$res = $this->bank->curlReq(html_escape($details), $this->bank->contactURL);
 		$contactID = $res['id'];
 		// contact id generated sucessfully...
 
@@ -98,7 +98,7 @@ class VendorManagement extends CI_Controller
 					"account_number" => $this->input->post('c_accountno')[$i]
 				)
 			);
-			$result = $this->bank->curlReq($details, $this->bank->fundURL);
+			$result = $this->bank->curlReq(html_escape($details), $this->bank->fundURL);
 			$fundID = $result['id'];
 			$bankDetails = array(
 				'c_bankname' => $this->input->post('c_bankname')[$i],
@@ -108,7 +108,7 @@ class VendorManagement extends CI_Controller
 				'c_contactid' => $contactID,
 				'c_fundsid' => $fundID
 			);
-			$lastID = $this->bank->insert($bankDetails);
+			$lastID = $this->bank->insert(html_escape($bankDetails));
 			array_push($banks, $lastID);
 		}
 
@@ -163,7 +163,7 @@ class VendorManagement extends CI_Controller
 				'c_panno' => $this->input->post('c_panno'),
 			);
 		}
-		$insert = $this->ven->insert($data);
+		$insert = $this->ven->insert(html_escape($data));
 	}
 
 	public function getContactDetails($id)
@@ -217,7 +217,7 @@ class VendorManagement extends CI_Controller
 			'c_designation' => $this->input->post('c_designation'),
 			'c_tags' => $this->input->post('c_tags')
 		);
-		$updateBasicResult = $this->ven->updateBasic($id, $data);
+		$updateBasicResult = $this->ven->updateBasic($id, html_escape($data));
 		if ($updateBasicResult) {
 			echo "SUCCESS";
 		} else {
@@ -232,7 +232,7 @@ class VendorManagement extends CI_Controller
 		$data = array(
 			'c_contacts' => $contacts,
 		);
-		if ($this->ven->updateContacts($id, $data)) {
+		if ($this->ven->updateContacts($id, html_escape($data))) {
 			echo "SUCCESS";
 		} else {
 			echo "ERROR";
@@ -304,7 +304,7 @@ class VendorManagement extends CI_Controller
 			'contact' => explode(',', $vendor->c_contacts)[0],
 			'type' => "vendor",
 		);
-		$res = $this->bank->curlReq($details, $this->bank->contactURL);
+		$res = $this->bank->curlReq(html_escape($details), $this->bank->contactURL);
 		$contactID = $res['id'];
 		// this is contact id...
 
@@ -327,7 +327,7 @@ class VendorManagement extends CI_Controller
 						"account_number" => $data['c_accountno']
 					)
 				);
-				$result = $this->bank->curlReq($details, $this->bank->fundURL);
+				$result = $this->bank->curlReq(html_escape($details), $this->bank->fundURL);
 				$fundID = $result['id'];
 				$bankDetails = array(
 					'c_bankname' => $data['c_bankname'],
@@ -337,7 +337,7 @@ class VendorManagement extends CI_Controller
 					'c_contactid' => $contactID,
 					'c_fundsid' => $fundID
 				);
-				$lastID = $this->bank->insert($bankDetails);
+				$lastID = $this->bank->insert(html_escape($bankDetails));
 				array_push($exist, $lastID);
 			}
 		}

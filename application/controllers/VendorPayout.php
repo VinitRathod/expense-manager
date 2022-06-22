@@ -98,7 +98,7 @@ class VendorPayout extends CI_Controller
                 'modified_at' => date("Y-m-d  H:i:s", time()),
             );
         }
-        if ($this->ven->insertVenPay($data)) {
+        if ($this->ven->insertVenPay(html_escape($data))) {
             echo "SUCCESS";
         }
     }
