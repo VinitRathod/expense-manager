@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$csrf = array(
+	'name' => $this->security->get_csrf_token_name(),
+	'value' => $this->security->get_csrf_hash(),
+);
 ?>
 <div id="maincontent" class="contentblock mr-4" style="width:80vw">
 
@@ -193,7 +197,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<div class="form-group">
 								<label for="gst" class="font-weight-regular"> GST </label>
 								<div id="GStE" class="error"></div>
-								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" minlength="16" onkeyup="validationGSTE()" class="form-control" id="edit_c_gstno" autocomplete="off" required />
+								<input type="text" name="c_gstno" minlength="16" onkeyup="validationGSTE()" class="form-control" id="edit_c_gstno" autocomplete="off" required />
 							</div>
 
 							<div class="form-group">
@@ -352,6 +356,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </div>
 
 <script type="text/javascript">
+	let csrf_token = "";
+
 	function validation() {
 		var emails = document.getElementById("c_email").value;
 
@@ -411,6 +417,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			$("#editContacts").html("Update");
 			editingContact = true;
 		} else {
+			if (csrf_token == "") {
+				csrf_token = "<?= $csrf['value'] ?>";
+			}
 			let contacts = [];
 			let all_rows = document.getElementById("contactDetails_tbl").rows;
 			for (let i = 1; i < all_rows.length; i++) {
@@ -420,6 +429,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			let form = new FormData();
 			form.append("contacts", contacts_str);
 			form.append("c_id", currentVendorId);
+			form.append('<?= $csrf['name'] ?>', csrf_token);
 			$.ajax({
 				method: 'POST',
 				processData: false,
@@ -429,7 +439,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				url: `<?php echo base_url() ?>VendorManagement/editContacts`,
 				data: form,
 				success: function(response) {
-					if (response == "SUCCESS") {
+					let res = JSON.parse(response);
+					if (res.csrf) {
+						csrf_token = res.csrf;
+					}
+					if (res.response == "SUCCESS") {
 						swal("Contacts Has Been Updated!", "", "success").then(() => {
 							// call back after work is update is done, comes here...
 							closeEditing();
@@ -501,7 +515,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			// return false;
 		}
 
-		if (flag==1) {
+		if (flag == 1) {
 			let newContact = $("#intermediate").val();
 			let index = document.getElementById("contactDetails_tbl").rows.length;
 			document.getElementById("contactDetails_tbl").deleteRow(index - 1);
@@ -521,6 +535,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			$("#editBanks").html("Update");
 			editingBank = true;
 		} else {
+			if (csrf_token == "") {
+				csrf_token = "<?= $csrf['value'] ?>";
+			}
 			let existing_banks = [];
 			let other_banks = [];
 			let all_rows = document.getElementById("bankDetails_tbl").rows;
@@ -539,7 +556,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			form.append('existing_bank', existing_banks);
 			form.append('other_banks', other_banks);
 			form.append('c_id', currentBanksId);
-
+			form.append('<?= $csrf['name'] ?>', csrf_token);
 			$.ajax({
 				method: 'POST',
 				processData: false,
@@ -549,6 +566,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				url: `<?php echo base_url() ?>VendorManagement/editBanks`,
 				data: form,
 				success: function(response) {
+					let res = JSON.parse(response);
+					if (res.csrf) {
+						csrf_token = res.csrf;
+					}
 					swal("Updated Bank Details Successfully!", "", "success").then(() => {
 						closeBankEditing();
 					});
@@ -558,6 +579,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 
 	function removeBank(elem) {
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		let current_tr = elem.parentNode.parentNode;
 		let current_tbl = elem.parentNode.parentNode.parentNode;
 		let index = $("#bankDetails_tbl tr").index(current_tr);
@@ -568,6 +592,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		if (total_rows > 2) {
 			let form = new FormData();
 			form.append('c_id', bankId);
+			form.append('<?= $csrf['name'] ?>', csrf_token);
 			$.ajax({
 				method: 'POST',
 				processData: false,
@@ -577,7 +602,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				url: `<?php echo base_url() ?>VendorManagement/checkBank`,
 				data: form,
 				success: function(response) {
-					if (response == "BANK NOT IN PAYOUT") {
+					let res = JSON.parse(response);
+					if(res.csrf) {
+						csrf_token = res.csrf;
+					}
+					if (res.response == "BANK NOT IN PAYOUT") {
 						document.getElementById("bankDetails_tbl").deleteRow(index);
 						// swal("Bank Details Has Been Updated!", "", "success").then(() => {
 
@@ -675,6 +704,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script type="text/javascript">
 	function venDelete(id) {
 		// alert(id);
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		swal({
 				title: "Are you sure?",
 				text: "Once deleted, you will not be able to recover this vendor details!",
@@ -687,14 +719,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					$.ajax({
 						url: `<?php echo base_url(); ?>/VendorManagement/venDelete/${id}`,
 						method: "POST",
+						data: {
+							'<?= $csrf['name'] ?>': csrf_token,
+						},
 						success: function(response) {
 							// alert(response);
-							if (response == "SUCCESS") {
+							let res = JSON.parse(response);
+							if (res.csrf) {
+								csrf_token = res.csrf;
+							}
+							if (res.response == "SUCCESS") {
 								swal("Poof! Your vendor has been deleted!", {
 									icon: "success",
+								}).then(() => {
+									// loadVen();
+									location.reload();
 								});
-								// loadVen();
-								location.reload();
 							}
 						}
 					});
@@ -741,12 +781,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		// id.forEach((id) => {
 		// 	url += (id + "_");
 		// });
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		$.ajax({
 			method: "POST",
 			url: "<?php echo base_url(); ?>VendorManagement/getBankDetails/" + id,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
+			},
 			success: function(response) {
 				// console.log(response);
-				$("#bankTbl").html(response);
+				let res = JSON.parse(response);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#bankTbl").html(res.response);
 				currentBanksId = id;
 			}
 		});
@@ -754,26 +804,45 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function contactDetails(id) {
 		// alert(id);
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		$.ajax({
 			method: "POST",
 			url: "<?php echo base_url(); ?>VendorManagement/getContactDetails/" + id,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
+			},
 			success: function(response) {
 				// alert(response);
-				$("#contactTbl").html(response);
+				let res = JSON.parse(response);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#contactTbl").html(res.response);
 				currentVendorId = id;
 			}
 		});
 	}
 
 	function venUpdate(id) {
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		$.ajax({
 			method: "POST",
 			url: "<?php echo base_url(); ?>VendorManagement/fetchVen/" + id,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
+			},
 			success: function(response) {
 				// just for response, and quick debugging...
 				console.log("Vendor Details :", (JSON.parse(response)));
 
 				let data = JSON.parse(response);
+				if (data.csrf) {
+					csrf_token = data.csrf;
+				}
 
 				$("#ven").val(data.c_id);
 				$("#edit_c_name").val(data.c_fname + " " + data.c_lname);
@@ -789,10 +858,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	}
 
 	$("#addVen").submit(function(e) {
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		e.preventDefault();
 		const form = new FormData(document.getElementById('addVen'));
 		var add = document.getElementById("c_address").value;
 		form.append("c_address", add);
+		form.append('<?= $csrf['name'] ?>', csrf_token);
 		// console.log(...form);
 		$.ajax({
 			method: 'POST',
@@ -804,19 +877,37 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			data: form,
 			success: function(response) {
 				// loadVen();
-				location.reload();
+				let res = JSON.parse(response);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				if (res.response == "SUCCESS") {
+					swal("New Vendor Added Successfully!", "", "success").then(() => {
+						location.reload();
+					});
+				}
 				// document.getElementById("addVen").reset();
 			}
 		});
 	});
 
 	function loadVen() {
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		$.ajax({
 			url: "<?php echo base_url() ?>VendorManagement/index",
 			method: "POST",
+			data: {
+				'<?= $csrf['name'] ?>': '<?= $csrf['value'] ?>',
+			},
 			success: function(data) {
 				// alert(data);
-				$("#tblBody").html(data);
+				let res = JSON.parse(data);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#tblBody").html(res.response);
 				$(document).ready(function() {
 					$('#vendor').DataTable({
 						"order": [
@@ -835,10 +926,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	loadVen();
 
 	$("#editVenBasic").submit(function(e) {
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		e.preventDefault();
 		const form = new FormData(document.getElementById('editVenBasic'));
 		let t_area = document.getElementById('edit_c_address');
 		form.append(t_area.name, t_area.value);
+		form.append('<?= $csrf['name'] ?>', csrf_token);
 		$.ajax({
 			method: "POST",
 			processData: false,
@@ -848,7 +943,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: `<?php echo base_url() ?>VendorManagement/editVendor`,
 			data: form,
 			success: function(response) {
-				if (response == "SUCCESS") {
+				let res = JSON.parse(response);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				if (res.response == "SUCCESS") {
 					swal("Basic Details Of Vendor Are Updates Successfully!", "", "success").then(() => {
 						// call back function, after success something to be done... goes here...
 						// loadVen();
@@ -859,17 +958,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	});
 
+	let test = true;
+
 	function validationGST() {
 
-		var c_gstno = document.getElementById("c_gstno");
-		var GSt = document.getElementById("GSt");
-		var regexm = /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/;
-		if (regexm.test(c_gstno.value)) {
-			GSt.innerHTML = "";
-			return true;
-		} else {
-			GSt.innerHTML = "*Invalid GST Number";
-			return false;
+		if (!test) {
+			var c_gstno = document.getElementById("c_gstno");
+			var GSt = document.getElementById("GSt");
+			var regexm = /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/;
+			if (regexm.test(c_gstno.value)) {
+				GSt.innerHTML = "";
+				return true;
+			} else {
+				GSt.innerHTML = "*Invalid GST Number";
+				return false;
+			}
 		}
 
 
@@ -877,15 +980,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function validationmob() {
 
-		var mobileNumber = document.getElementById("c_contacts");
-		var mobileno = document.getElementById("mobileno");
-		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
-		if (regexm.test(mobileNumber.value)) {
-			mobileno.innerHTML = "";
-			return true;
-		} else {
-			mobileno.innerHTML = "*Invalid Mobile Number";
-			return false;
+		if (!test) {
+			var mobileNumber = document.getElementById("c_contacts");
+			var mobileno = document.getElementById("mobileno");
+			var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+			if (regexm.test(mobileNumber.value)) {
+				mobileno.innerHTML = "";
+				return true;
+			} else {
+				mobileno.innerHTML = "*Invalid Mobile Number";
+				return false;
+			}
 		}
 
 
@@ -893,15 +998,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function validationmobF() {
 
-		var mobileNumber = document.getElementById("mobile_f");
-		var mobileno = document.getElementById("mobilenof");
-		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
-		if (regexm.test(mobileNumber.value)) {
-			mobileno.innerHTML = "";
-			return true;
-		} else {
-			mobileno.innerHTML = "*Invalid Mobile Number";
-			return false;
+		if (!test) {
+			var mobileNumber = document.getElementById("mobile_f");
+			var mobileno = document.getElementById("mobilenof");
+			var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
+			if (regexm.test(mobileNumber.value)) {
+				mobileno.innerHTML = "";
+				return true;
+			} else {
+				mobileno.innerHTML = "*Invalid Mobile Number";
+				return false;
+			}
 		}
 
 
@@ -909,15 +1016,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	function validationPan() {
 
-		var txtPANCard = document.getElementById("c_gstno");
-		var lblPANCard = document.getElementById("lblPANCard")
-		var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
-		if (regex.test(txtPANCard.value.toUpperCase())) {
-			lblPANCard.innerHTML = "";
-			return true;
-		} else {
-			lblPANCard.innerHTML = "*Invalid PAN Card Number";
-			return false;
+		if (!test) {
+			var txtPANCard = document.getElementById("c_panno");
+			var lblPANCard = document.getElementById("lblPANCard")
+			var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+			if (regex.test(txtPANCard.value.toUpperCase())) {
+				lblPANCard.innerHTML = "";
+				return true;
+			} else {
+				lblPANCard.innerHTML = "*Invalid PAN Card Number";
+				return false;
+			}
 		}
 
 	}

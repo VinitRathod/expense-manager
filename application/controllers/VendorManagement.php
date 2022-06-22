@@ -59,7 +59,7 @@ class VendorManagement extends CI_Controller
 						
 					</tr>';
 		}
-		echo $output;
+		echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => $output));
 	}
 
 	public function venManagement()
@@ -164,6 +164,11 @@ class VendorManagement extends CI_Controller
 			);
 		}
 		$insert = $this->ven->insert(html_escape($data));
+		if($insert) {
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+		} else {
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
+		}
 	}
 
 	public function getContactDetails($id)
@@ -176,7 +181,7 @@ class VendorManagement extends CI_Controller
 							<td>" . $con . "</td>
 						</tr>";
 		}
-		echo $output;
+		echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => $output));
 	}
 
 	public function venDelete($id)
@@ -189,7 +194,9 @@ class VendorManagement extends CI_Controller
 
 		$res = $this->ven->deleteSingleVen($id);
 		if ($res) {
-			echo "SUCCESS";
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+		} else {
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
 		}
 	}
 
@@ -197,9 +204,9 @@ class VendorManagement extends CI_Controller
 	{
 		$result = $this->ven->getSingleVen($this->sec->encryptor('d', $id));
 		$result->c_id = $this->sec->encryptor('e', $result->c_id);
+		$result->csrf = $this->security->get_csrf_hash();
 
-		$output = json_encode($result);
-		echo $output;
+		echo json_encode($result);
 	}
 
 	public function editVendor()
@@ -219,9 +226,9 @@ class VendorManagement extends CI_Controller
 		);
 		$updateBasicResult = $this->ven->updateBasic($id, html_escape($data));
 		if ($updateBasicResult) {
-			echo "SUCCESS";
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
 		} else {
-			echo "ERROR";
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
 		}
 	}
 
@@ -233,18 +240,18 @@ class VendorManagement extends CI_Controller
 			'c_contacts' => $contacts,
 		);
 		if ($this->ven->updateContacts($id, html_escape($data))) {
-			echo "SUCCESS";
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
 		} else {
-			echo "ERROR";
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
 		}
 	}
 
 	public function checkBank()
 	{
 		if ($this->ven->checkBankNotInPayout($this->sec->encryptor('d', $this->input->post('c_id')))) {
-			echo "BANK NOT IN PAYOUT";
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'BANK NOT IN PAYOUT'));
 		} else {
-			echo "BANK IN PAYOUT";
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'BANK IN PAYOUT'));
 		}
 	}
 
@@ -265,7 +272,7 @@ class VendorManagement extends CI_Controller
                     <td>" . $bDetails->c_status . "</td>
                 </tr>";
 		}
-		echo $output;
+		echo json_encode(array('response' => $output, 'csrf' => $this->security->get_csrf_hash()));
 	}
 
 	public function setBankDetails($id, $bank)
@@ -344,5 +351,6 @@ class VendorManagement extends CI_Controller
 
 		// print_r($exist);
 		$this->setBankDetails($id, $exist);
+		echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
 	}
 }

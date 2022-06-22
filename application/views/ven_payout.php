@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$csrf = array(
+    'name' => $this->security->get_csrf_token_name(),
+    'value' => $this->security->get_csrf_hash(),
+);
 ?>
 <div id="maincontent" class="contentblock mr-4" style="width:80vw">
 
@@ -185,6 +189,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	function validation() {}
 </script>
 <script type="text/javascript">
+	let csrf_token = "";
 	$(document).ready(function() {
 		var i = 0;
 		$('#manual').click(function() {
@@ -210,41 +215,75 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 
 	function loadAllVen() {
+		if(csrf_token == "") {
+			csrf_token = "<?=$csrf['value']?>";
+		}
 		$.ajax({
 			url: "<?php echo base_url() ?>VendorPayout/getAllVen",
 			method: "POST",
+			data:{
+				'<?=$csrf['name']?>': csrf_token,
+			},
 			success: function(response) {
 				// alert(response);
-				$("#c_venid").html(response);
+				let res = JSON.parse(response);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#c_venid").html(res.response);
 			}
 		});
 	}
 
 	function getBanks(id) {
 		// alert(id);
+		if(csrf_token == "") {
+			csrf_token = "<?=$csrf['value']?>";
+		}
 		$.ajax({
 			url: "<?php echo base_url() ?>VendorPayout/getVendorBanks/" + id,
 			method: "POST",
+			data:{
+				'<?=$csrf['name']?>': csrf_token,
+			},
 			success: function(response) {
 				// alert(response);
-				$("#c_banks").html(response);
+				let res = JSON.parse(response);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#c_banks").html(res.response);
 			}
 		});
 	}
 
 	function getAllExpCat() {
+		if(csrf_token == "") {
+			csrf_token = "<?=$csrf['value']?>";
+		}
 		$.ajax({
 			url: "<?php echo base_url(); ?>VendorPayout/getExpCat",
 			method: "POST",
+			data:{
+				'<?=$csrf['name']?>': csrf_token,
+			},
 			success: function(response) {
-				$("#c_category").html(response);
+				let res = JSON.parse(response);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#c_category").html(res.response);
 			}
 		});
 	}
 
 	$("#add_ven_payout").submit(function(e) {
+		if(csrf_token == "") {
+			csrf_token = "<?=$csrf['value']?>";
+		}
 		e.preventDefault();
 		const form = new FormData(document.getElementById("add_ven_payout"));
+		form.append('<?=$csrf['name']?>',csrf_token);
 		$.ajax({
 			method: "POST",
 			processData: false,
@@ -254,7 +293,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			url: "<?php echo base_url(); ?>VendorPayout/addVenPay",
 			data: form,
 			success: function(response) {
-				if (response == "SUCCESS") {
+				let res = JSON.parse(response);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}	
+				if (res.response == "SUCCESS") {
 					swal("Vendor Payout created successfully!", "Action succeed!", "success").then(() => {
 						loadVenPayouts();
 					});
@@ -264,12 +307,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 
 	function loadVenPayouts() {
+		if(csrf_token == "") {
+			csrf_token = "<?=$csrf['value']?>";
+		}
 		$.ajax({
 			url: "<?php echo base_url(); ?>VendorPayout/getAllPayouts",
 			method: "POST",
+			data:{
+				'<?=$csrf['name']?>': csrf_token,
+			},
 			success: function(response) {
 				// alert(response);
-				$("#tblBody").html(response);
+				let res = JSON.parse(response);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#tblBody").html(res.response);
 				$(document).ready(function() {
 					$('#payout').DataTable({
 						"order": [
@@ -287,6 +340,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		});
 	}
 	$(document).on('click', '.payout', function(ex) {
+		if(csrf_token == "") {
+			csrf_token = "<?=$csrf['value']?>";
+		}
 		console.log("clicked");
 		let pbar;
 		// alert("Payout Clicked")
@@ -294,11 +350,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$.ajax({
 			url: "<?php echo base_url(); ?>PayoutController/payOutVen/" + $(this).attr("id"),
 			method: "POST",
+			data:{
+				'<?=$csrf['name']?>': csrf_token,
+			},
 			// data: $(this).val(),
 			success: function(data) {
 				// alert(data);
 				console.log(data);
-				loadVenPayouts();
+				let res = JSON.parse(data);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}
+				// loadVenPayouts();
+				location.reload();
 			},
 			beforeSend: function(ex) {
 				$("#tblBlur").css("filter", "blur(4px)");
