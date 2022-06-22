@@ -417,6 +417,9 @@ $csrf = array(
 			$("#editContacts").html("Update");
 			editingContact = true;
 		} else {
+			if (csrf_token == "") {
+				csrf_token = "<?= $csrf['value'] ?>";
+			}
 			let contacts = [];
 			let all_rows = document.getElementById("contactDetails_tbl").rows;
 			for (let i = 1; i < all_rows.length; i++) {
@@ -426,6 +429,7 @@ $csrf = array(
 			let form = new FormData();
 			form.append("contacts", contacts_str);
 			form.append("c_id", currentVendorId);
+			form.append('<?= $csrf['name'] ?>', csrf_token);
 			$.ajax({
 				method: 'POST',
 				processData: false,
@@ -435,7 +439,11 @@ $csrf = array(
 				url: `<?php echo base_url() ?>VendorManagement/editContacts`,
 				data: form,
 				success: function(response) {
-					if (response == "SUCCESS") {
+					let res = JSON.parse(response);
+					if (res.csrf) {
+						csrf_token = res.csrf;
+					}
+					if (res.response == "SUCCESS") {
 						swal("Contacts Has Been Updated!", "", "success").then(() => {
 							// call back after work is update is done, comes here...
 							closeEditing();
@@ -527,6 +535,9 @@ $csrf = array(
 			$("#editBanks").html("Update");
 			editingBank = true;
 		} else {
+			if (csrf_token == "") {
+				csrf_token = "<?= $csrf['value'] ?>";
+			}
 			let existing_banks = [];
 			let other_banks = [];
 			let all_rows = document.getElementById("bankDetails_tbl").rows;
@@ -545,7 +556,7 @@ $csrf = array(
 			form.append('existing_bank', existing_banks);
 			form.append('other_banks', other_banks);
 			form.append('c_id', currentBanksId);
-
+			form.append('<?= $csrf['name'] ?>', csrf_token);
 			$.ajax({
 				method: 'POST',
 				processData: false,
@@ -555,6 +566,10 @@ $csrf = array(
 				url: `<?php echo base_url() ?>VendorManagement/editBanks`,
 				data: form,
 				success: function(response) {
+					let res = JSON.parse(response);
+					if (res.csrf) {
+						csrf_token = res.csrf;
+					}
 					swal("Updated Bank Details Successfully!", "", "success").then(() => {
 						closeBankEditing();
 					});
@@ -564,6 +579,9 @@ $csrf = array(
 	});
 
 	function removeBank(elem) {
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		let current_tr = elem.parentNode.parentNode;
 		let current_tbl = elem.parentNode.parentNode.parentNode;
 		let index = $("#bankDetails_tbl tr").index(current_tr);
@@ -574,6 +592,7 @@ $csrf = array(
 		if (total_rows > 2) {
 			let form = new FormData();
 			form.append('c_id', bankId);
+			form.append('<?= $csrf['name'] ?>', csrf_token);
 			$.ajax({
 				method: 'POST',
 				processData: false,
@@ -583,7 +602,11 @@ $csrf = array(
 				url: `<?php echo base_url() ?>VendorManagement/checkBank`,
 				data: form,
 				success: function(response) {
-					if (response == "BANK NOT IN PAYOUT") {
+					let res = JSON.parse(response);
+					if(res.csrf) {
+						csrf_token = res.csrf;
+					}
+					if (res.response == "BANK NOT IN PAYOUT") {
 						document.getElementById("bankDetails_tbl").deleteRow(index);
 						// swal("Bank Details Has Been Updated!", "", "success").then(() => {
 
