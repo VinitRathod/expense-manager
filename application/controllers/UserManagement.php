@@ -69,9 +69,9 @@ class UserManagement extends CI_Controller
         );
         $response = $this->usr->updateUser($this->sec->encryptor('d',$id), $data);
         if($response) {
-            echo "SUCCESS";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
         } else {
-            echo "QUERY FAILED";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
         }
     }
 }

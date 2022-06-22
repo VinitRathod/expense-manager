@@ -200,8 +200,12 @@ $csrf = array(
     }
 
     $("#edit_usr").submit(function(e) {
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
+        }
         e.preventDefault();
         const form = new FormData(document.getElementById('edit_usr'));
+        form.append('<?=$csrf['name']?>',csrf_token);
         // just for initial debugging...
         // console.log(form.get("usrID"));
         let id = form.get("usrID");
@@ -214,7 +218,11 @@ $csrf = array(
             url: "<?php echo base_url() ?>UserManagement/updateUsr/" + id,
             data: form,
             success: function(response) {
-                if (response == "SUCCESS") {
+                let res = JSON.parse(response);
+                if(res.csrf) {
+                    csrf_token = res.csrf;
+                }
+                if (res.response == "SUCCESS") {
                     swal("This User Updated Successfully.", "", "success").then(() => {
                         location.reload();
                     });
