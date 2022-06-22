@@ -59,7 +59,7 @@ class VendorManagement extends CI_Controller
 						
 					</tr>';
 		}
-		echo $output;
+		echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => $output));
 	}
 
 	public function venManagement()

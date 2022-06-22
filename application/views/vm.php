@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$csrf = array(
+    'name' => $this->security->get_csrf_token_name(),
+    'value' => $this->security->get_csrf_hash(),
+);
 ?>
 <div id="maincontent" class="contentblock mr-4" style="width:80vw">
 
@@ -352,6 +356,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </div>
 
 <script type="text/javascript">
+	let csrf_token = "";
 	function validation() {
 		var emails = document.getElementById("c_email").value;
 
@@ -811,12 +816,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	});
 
 	function loadVen() {
+		if(csrf_token == "") {
+			csrf_token = "<?=$csrf['value']?>";
+		}
 		$.ajax({
 			url: "<?php echo base_url() ?>VendorManagement/index",
 			method: "POST",
+			data: {
+				'<?=$csrf['name']?>' : '<?=$csrf['value']?>',
+			},
 			success: function(data) {
 				// alert(data);
-				$("#tblBody").html(data);
+				let res = JSON.parse(data);
+				if(res.csrf) {
+					csrf_token = res.csrf;
+				}
+				$("#tblBody").html(res.response);
 				$(document).ready(function() {
 					$('#vendor').DataTable({
 						"order": [
