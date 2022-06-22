@@ -46,9 +46,9 @@ class UserManagement extends CI_Controller
     public function deleteUser($id) {
         $res = $this->usr->deleteUser($this->sec->encryptor('d',$id));
         if($res) {
-            echo "SUCCESS";
+            echo json_encode(array('csrf'=>$this->security->get_csrf_hash(), 'response'=>'SUCCESS'));
         } else {
-            echo "FAILED";
+            echo json_encode(array('csrf'=>$this->security->get_csrf_hash(), 'response'=>'ERROR'));
         }
     }
 

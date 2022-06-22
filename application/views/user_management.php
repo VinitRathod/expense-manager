@@ -156,6 +156,7 @@ $csrf = array(
 </div>
 <script>
     let csrf_token = "";
+
     function validation() {}
 
     $("#add_usr").submit(function(e) {
@@ -219,18 +220,18 @@ $csrf = array(
     });
 
     function loadUser() {
-        if(csrf_token == "") {
-            csrf_token = '<?=$csrf['value']?>';
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
         }
         $.ajax({
             url: "<?php echo base_url() ?>UserManagement/getAllUsers",
             method: "POST",
             data: {
-                '<?=$csrf['name']?>' : csrf_token,
+                '<?= $csrf['name'] ?>': csrf_token,
             },
             success: function(data) {
                 let res = JSON.parse(data);
-                if(res.csrf) {
+                if (res.csrf) {
                     csrf_token = res.csrf;
                 }
                 $(".tblBody").html(res.response);
@@ -272,6 +273,9 @@ $csrf = array(
     function usrDelete(id) {
         // just to debug things...
         // alert(id);
+        if (csrf_token == "") {
+            csrf_token = '<?= $csrf['value'] ?>';
+        }
         swal({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to recover this user!",
@@ -284,8 +288,15 @@ $csrf = array(
                     $.ajax({
                         url: `<?php echo base_url(); ?>/UserManagement/deleteUser/${id}`,
                         method: "POST",
+                        data: {
+                            '<?= $csrf['name'] ?>': csrf_token,
+                        },
                         success: function(response) {
-                            if (response == "SUCCESS") {
+                            let res = JSON.parse(response);
+                            if(res.csrf) {
+                                csrf_token = res.csrf;
+                            }
+                            if (res.response == "SUCCESS") {
                                 swal("Poof! That user has been deleted!", {
                                     icon: "success",
                                 }).then(() => {
