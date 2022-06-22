@@ -189,7 +189,9 @@ class VendorManagement extends CI_Controller
 
 		$res = $this->ven->deleteSingleVen($id);
 		if ($res) {
-			echo "SUCCESS";
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+		} else {
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
 		}
 	}
 

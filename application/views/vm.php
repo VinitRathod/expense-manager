@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 $csrf = array(
-    'name' => $this->security->get_csrf_token_name(),
-    'value' => $this->security->get_csrf_hash(),
+	'name' => $this->security->get_csrf_token_name(),
+	'value' => $this->security->get_csrf_hash(),
 );
 ?>
 <div id="maincontent" class="contentblock mr-4" style="width:80vw">
@@ -357,6 +357,7 @@ $csrf = array(
 
 <script type="text/javascript">
 	let csrf_token = "";
+
 	function validation() {
 		var emails = document.getElementById("c_email").value;
 
@@ -506,7 +507,7 @@ $csrf = array(
 			// return false;
 		}
 
-		if (flag==1) {
+		if (flag == 1) {
 			let newContact = $("#intermediate").val();
 			let index = document.getElementById("contactDetails_tbl").rows.length;
 			document.getElementById("contactDetails_tbl").deleteRow(index - 1);
@@ -680,6 +681,9 @@ $csrf = array(
 <script type="text/javascript">
 	function venDelete(id) {
 		// alert(id);
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
 		swal({
 				title: "Are you sure?",
 				text: "Once deleted, you will not be able to recover this vendor details!",
@@ -692,14 +696,22 @@ $csrf = array(
 					$.ajax({
 						url: `<?php echo base_url(); ?>/VendorManagement/venDelete/${id}`,
 						method: "POST",
+						data: {
+							'<?= $csrf['name'] ?>': csrf_token,
+						},
 						success: function(response) {
 							// alert(response);
-							if (response == "SUCCESS") {
+							let res = JSON.parse(response);
+							if(res.csrf) {
+								csrf_token = res.csrf;
+							}
+							if (res.response == "SUCCESS") {
 								swal("Poof! Your vendor has been deleted!", {
 									icon: "success",
+								}).then(()=>{
+									// loadVen();
+									location.reload();
 								});
-								// loadVen();
-								location.reload();
 							}
 						}
 					});
@@ -746,19 +758,19 @@ $csrf = array(
 		// id.forEach((id) => {
 		// 	url += (id + "_");
 		// });
-		if(csrf_token == "") {
-			csrf_token = "<?=$csrf['value']?>";
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
 		}
 		$.ajax({
 			method: "POST",
-			url: "<?php echo base_url(); ?>VendorManagement/getBankDetails/"+id,
+			url: "<?php echo base_url(); ?>VendorManagement/getBankDetails/" + id,
 			data: {
-				'<?=$csrf['name']?>': csrf_token,
+				'<?= $csrf['name'] ?>': csrf_token,
 			},
 			success: function(response) {
 				// console.log(response);
 				let res = JSON.parse(response);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				$("#bankTbl").html(res.response);
@@ -769,19 +781,19 @@ $csrf = array(
 
 	function contactDetails(id) {
 		// alert(id);
-		if(csrf_token == "") {
-			csrf_token = "<?=$csrf['value']?>";
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
 		}
 		$.ajax({
 			method: "POST",
 			url: "<?php echo base_url(); ?>VendorManagement/getContactDetails/" + id,
 			data: {
-				'<?=$csrf['name']?>': csrf_token,
+				'<?= $csrf['name'] ?>': csrf_token,
 			},
 			success: function(response) {
 				// alert(response);
 				let res = JSON.parse(response);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				$("#contactTbl").html(res.response);
@@ -836,19 +848,19 @@ $csrf = array(
 	});
 
 	function loadVen() {
-		if(csrf_token == "") {
-			csrf_token = "<?=$csrf['value']?>";
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
 		}
 		$.ajax({
 			url: "<?php echo base_url() ?>VendorManagement/index",
 			method: "POST",
 			data: {
-				'<?=$csrf['name']?>' : '<?=$csrf['value']?>',
+				'<?= $csrf['name'] ?>': '<?= $csrf['value'] ?>',
 			},
 			success: function(data) {
 				// alert(data);
 				let res = JSON.parse(data);
-				if(res.csrf) {
+				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
 				$("#tblBody").html(res.response);
