@@ -93,7 +93,7 @@ $csrf = array(
                             <div class="form-group">
                                 <label for="edit_c_name" class="font-weight-regular"> Username </label>
                                 <input type="text" name="c_name" class="form-control" id="edit_c_name" autocomplete="off" required />
-                                <span id="warn_c_name" class="text-danger font-weight-regular">
+                                <span id="warn_edit_c_name" class="text-danger font-weight-regular">
 
                                 </span>
                             </div>
@@ -101,7 +101,7 @@ $csrf = array(
                             <div class="form-group">
                                 <label for="edit_c_email" class="font-weight-regular"> User Email </label>
                                 <input type="text" name="c_email" class="form-control" id="edit_c_email" autocomplete="off" required />
-                                <span id="warn_c_email" class="text-danger font-weight-regular">
+                                <span id="warn_edit_c_email" class="text-danger font-weight-regular">
 
                                 </span>
                             </div>
@@ -117,7 +117,7 @@ $csrf = array(
                             <div class="form-group">
                                 <label for="edit_c_phoneno" class="font-weight-regular"> User Phone no. </label>
                                 <input type="text" name="c_phoneno" class="form-control" id="edit_c_phoneno" autocomplete="off" required />
-                                <span id="warn_c_phoneno" class="text-danger font-weight-regular">
+                                <span id="warn_edit_c_phoneno" class="text-danger font-weight-regular">
 
                                 </span>
                             </div>
@@ -182,8 +182,8 @@ $csrf = array(
                 }
                 if (res.error) {
                     // console.log(res.error);
-                    for(let key in res.error) {
-                        $("#"+key).text(res.error[key]);
+                    for (let key in res.error) {
+                        $("#" + key).text(res.error[key]);
                     }
                 } else {
                     if (res.response == "SUCCESS") {
@@ -229,14 +229,20 @@ $csrf = array(
                 if (res.csrf) {
                     csrf_token = res.csrf;
                 }
-                if (res.response == "SUCCESS") {
-                    swal("This User Updated Successfully.", "", "success").then(() => {
-                        location.reload();
-                    });
+                if (res.error) {
+                    for(let key in res.error){
+                        $("#"+key).text(res.error[key]);
+                    }
                 } else {
-                    swal("User Not Updated!", "Operation failed, Please try again.", "error").then(() => {
-                        // location.reload();
-                    });
+                    if (res.response == "SUCCESS") {
+                        swal("This User Updated Successfully.", "", "success").then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        swal("User Not Updated!", "Operation failed, Please try again.", "error").then(() => {
+                            // location.reload();
+                        });
+                    }
                 }
             }
         });

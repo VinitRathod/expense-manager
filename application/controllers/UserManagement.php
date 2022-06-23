@@ -5,11 +5,16 @@ class UserManagement extends CI_Controller
 {
     private $usrname_regx = "/^[a-zA-Z]{3,20} [a-zA-Z]{3,20}$/";
     private $phoneno_regx = "/^[0-9]{10}$/";
-    private $error_array_add_usr = [
+    private $error_add_user = [
         'warn_c_name' => '',
         'warn_c_email' => '',
         'warn_c_password' => '',
         'warn_c_phoneno' => ''
+    ];
+    private $error_edit_user = [
+        'warn_edit_c_name' => '',
+        'warn_edit_c_email' => '',
+        'warn_edit_c_phoneno' => ''
     ];
     public function usrManagement()
     {
@@ -36,12 +41,46 @@ class UserManagement extends CI_Controller
         echo json_encode(array('response' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
+    public function validate($name, $data,&$e_array, $id=0) {
+        $error = false;
+        $edit = '';
+        if($id != 0) {
+            $edit = '_edit';
+        }
+        if (count($name) > 2 || count($name) < 2 || !preg_match($this->usrname_regx, $name[0] . ' ' . $name[1])) {
+            $e_array['warn'.$edit.'_c_name'] = '*Invalid Name';
+            $error = true;
+        }
+
+        if ($this->usr->checkUsrnameExist($name[0], $data['c_lname'], $id)) {
+            $e_array['warn'.$edit.'_c_name'] = '*Duplicate User Name Is Not Allowed';
+            $error = true;
+        }
+
+        if (!preg_match($this->phoneno_regx, $data['c_phoneno'])) {
+            $e_array['warn'.$edit.'_c_phoneno'] = '*Invalid Phone Number';
+            $error = true;
+        }
+
+        if (!filter_var($data['c_email'], FILTER_VALIDATE_EMAIL)) {
+            $e_array['warn'.$edit.'_c_email'] = '*Invalid Email Address';
+            $error = true;
+        }
+
+        if ($this->usr->checkEmailExist($data['c_email'],$id)) {
+            $e_array['warn'.$edit.'_c_email'] = '*Email Address Must Be Unique';
+            $error = true;
+        }
+        
+        return $error;
+    }
+
     public function addUser()
     {
         // print_r($_POST); // to just debug some things...
         $name = explode(" ", $this->input->post('c_name'));
         $lname = '';
-        if(count($name) >= 2) {
+        if (count($name) >= 2) {
             $lname = $name[1];
         }
         $data = array(
@@ -51,40 +90,15 @@ class UserManagement extends CI_Controller
             'c_password' => sha1($this->input->post('c_password')),
             'c_phoneno' => $this->input->post('c_phoneno')
         );
-        $error = false;
-        if(count($name) > 2 || count($name) < 2 || !preg_match($this->usrname_regx, $name[0].' '.$name[1])) {
-            $this->error_array_add_usr['warn_c_name'] = '*Invalid Name';
-            $error = true;
-        }
-        
-        if($this->usr->checkUsrnameExist($name[0],$data['c_lname'])) {
-            $this->error_array_add_usr['warn_c_name'] = '*Duplicate User Name Is Not Allowed';
-            $error = true;
-        }
-        
-        if(!preg_match($this->phoneno_regx, $data['c_phoneno'])) {
-            $this->error_array_add_usr['warn_c_phoneno'] = '*Invalid Phone Number';
-            $error = true;
-        }
-        
-        if(!filter_var($data['c_email'], FILTER_VALIDATE_EMAIL)) {
-            $this->error_array_add_usr['warn_c_email'] = '*Invalid Email Address';
-            $error = true;
-        } 
-        
-        if($this->usr->checkEmailExist($data['c_email'])) {
-            $this->error_array_add_usr['warn_c_email'] = '*Email Address Must Be Unique';
-            $error = true;
-        }
-        
-        if(!$error) {
+        $error = $this->validate($name, $data, $this->error_add_user);
+        if (!$error) {
             if ($this->usr->insertUser(html_escape($data))) {
                 echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
             } else {
                 echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'QUERY FAILED'));
             }
         } else {
-            echo json_encode(array('error' => $this->error_array_add_usr, 'csrf' => $this->security->get_csrf_hash()));
+            echo json_encode(array('error' => $this->error_add_user, 'csrf' => $this->security->get_csrf_hash()));
         }
     }
 
@@ -109,17 +123,26 @@ class UserManagement extends CI_Controller
     public function updateUsr($id)
     {
         $name = explode(" ", $this->input->post('c_name'));
+        $lname = '';
+        if (count($name) >= 2) {
+            $lname = $name[1];
+        }
         $data = array(
             'c_fname' => $name[0],
-            'c_lname' => $name[1],
+            'c_lname' => $lname,
             'c_email' => $this->input->post('c_email'),
             'c_phoneno' => $this->input->post('c_phoneno')
         );
-        $response = $this->usr->updateUser($this->sec->encryptor('d', $id), html_escape($data));
-        if ($response) {
-            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+        $error = $this->validate($name, $data, $this->error_edit_user,$this->sec->encryptor('d', $id));
+        if (!$error) {
+            $response = $this->usr->updateUser($this->sec->encryptor('d', $id), html_escape($data));
+            if ($response) {
+                echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+            } else {
+                echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
+            }
         } else {
-            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
+            echo json_encode(array('error' => $this->error_edit_user, 'csrf' => $this->security->get_csrf_hash()));
         }
     }
 }
