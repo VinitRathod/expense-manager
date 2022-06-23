@@ -27,5 +27,13 @@ class User extends CI_Model
         $this->db->where('c_id',$id);
         return $this->db->update($this->tbl,$data);
     }
+
+    public function checkEmailExist($email) {
+        return $this->db->where('c_email',$email)->get($this->tbl)->num_rows();
+    }
+
+    public function checkUsrnameExist($fname,$lname) {
+        return $this->db->where(array('c_fname' => $fname,'c_lname' => $lname))->get($this->tbl)->num_rows();
+    }
 }
 ?>

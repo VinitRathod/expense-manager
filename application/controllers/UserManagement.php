@@ -3,6 +3,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class UserManagement extends CI_Controller
 {
+    private $usrname_regx = "/^[a-zA-Z]{3,20} [a-zA-Z]{3,20}$/";
+    private $phoneno_regx = "/^[0-9]{10}$/";
+    private $error_array_add_usr = [
+        'warn_c_name' => '',
+        'warn_c_email' => '',
+        'warn_c_password' => '',
+        'warn_c_phoneno' => ''
+    ];
     public function usrManagement()
     {
         $this->load->view('header');
@@ -32,17 +40,51 @@ class UserManagement extends CI_Controller
     {
         // print_r($_POST); // to just debug some things...
         $name = explode(" ", $this->input->post('c_name'));
+        $lname = '';
+        if(count($name) >= 2) {
+            $lname = $name[1];
+        }
         $data = array(
             'c_fname' => $name[0],
-            'c_lname' => $name[1],
+            'c_lname' => $lname,
             'c_email' => $this->input->post('c_email'),
             'c_password' => sha1($this->input->post('c_password')),
             'c_phoneno' => $this->input->post('c_phoneno')
         );
-        if ($this->usr->insertUser(html_escape($data))) {
-            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+        $error = false;
+        if(count($name) > 2 || count($name) < 2 || !preg_match($this->usrname_regx, $name[0].' '.$name[1])) {
+            $this->error_array_add_usr['warn_c_name'] = '*Invalid Name';
+            $error = true;
+        }
+        
+        if($this->usr->checkUsrnameExist($name[0],$data['c_lname'])) {
+            $this->error_array_add_usr['warn_c_name'] = '*Duplicate User Name Is Not Allowed';
+            $error = true;
+        }
+        
+        if(!preg_match($this->phoneno_regx, $data['c_phoneno'])) {
+            $this->error_array_add_usr['warn_c_phoneno'] = '*Invalid Phone Number';
+            $error = true;
+        }
+        
+        if(!filter_var($data['c_email'], FILTER_VALIDATE_EMAIL)) {
+            $this->error_array_add_usr['warn_c_email'] = '*Invalid Email Address';
+            $error = true;
+        } 
+        
+        if($this->usr->checkEmailExist($data['c_email'])) {
+            $this->error_array_add_usr['warn_c_email'] = '*Email Address Must Be Unique';
+            $error = true;
+        }
+        
+        if(!$error) {
+            if ($this->usr->insertUser(html_escape($data))) {
+                echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+            } else {
+                echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'QUERY FAILED'));
+            }
         } else {
-            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'QUERY FAILED'));
+            echo json_encode(array('error' => $this->error_array_add_usr, 'csrf' => $this->security->get_csrf_hash()));
         }
     }
 

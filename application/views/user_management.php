@@ -165,7 +165,7 @@ $csrf = array(
         }
         e.preventDefault();
         const form = new FormData(document.getElementById('add_usr'));
-        form.append('<?=$csrf['name']?>',csrf_token);
+        form.append('<?= $csrf['name'] ?>', csrf_token);
         // console.log(...form);
         $.ajax({
             method: 'POST',
@@ -177,19 +177,26 @@ $csrf = array(
             data: form,
             success: function(response) {
                 let res = JSON.parse(response);
-                if(res.csrf) {
+                if (res.csrf) {
                     csrf_token = res.csrf;
                 }
-                if (res.response == "SUCCESS") {
-                    swal("New User Added Successfully.", "", "success").then(() => {
-                        // some call back actions comes here...
-                        location.reload();
-                    });
+                if (res.error) {
+                    // console.log(res.error);
+                    for(let key in res.error) {
+                        $("#"+key).text(res.error[key]);
+                    }
                 } else {
-                    // alert(response);
-                    swal("New User Not Added!", "Some unknown error occurred.", "error").then(() => {
-                        // some call back actions comes here...
-                    });
+                    if (res.response == "SUCCESS") {
+                        swal("New User Added Successfully.", "", "success").then(() => {
+                            // some call back actions comes here...
+                            location.reload();
+                        });
+                    } else {
+                        // alert(response);
+                        swal("New User Not Added!", "Some unknown error occurred.", "error").then(() => {
+                            // some call back actions comes here...
+                        });
+                    }
                 }
             }
         });
@@ -205,7 +212,7 @@ $csrf = array(
         }
         e.preventDefault();
         const form = new FormData(document.getElementById('edit_usr'));
-        form.append('<?=$csrf['name']?>',csrf_token);
+        form.append('<?= $csrf['name'] ?>', csrf_token);
         // just for initial debugging...
         // console.log(form.get("usrID"));
         let id = form.get("usrID");
@@ -219,7 +226,7 @@ $csrf = array(
             data: form,
             success: function(response) {
                 let res = JSON.parse(response);
-                if(res.csrf) {
+                if (res.csrf) {
                     csrf_token = res.csrf;
                 }
                 if (res.response == "SUCCESS") {
@@ -285,7 +292,7 @@ $csrf = array(
                 // just for debigging...
                 // console.log(JSON.parse(response));
                 let data = JSON.parse(response);
-                if(data.csrf) {
+                if (data.csrf) {
                     csrf_token = data.csrf;
                 }
                 $("#edit_c_name").val(data.c_fname + " " + data.c_lname);
@@ -319,7 +326,7 @@ $csrf = array(
                         },
                         success: function(response) {
                             let res = JSON.parse(response);
-                            if(res.csrf) {
+                            if (res.csrf) {
                                 csrf_token = res.csrf;
                             }
                             if (res.response == "SUCCESS") {
