@@ -43,7 +43,7 @@ $csrf = array(
 									Expense Category
 								</label>
 								<input type="text" name="expCat" pattern="[a-z A-Z0-9]{1,}" class="form-control" id="expCat" autocomplete="off" required />
-								<span id="warnFExpCat" class="text-danger font-weight-regular">
+								<span id="warnExpCat" class="text-danger font-weight-regular">
 
 								</span>
 							</div>
@@ -111,7 +111,7 @@ $csrf = array(
 							<div class="form-group">
 								<label for="expid" class="font-weight-regular"> Expense Code </label>
 								<input type="text" name="expCode" class="form-control" id="EditexpCode" autocomplete="off" required />
-								<span id="warnExpCode" class="text-danger font-weight-regular">
+								<span id="warnEditExpCode" class="text-danger font-weight-regular">
 
 								</span>
 							</div>
@@ -121,7 +121,7 @@ $csrf = array(
 									Expense Category
 								</label>
 								<input type="text" name="expCat" pattern="[a-z A-Z0-9]{1,}" class="form-control" id="EditexpCat" autocomplete="off" required />
-								<span id="warnFExpCat" class="text-danger font-weight-regular">
+								<span id="warnEditExpCat" class="text-danger font-weight-regular">
 
 								</span>
 							</div>
@@ -196,14 +196,22 @@ $csrf = array(
 				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
-				swal("New Expense Category Added Successfully.", "Insert Action Succeed.", "success").then(() => {
-					location.reload();
-					// loadExp();
-					// $("#expCode").val("");
-					// $("#expCat").val("");
-					// $("#expType").val("").change();
-					// $("#expDesc").val("");
-				});
+				var tmp = "";
+				if (res.error) {
+					for (let key in res.error) {
+						$("#" + key).text(res.error[key]);
+					}
+				} else {
+					swal("New Expense Category Added Successfully.", "Insert Action Succeed.", "success").then(() => {
+						location.reload();
+						// loadExp();
+						// $("#expCode").val("");
+						// $("#expCat").val("");
+						// $("#expType").val("").change();
+						// $("#expDesc").val("");
+					});
+				}
+
 			}
 		});
 	});
@@ -236,11 +244,18 @@ $csrf = array(
 				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
-				swal("Expense Category Updated Successfully.", "Update Action Succeed.", "success").then(() => {
-					// loadExp();
-					location.reload()
-					// expEdit(id);
-				});
+				if (res.error) {
+					for (let key in res.error) {
+						$("#" + key).text(res.error[key]);
+					}
+				} else {
+					swal("Expense Category Updated Successfully.", "Update Action Succeed.", "success").then(() => {
+						// loadExp();
+						location.reload()
+						// expEdit(id);
+					});
+				}
+
 			}
 		});
 	});
