@@ -63,13 +63,13 @@ $csrf = array(
 							<div class="form-group">
 								<label for="gst" class="font-weight-regular"> GST </label>
 								<!-- <div id="GSt" class="error"></div> -->
-								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}"  minlength="16" class="form-control" id="c_gstno" autocomplete="off" required />
+								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" minlength="16" class="form-control" id="c_gstno" autocomplete="off" required />
 								<span id="gst_no" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
 								<!-- <div id="lblPANCard" class="error"></div> -->
-								<input type="text" name="c_panno" class="form-control"  id="c_panno" autocomplete="off" required />
+								<input type="text" name="c_panno" class="form-control" id="c_panno" autocomplete="off" required />
 								<span id="pan_no" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
@@ -80,7 +80,7 @@ $csrf = array(
 							<div class="form-group">
 								<label class="font-weight-regular"> Mobile Number </label>
 								<!-- <div id="mobileno" name="mobileno" class="error"> </div> -->
-								<input type="text" name="c_contacts[]" class="form-control"  placeholder="+91-9999999999" id="c_contacts" required />
+								<input type="text" name="c_contacts[]" class="form-control" placeholder="+91-9999999999" id="c_contacts" required />
 								<span id="mobileno" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
@@ -187,12 +187,12 @@ $csrf = array(
 							<div class="form-group">
 								<label for="vendorname" class="font-weight-regular"> Vendor Name </label>
 								<input type="text" name="c_name" pattern="[a-zA-Z]{3,} [a-zA-Z]{3,}" class="form-control" id="edit_c_name" autocomplete="off" required placeholder="ex. John Doe" />
-								<span id="VName" class="text-danger font-weight-regular"> </span>
+								<span id="edit_ven_name" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="nickname" class="font-weight-regular"> Nick Name </label>
 								<input type="text" name="c_nickname" pattern="[a-z A-Z]{3,}" class="form-control" id="edit_c_nickname" autocomplete="off" required placeholder="ex. Johhny" />
-								<span id="NName" class="text-danger font-weight-regular"> </span>
+								<span id="edit_ven_nickname" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="Address" class="font-weight-regular"> Address </label>
@@ -215,7 +215,7 @@ $csrf = array(
 							<div class="form-group">
 								<label class="font-weight-regular"> Email </label>
 								<input type="email" name="c_email" class="form-control" id="edit_c_email" autocomplete="off" />
-								<span id="emailids" class="text-danger font-weight-regular"> </span>
+								<span id="edit_email" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<!-- <div class="form-group">
@@ -898,7 +898,7 @@ $csrf = array(
 								});
 							}
 						} else if (key == 'mobileno') {
-							swal("One or more mobile no. are invalid.","","error").then(()=>{
+							swal("One or more mobile no. are invalid.", "", "error").then(() => {
 								// continue;
 							})
 						} else {
@@ -977,12 +977,22 @@ $csrf = array(
 				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
-				if (res.response == "SUCCESS") {
-					swal("Basic Details Of Vendor Are Updates Successfully!", "", "success").then(() => {
-						// call back function, after success something to be done... goes here...
-						// loadVen();
-						location.reload();
-					});
+				if (res.error) {
+					for(let key in res.error) {
+						$("#"+key).text(res.error[key]);
+					}
+				} else {
+					if (res.response == "SUCCESS") {
+						swal("Basic Details Of Vendor Are Updates Successfully!", "", "success").then(() => {
+							// call back function, after success something to be done... goes here...
+							// loadVen();
+							location.reload();
+						});
+					} else {
+						swal("Some Error Occured!", "Please try again.", "error").then(() => {
+
+						});
+					}
 				}
 			}
 		});

@@ -6,7 +6,7 @@ class VendorManagement extends CI_Controller
 	private $ven_id_regx = "/[a-zA-Z]+[0-9]+/mxi";
 	private $ven_name_regx = "/[a-zA-Z]{3,10} [a-zA-Z]{3,10}/s";
 	private $ven_nick_name_regx = "/[a-zA-Z]{3,}/xm";
-	private $gst_regx = "/[0-9]{2}[a-zA-Z]{2}[0-9]{4}[a-zA-Z]{1}[0-9]{1}[a-zA-Z]{1}[0-9]{3}/xm";
+	private $gst_regx = "/\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/xm";
 	private $panno_regx = "/[A-Z]{5}[0-9]{4}[A-Z]{1}/xm";
 	private $ifsc_regx = "/[A-Z]{4}[0-9]{7}/xm";
 	private $accno_regx = "/[0-9]{9,18}/xm";
@@ -27,46 +27,104 @@ class VendorManagement extends CI_Controller
 		'funds_id' => '',
 	);
 
+	private $error_edit_ven = array(
+		'edit_ven_name' => '',
+		'edit_ven_nickname' => '',
+		'GStE' => '',
+		'lblPANCardE' => '',
+		'edit_email' => '',
+	);
+
 	public function validate($data, &$e_array, $contact)
 	{
+		$error = false;
 		if (empty($data['c_venid']) || !preg_match($this->ven_id_regx, $data['c_venid'])) {
 			$e_array['ven_id'] = '*Invalid Vendor ID';
+			$error = true;
 		}
 
 		if (empty($data['c_fname']) || empty($data['c_lname']) || $data['c_fname'] == "" || $data['c_lname'] == "") {
 			$e_array['ven_name'] = '*Invalid Vendor Name';
+			$error = true;
 		}
 
 		if (!preg_match($this->ven_name_regx, $data['c_fname'] . " " . $data['c_lname'])) {
 			$e_array['ven_name'] = '*Invalid Vendor Name';
+			$error = true;
 		}
 
 		if (empty($data['c_nickname']) || !preg_match($this->ven_nick_name_regx, $data['c_nickname'])) {
 			$e_array['ven_nick_name'] = '*Invalid Vendor Nick Name';
+			$error = true;
 		}
 
 		if (empty($data['c_address']) || !preg_match($this->address_regx, $data['c_address'])) {
 			$e_array['address'] = '*Invalid Address';
+			$error = true;
 		}
 
 		if (empty($data['c_gstno']) || !preg_match($this->gst_regx, $data['c_gstno'])) {
 			$e_array['gst_no'] = '*Invalid GST No';
+			$error = true;
 		}
 
 		if (empty($data['c_panno']) || !preg_match($this->panno_regx, $data['c_panno'])) {
 			$e_array['pan_no'] = '*Invalid PAN No';
+			$error = true;
 		}
 
 		if (empty($data['c_email']) || !preg_match($this->email_regx, $data['c_email'])) {
 			$e_array['email'] = '*Invalid Email';
+			$error = true;
 		}
 
-		foreach($contact as $c) {
+		foreach ($contact as $c) {
 			if (empty($c) || !preg_match($this->phoneno_regx, $c)) {
 				$e_array['mobileno'] = '*Invalid Mobile No';
+				$error = true;
 			}
 		}
+
+		return $error;
 	}
+
+	public function validateEdit($data, &$e_array)
+	{
+		$error = false;
+
+		if (empty($data['c_fname']) || empty($data['c_lname']) || $data['c_fname'] == "" || $data['c_lname'] == "") {
+			$e_array['edit_ven_name'] = '*Invalid Vendor Name';
+			$error = true;
+		}
+
+		if (!preg_match($this->ven_name_regx, $data['c_fname'] . " " . $data['c_lname'])) {
+			$e_array['edit_ven_name'] = '*Invalid Vendor Name';
+			$error = true;
+		}
+
+		if (empty($data['c_nickname']) || !preg_match($this->ven_nick_name_regx, $data['c_nickname'])) {
+			$e_array['edit_ven_nickname'] = '*Invalid Vendor Nick Name';
+			$error = true;
+		}
+
+		if (empty($data['c_gstno']) || !preg_match($this->gst_regx, $data['c_gstno'])) {
+			$e_array['GStE'] = '*Invalid GST No';
+			$error = true;
+		}
+
+		if (empty($data['c_panno']) || !preg_match($this->panno_regx, $data['c_panno'])) {
+			$e_array['lblPANCardE'] = '*Invalid PAN No';
+			$error = true;
+		}
+
+		if (empty($data['c_email']) || !preg_match($this->email_regx, $data['c_email'])) {
+			$e_array['edit_email'] = '*Invalid Email';
+			$error = true;
+		}
+
+		return $error;
+	}
+
 
 	// ajax will take contents from this functions, only select * query...
 	public function index()
@@ -145,7 +203,7 @@ class VendorManagement extends CI_Controller
 			'c_panno' => $this->input->post('c_panno'),
 		);
 		$error = $this->validate($data, $this->error_add_ven, $contact);
-		if($error) {
+		if ($error) {
 			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => $this->error_add_ven));
 			return;
 		}
@@ -327,9 +385,13 @@ class VendorManagement extends CI_Controller
 	{
 		$id = $this->sec->encryptor('d', $this->input->post('ven'));
 		$name = explode(" ", $this->input->post('c_name'));
+		$lname = "";
+		if(count($name) > 1){
+			$lname = $name[1];
+		}
 		$data = array(
 			'c_fname' => $name[0],
-			'c_lname' => $name[1],
+			'c_lname' => $lname,
 			'c_nickname' => $this->input->post('c_nickname'),
 			'c_address' => $this->input->post('c_address'),
 			'c_gstno' => $this->input->post('c_gstno'),
@@ -338,11 +400,17 @@ class VendorManagement extends CI_Controller
 			'c_designation' => $this->input->post('c_designation'),
 			'c_tags' => $this->input->post('c_tags')
 		);
-		$updateBasicResult = $this->ven->updateBasic($id, html_escape($data));
-		if ($updateBasicResult) {
-			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+
+		$error = $this->validateEdit($data, $this->error_edit_ven);
+		if ($error) {
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => $this->error_edit_ven));
 		} else {
-			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
+			$updateBasicResult = $this->ven->updateBasic($id, html_escape($data));
+			if ($updateBasicResult) {
+				echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+			} else {
+				echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'ERROR'));
+			}
 		}
 	}
 
