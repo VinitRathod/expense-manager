@@ -36,51 +36,57 @@ $csrf = array(
 						<form action="#" onsubmit="return validation()" class="bg-light" name="add_name" id="addVen">
 							<div class="form-group">
 								<label for="vendorId" class="font-weight-regular"> Vendor ID </label>
-								<input type="text" name="vendorid" class="form-control" id="vendorId" autocomplete="off" />
-								<span id="vendorid" class="text-danger font-weight-regular"> </span>
+								<input type="text" name="vendorid" class="form-control" id="vendorId" autocomplete="off" placeholder="ex. VEN10" />
+								<span id="ven_id" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="vendorname" class="font-weight-regular">
 									Vendor Name
 								</label>
 								<input type="text" name="c_name" pattern="[a-zA-Z]{3,} [a-zA-Z]{3,}" class="form-control" id="c_name" autocomplete="off" required placeholder="ex. John Doe" />
-								<span id="VName" class="text-danger font-weight-regular"> </span>
+								<span id="ven_name" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="nickname" class="font-weight-regular">
 									Nick Name
 								</label>
 								<input type="text" name="c_nickname" pattern="[a-z A-Z]{3,}" class="form-control" id="c_nickname" autocomplete="off" required placeholder="ex. Johhny" />
-								<span id="NName" class="text-danger font-weight-regular"> </span>
+								<span id="ven_nick_name" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="Address" class="font-weight-regular"> Address </label>
 								<br />
 								<textarea rows="4" cols="50" name="c_address" form="usrform" required id="c_address"></textarea>
+								<span id="address" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
 								<label for="gst" class="font-weight-regular"> GST </label>
-								<div id="GSt" class="error"></div>
-								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}" onkeyup="validationGST()" minlength="16" class="form-control" id="c_gstno" autocomplete="off" required />
+								<!-- <div id="GSt" class="error"></div> -->
+								<input type="text" name="c_gstno" pattern="[a-zA-Z]{16}"  minlength="16" class="form-control" id="c_gstno" autocomplete="off" required />
+								<span id="gst_no" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<div id="lblPANCard" class="error"></div>
-								<input type="text" name="c_panno" class="form-control" onkeyup="validationPan()" id="c_panno" autocomplete="off" required />
+								<!-- <div id="lblPANCard" class="error"></div> -->
+								<input type="text" name="c_panno" class="form-control"  id="c_panno" autocomplete="off" required />
+								<span id="pan_no" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label class="font-weight-regular"> Email </label>
 								<input type="email" name="c_email" class="form-control" id="c_email" autocomplete="off" />
+								<span id="email" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label class="font-weight-regular"> Mobile Number </label>
-								<div id="mobileno" name="mobileno" class="error"> </div>
-								<input type="text" name="c_contacts[]" class="form-control" onkeyup="validationmob()" placeholder="+91-9999999999" id="c_contacts" required />
+								<!-- <div id="mobileno" name="mobileno" class="error"> </div> -->
+								<input type="text" name="c_contacts[]" class="form-control"  placeholder="+91-9999999999" id="c_contacts" required />
+								<span id="mobileno" class="text-danger font-weight-regular"> </span>
 							</div>
 							<div class="form-group">
 								<label for="document" class="font-weight-regular"> Document </label>
 								<input type="file" name="c_document" class="form-control" id="c_document" accept="application/pdf" />
+								<span id="document" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
@@ -838,7 +844,7 @@ $csrf = array(
 			},
 			success: function(response) {
 				// just for response, and quick debugging...
-				console.log("Vendor Details :", (JSON.parse(response)));
+				// console.log("Vendor Details :", (JSON.parse(response)));
 
 				let data = JSON.parse(response);
 				if (data.csrf) {
@@ -882,10 +888,33 @@ $csrf = array(
 				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
-				if (res.response == "SUCCESS") {
-					swal("New Vendor Added Successfully!", "", "success").then(() => {
-						location.reload();
-					});
+				if (res.error) {
+					for (let key in res.error) {
+						if (key == 'contact_id' || key == 'funds_id') {
+							let msg = '';
+							if (res.error[key] != '') {
+								swal("Some Details Are Corrupted!", res.error[key], "error").then(() => {
+									// continue;
+								});
+							}
+						} else if (key == 'mobileno') {
+							swal("One or more mobile no. are invalid.","","error").then(()=>{
+								// continue;
+							})
+						} else {
+							$("#" + key).html(res.error[key]);
+						}
+					}
+				} else {
+					if (res.response == "SUCCESS") {
+						swal("New Vendor Added Successfully!", "", "success").then(() => {
+							location.reload();
+						});
+					} else {
+						swal("Some Error Occured!", "Please try again.", "error").then(() => {
+
+						});
+					}
 				}
 				// document.getElementById("addVen").reset();
 			}
