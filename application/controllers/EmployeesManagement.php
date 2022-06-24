@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
 class EmployeesManagement extends CI_Controller
 {
 
@@ -177,6 +176,43 @@ class EmployeesManagement extends CI_Controller
     // expanse management code ends here =================================================
 
     // Employee Payout Code Starts Here ==================================================
+
+    private $error_pay = array('warn_emp_id' => '', 'warn_doc' => '', 'warn_amount' => '',);
+    public function validatePayout($data, &$e_array, $id = 0)
+    {
+        $error = false;
+        if (empty($data['c_amount']) || $data['c_amount'] <= 0) {
+            $e_array['warn_amount'] = "*Amount is invalid or empty!";
+            $error = true;
+        }
+
+        if (empty($data['c_empid'])) {
+            $e_array['warn_emp_id'] = "Please Select Employee Id to Proceed Further";
+            $error = true;
+        }
+
+        if (empty($data['c_expcategory'])) {
+            $e_array['warn_expCat'] = "*Please Select Expense Category.";
+            $error = true;
+        }
+
+        if (empty($data['c_duedate'])) {
+            $e_array['warn_date'] = "*Please Insert date";
+            $error = true;
+        }
+
+        if ($data['c_paymentmode'] == 'schedule' && empty($data['c_scheduleddate'])) {
+            $e_array['warn_sdate'] = "*Please Select Date";
+            $error = true;
+        }
+
+        if (empty($data['c_tags'])) {
+            $e_array['warn_tag'] = "*Please Enter Tags";
+            $error = true;
+        }
+
+        return $error;
+    }
     public function empPayout()
     {
 
@@ -192,12 +228,26 @@ class EmployeesManagement extends CI_Controller
     public function getEmpName($id)
     {
         $res = $this->emp->getSingleEmp($this->sec->encryptor('d', $id));
-        $output = '<input type="text" name="pay_emp_name" pattern="[a-z A-Z]{3,}" minlength="3" value="' . $res->c_fname . ' ' . $res->c_lname . '" class="form-control" id="employeename" autocomplete="off" required />';
+        $output = '<input type="text" name="pay_emp_name" readonly pattern="[a-z A-Z]{3,}" minlength="3" value="' . $res->c_fname . ' ' . $res->c_lname . '" class="form-control" id="employeename" autocomplete="off" required />';
         // echo $output;
         echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
     public function addEmpPay()
     {
+        $data = array(
+            'c_empid' => $this->sec->encryptor('d', $this->input->post('empId')),
+            'c_bank' => $this->sec->encryptor('d', $this->input->post('c_banks')),
+            'c_expcategory' => $this->sec->encryptor('d', $this->input->post('expId')),
+            'c_amount' => $this->input->post('amount'),
+            'c_duedate' => $this->input->post('paydd'),
+            'c_paymentmode' => $this->input->post('pay_mode'),
+            'c_scheduleddate' => $this->input->post('paypd'),
+            'c_tags' => $this->input->post('Tags'),
+            'c_status' => "Unpaid",
+            // 'c_approval' => $this->input->post('approvalDoc'),
+            'created_at' => date("Y-m-d H:i:s", time()),
+            'modified_at' => date("Y-m-d H:i:s", time()),
+        );
         if (isset($_FILES['approvalDoc'])) {
             $doc_name = $_FILES['approvalDoc']['name'];
             $tmp_name = $_FILES['approvalDoc']['tmp_name'];
@@ -212,42 +262,19 @@ class EmployeesManagement extends CI_Controller
                     $new_doc_name = uniqid("DOC-", true) . '.' . $doc_ex_lc;
                     $doc_upload_path = "DOCS-PAYOUT/EMP-PAYOUTS/" . $new_doc_name;
                     move_uploaded_file($tmp_name, $doc_upload_path);
-                    $data = array(
-                        'c_empid' => $this->sec->encryptor('d', $this->input->post('empId')),
-                        'c_bank' => $this->sec->encryptor('d', $this->input->post('c_banks')),
-                        'c_expcategory' => $this->sec->encryptor('d', $this->input->post('expId')),
-                        'c_amount' => $this->input->post('amount'),
-                        'c_duedate' => $this->input->post('paydd'),
-                        'c_paymentmode' => $this->input->post('pay_mode'),
-                        'c_scheduleddate' => $this->input->post('paypd'),
-                        'c_tags' => $this->input->post('Tags'),
-                        'c_status' => "Unpaid",
-                        'c_approval' => $new_doc_name,
-                        'created_at' => now("Asis/Kolkata"),
-                        'modified_at' => now('Asis/Kolkata'),
-                    );
+                    $data['c_approval'] = $new_doc_name;
+                } else {
+                    $this->error_pay['warn_doc'] = "Please Upload PDF file Only";
                 }
             }
-        } else {
-            $data = array(
-                'c_empid' => $this->sec->encryptor('d', $this->input->post('empId')),
-                'c_bank' => $this->sec->encryptor('d', $this->input->post('c_banks')),
-                'c_expcategory' => $this->sec->encryptor('d', $this->input->post('expId')),
-                'c_amount' => $this->input->post('amount'),
-                'c_duedate' => $this->input->post('paydd'),
-                'c_paymentmode' => $this->input->post('pay_mode'),
-                'c_scheduleddate' => $this->input->post('paypd'),
-                'c_tags' => $this->input->post('Tags'),
-                'c_status' => "Unpaid",
-                // 'c_approval' => $this->input->post('approvalDoc'),
-                'created_at' => now("Asis/Kolkata"),
-                'modified_at' => now('Asis/Kolkata'),
-            );
         }
 
-
-        if ($this->emp->insertEmpPay(html_escape($data))) {
-            echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
+        if (!$this->validatePayout($data, $this->error_pay) && empty($this->error_pay['warn_doc'])) {
+            if ($this->emp->insertEmpPay(html_escape($data))) {
+                echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
+            }
+        } else {
+            echo json_encode(array('error' => $this->error_pay, 'csrf' => $this->security->get_csrf_hash()));
         }
     }
 
@@ -303,7 +330,7 @@ class EmployeesManagement extends CI_Controller
     public function getExpCat()
     {
         $result = $this->exp->getAllExpOf("employee");
-        $output = '<option value="null"> --SELECT EXPENSE CATEGORY-- </option>';
+        $output = '<option> --SELECT EXPENSE CATEGORY-- </option>';
         if ($result) {
             foreach ($result as $cat) {
                 if ($cat->c_category == "Other") {

@@ -46,9 +46,7 @@ $csrf = array(
 									<!-- <option value=" ev2">Vendorcat-2</option>
 									<option value="ev3">Vendorcat-3</option> -->
 								</select>
-
-								<!-- <input type="text" name="pay_emp_id" class="form-control" id="empid" autocomplete="off" required />
-								<span id="employeeid" class="text-danger font-weight-regular"> -->
+								<span id="warn_emp_id" class="text-danger font-weight-regular">
 								</span>
 							</div>
 
@@ -93,21 +91,23 @@ $csrf = array(
 									<!-- <option value="ev2">Vendorcat-2</option>
 									<option value="ev3">Vendorcat-3</option> -->
 								</select>
+								<span id="warn_expCat" class="text-danger font-weight-regular"> </span>
 								<div id="expense-category">
 
 								</div>
+								<span id="warn_doc" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
 								<label for="amount" class="font-weight-regular"> Amount </label>
 								<input type="number" name="amount" class="form-control" id="amount" min="0" autocomplete="off" required />
-								<span id="amount-s" class="text-danger font-weight-regular"> </span>
+								<span id="warn_amount" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Payment Due Date</label>
 								<input type="date" name="paydd" class="form-control" id="paydd" autocomplete="off" />
-								<span id="paymentdd" class="text-danger font-weight-regular">
+								<span id="warn_date" class="text-danger font-weight-regular">
 								</span>
 							</div>
 
@@ -120,6 +120,8 @@ $csrf = array(
 								<div id="payment-mode-schedule">
 
 								</div>
+								<span id="warn_sdate" class="text-danger font-weight-regular">
+								</span>
 							</div>
 
 							<div class="form-group">
@@ -127,6 +129,8 @@ $csrf = array(
 									Tags
 								</label>
 								<input type="text" name="Tags" pattern="[a-z A-Z]{1,}" class="form-control" id="Tags" autocomplete="off" required />
+								<span id="warn_tag" class="text-danger font-weight-regular">
+								</span>
 								<br />
 
 							</div>
@@ -185,17 +189,10 @@ $csrf = array(
 	function validation() {
 		var ename = document.getElementById("employeename").value;
 		// var mobileNumber = document.getElementById("mobileNumber").value;
-		var amount = document.getElementById("amount").value;
 
 		if (ename == "") {
 			document.getElementById("EName").innerHTML =
 				" ** Please fill the Name field";
-			return false;
-		}
-
-		if (amount == "") {
-			document.getElementById("amount-s").innerHTML =
-				" ** Please fill the amount field";
 			return false;
 		}
 	}
@@ -263,14 +260,19 @@ $csrf = array(
 				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
-				if (res.output == "SUCCESS") {
-					swal("Employee Payout Created Successfully", "Action Succeed!", "success").then(() => {
-						// loadEmpPay();
-						location.reload();
-						// $('#addEmpPay').trigger("reset");
-					});
+				if (res.error) {
+					for (let key in res.error) {
+						// console.log(key + " " + res.error[key]);
+						$("#" + key).text(res.error[key]);
+					}
 				} else {
-					swal("Some Unknown Error Occured!", "Please try again later", "error").then(() => {});
+					if (res.output == "SUCCESS") {
+						swal("Employee Payout Created Successfully", "Action Succeed!", "success").then(() => {
+							// loadEmpPay();
+							location.reload();
+							// $('#addEmpPay').trigger("reset");
+						});
+					}
 				}
 			}
 		});
@@ -452,13 +454,23 @@ $csrf = array(
 				}
 				// alert(data)
 				// loadEmpPay();
-				location.reload();
+
+				if (res.error) {
+					swal("Some Error Ocurred", res.error + " Please Try Again Later After Some Time", "error").then(() => {
+						// loadEmpPay();
+						location.reload();
+						// $('#addEmpPay').trigger("reset");
+					});
+				} else {
+					location.reload();
+				}
+
 			},
-			beforeSend: function(ex) {
+			beforeSend: function() {
 				$("#tblBlur").css("filter", "blur(4px)");
 				$(".spinnerDIV").css("display", "block");
 			},
-			complete: function(ex) {
+			complete: function() {
 				$("#tblBlur").css("filter", "blur(0px)");
 				$(".spinnerDIV").css("display", "none");
 			},

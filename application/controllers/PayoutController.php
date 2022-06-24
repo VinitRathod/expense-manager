@@ -20,12 +20,15 @@ class PayoutController extends CI_Controller
 
         $result = $this->pout->curlPayoutReq($data);
 
-        if (!empty($result)) {
+        if (($result['error'])) {
+            echo json_encode(array('error' => $result['error']['code'], 'csrf' => $this->security->get_csrf_hash()));
+        } else {
             $this->emp->updateStatus($this->sec->encryptor('d', $id));
             echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
-        } else {
-            echo "Some Error Occured";
         }
+        // echo json_encode(array('result' => $result['error'], 'csrf' => $this->security->get_csrf_hash()));
+
+
 
         // echo json_encode($pay);
 
@@ -58,10 +61,10 @@ class PayoutController extends CI_Controller
         $result = $this->pout->curlPayoutReq($data);
 
         if (!empty($result)) {
-            echo json_encode(array('csrf' => $this->security->get_csrf_hash(),'response' => json_encode($result)));
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => json_encode($result)));
             $this->venPay->updateStatus($this->sec->encryptor('d', $id));
         } else {
-            echo json_encode(array('csrf' => $this->security->get_csrf_hash(),'response' => json_encode($result)));
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => json_encode($result)));
         }
     }
 }
