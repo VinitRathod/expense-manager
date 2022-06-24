@@ -25,8 +25,6 @@ class LoginController extends CI_Controller
 
     public function index()
     {
-        $_user = "";
-        $all_users = $this->login->getAllUsers();
         $user_email = $this->input->post("email");
         $user_pass = $this->input->post("password");
         $enc_pass = sha1($user_pass);
@@ -35,21 +33,15 @@ class LoginController extends CI_Controller
             'success' => "",
             'csrf' => $this->security->get_csrf_hash(),
         );
-
-        foreach ($all_users as $user) {
-            if ($user->c_email == $user_email && $user->c_password == $enc_pass) {
-                $_user = array(
-                    'username' => $user->c_fname . " " . $user->c_lname,
-                );
-                $response['success'] = true;
-                break;
-            }
+        $get_user = $this->login->getUser($user_email,$enc_pass);
+        
+        if($get_user) {
+            $this->session->set_userdata('username',$get_user->c_fname." ".$get_user->c_lname );
+            $response['success'] = true;
         }
 
         if ($response['success'] != true) {
             $response['error'] = true;
-        } else {
-            $this->session->set_userdata($_user);
         }
         echo json_encode($response);
     }
