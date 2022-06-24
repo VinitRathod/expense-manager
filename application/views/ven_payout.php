@@ -54,7 +54,7 @@ $csrf = array(
 							<div class="form-group">
 								<label for="amount" class="font-weight-regular"> Amount </label>
 								<input type="number" name="amount" class="form-control" id="amount" min="0" autocomplete="off" required />
-								<span id="amount-s" class="text-danger font-weight-regular"> </span>
+								<span id="warn_amount" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
@@ -62,7 +62,7 @@ $csrf = array(
 									Invoice Number
 								</label>
 								<input type="number" name="invoice" class="form-control" pattern="[a-zA-Z0-9]{3,}" id="invoice" min="0" autocomplete="off" required />
-								<span id="amount-s" class="text-danger font-weight-regular"> </span>
+								<span id="warn_invoice" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
@@ -72,12 +72,13 @@ $csrf = array(
 									<option value="ev2">Vendorcat-2</option>
 									<option value="ev3">Vendorcat-3</option> -->
 								</select>
-								<span id="vendorid" class="text-danger font-weight-regular"> </span>
+								<span id="warn_category" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
 								<label for="document" class="font-weight-regular"> Document </label>
 								<input type="file" name="document" class="form-control" id="document" accept="application/pdf" />
+								<span id="warn_doc" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
@@ -85,7 +86,7 @@ $csrf = array(
 									References
 								</label>
 								<input type="text" name="references" pattern="[a-z A-Z]{3,}" class="form-control" id="references" autocomplete="off" required />
-								<span id="Reference" class="text-danger font-weight-regular">
+								<span id="warn_ref" class="text-danger font-weight-regular">
 								</span>
 							</div>
 
@@ -113,7 +114,7 @@ $csrf = array(
 								</label>
 								<input type="text" name="Tags" pattern="[a-z A-Z]{1,}" class="form-control" id="Tags" autocomplete="off" required />
 								<br />
-
+								<span id="warn_tags" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<!-- ...  -->
@@ -297,11 +298,18 @@ $csrf = array(
 				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
-				if (res.response == "SUCCESS") {
-					swal("Vendor Payout created successfully!", "Action succeed!", "success").then(() => {
-						location.reload();
-						// loadVenPayouts();
-					});
+				if (res.error) {
+					for(let key in res.error) {
+						console.log(key+" "+res.error[key]);
+						$("#"+key).text(res.error[key]);
+					}
+				} else {
+					if (res.response == "SUCCESS") {
+						swal("Vendor Payout created successfully!", "Action succeed!", "success").then(() => {
+							location.reload();
+							// loadVenPayouts();
+						});
+					}
 				}
 			}
 		});

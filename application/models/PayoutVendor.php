@@ -28,4 +28,12 @@ class PayoutVendor extends CI_Model
         );
         $this->db->update($this->tbl,$arr);
     }
+
+    public function checkInvoiceExist($invoice,$id) {
+        if($id != 0) {
+            return $this->db->where('c_invoiceno',$invoice)->get($this->tbl)->num_rows();
+        } else {
+            return $this->db->where(array('c_invoiceno'=>$invoice,'c_id !=' => $id))->get($this->tbl)->num_rows();
+        }
+    }
 }

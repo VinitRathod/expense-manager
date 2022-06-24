@@ -3,6 +3,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class VendorPayout extends CI_Controller
 {
+    private $error_ven_payout = [
+        'warn_amount' => '',
+        'warn_invoice' => '',
+        'warn_ref' => '',
+        'warn_tags' => '',
+        'warn_c_banks' => '',
+        'warn_c_venid' => '',
+        'warn_doc' => '',
+        'warn_category' => '',
+
+    ];
     public function venPayout()
     {
         $name = $this->session->userdata('username');
@@ -50,12 +61,57 @@ class VendorPayout extends CI_Controller
         echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => $output));
     }
 
+    public function validate($data,&$e_array,$id=0) {
+        $error = false;
+        if (empty($data['c_amount']) || $data['c_amount'] <= 0) {
+            $e_array['warn_amount'] = "*Amount is invalid or empty!";
+            $error = true;
+        }
+
+        if (empty($data['c_invoiceno']) || $data['c_invoiceno'] == "" || $data['c_invoiceno'] == null) {
+            $e_array['warn_invoice'] = "*Invoice is invalid or empty!";
+            $error = true;
+        }
+
+        if ($data['c_invoiceno'] != "" && $this->venPay->checkInvoiceExist($data['c_invoiceno'],$id)) {
+            $e_array['warn_invoice'] = "*Duplicate invoice is not allowed!";
+            $error = true;
+        }
+
+        if (empty($data['c_reference']) || $data['c_reference'] == "" || $data['c_reference'] == null) {
+            $e_array['warn_ref'] = "*Reference is invalid or empty!";
+            $error = true;
+        }
+
+        if (empty($data['c_tags']) || $data['c_tags'] == "" || $data['c_tags'] == null) {
+            $e_array['warn_tags'] = "Tags are invalid or empty!";
+            $error = true;
+        }
+
+        if(empty($data['c_bankid']) || $data['c_bankid'] == "" || $data['c_bankid'] == null) {
+            $e_array['warn_c_banks'] = "*Bank is invalid or not selected!";
+            $error = true;
+        }
+
+        if(empty($data['c_venid']) || $data['c_venid'] == "" || $data['c_venid'] == null) {
+            $e_array['warn_c_venid'] = "*Vendor is invalid or not selected!";
+            $error = true;
+        }
+
+        if(empty($data['c_expcategory']) || $data['c_expcategory'] == "" || $data['c_expcategory'] == null) {
+            $e_array['warn_category'] = "*Expense category is invalid or not selected!";
+            $error = true;
+        }
+
+        return $error;
+    }
+
     public function addVenPay()
     {
         $doc_name = $_FILES['document']['name'];
         $tmp_name = $_FILES['document']['tmp_name'];
         $img_error = $_FILES['document']['error'];
-
+        $data = array();
         if ($img_error == 0) {
             // echo "\nInside img if";
             $doc_ex = pathinfo($doc_name, PATHINFO_EXTENSION);
@@ -81,6 +137,22 @@ class VendorPayout extends CI_Controller
                     'created_at' => date("Y-m-d  H:i:s", time()),
                     'modified_at' => date("Y-m-d  H:i:s", time()),
                 );
+            } else {
+                $data = array(
+                    'c_invoiceno' => $this->input->post("invoice"),
+                    'c_venid' => $this->sec->encryptor('d', $this->input->post("c_venid")),
+                    'c_expcategory' => $this->sec->encryptor('d', $this->input->post("c_category")),
+                    'c_amount' => $this->input->post("amount"),
+                    'c_bankid' => $this->sec->encryptor('d', $this->input->post("c_banks")),
+                    'c_scheduledDate' => $this->input->post("paypd"),
+                    "c_reference" => $this->input->post("references"),
+                    'c_status' => "unpaid",
+                    'c_tags' => $this->input->post("Tags"),
+                    'c_paymentmode' => $this->input->post("pay_mode"),
+                    'created_at' => date("Y-m-d  H:i:s", time()),
+                    'modified_at' => date("Y-m-d  H:i:s", time()),
+                );
+                $this->error_ven_payout['warn_doc'] = "*Invalid file type!";
             }
         } else {
             $data = array(
@@ -98,8 +170,13 @@ class VendorPayout extends CI_Controller
                 'modified_at' => date("Y-m-d  H:i:s", time()),
             );
         }
-        if ($this->ven->insertVenPay(html_escape($data))) {
-            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+        $error = $this->validate($data,$this->error_ven_payout);
+        if(!$error) {
+            if ($this->ven->insertVenPay(html_escape($data))) {
+                echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => 'SUCCESS'));
+            }
+        } else {
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => $this->error_ven_payout));
         }
     }
 

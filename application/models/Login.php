@@ -7,5 +7,11 @@ class Login extends CI_Model
     public function getAllUsers() {
         return $this->db->get($this->tbl)->result();
     }
+
+    public function getUser($e,$p) {
+        $this->db->where('c_email', $e);
+        $this->db->where('c_password', $p);
+        return $this->db->get($this->tbl)->row();
+    }
 }
 ?>
