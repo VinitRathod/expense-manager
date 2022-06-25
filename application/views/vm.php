@@ -659,9 +659,46 @@ $csrf = array(
 		let acc_no = $("#intermediateAccountNum").val();
 		let acc_stat = $("#intermediateAccountStat").val();
 
-		let index = document.getElementById("bankDetails_tbl").rows.length;
-		document.getElementById("bankDetails_tbl").deleteRow(index - 1);
-		$("#bankTbl").append('<tr class="banks"><td>' + bank_n + '</td><td>' + ifsc + '</td><td>' + acc_no + '</td><td>' + acc_stat + '</td><td><button type="button" class="close" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td></tr>');
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
+		$.ajax({
+			method: 'POST',
+			url: `<?php echo base_url() ?>VendorManagement/validateBank`,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
+				'bank_name': bank_n,
+				'ifsc': ifsc,
+				'acc_no': acc_no,
+			},
+			success: function(response) {
+				let res = JSON.parse(response);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				if (res.error) {
+					let error_str = "";
+					for (let key in res.error) {
+						if(res.error[key] != ""){
+							error_str += key + " : " + res.error[key] + "\n";
+						}
+					}
+					swal("Please Check For Following Fields!", error_str, "error").then(() => {
+						// some call back goes here...
+					});
+				} else {
+					if (res.response == "SUCCESS") {
+						let index = document.getElementById("bankDetails_tbl").rows.length;
+						document.getElementById("bankDetails_tbl").deleteRow(index - 1);
+						$("#bankTbl").append('<tr class="banks"><td>' + bank_n + '</td><td>' + ifsc + '</td><td>' + acc_no + '</td><td>' + acc_stat + '</td><td><button type="button" class="close" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td></tr>');
+					} else {
+						swal("Error!", "Unknown Error Occured", "error").then(() => {
+							// some call back goes here...
+						});
+					}
+				}
+			},
+		});
 	}
 
 	// edit banks details functions ends from here...
@@ -978,8 +1015,8 @@ $csrf = array(
 					csrf_token = res.csrf;
 				}
 				if (res.error) {
-					for(let key in res.error) {
-						$("#"+key).text(res.error[key]);
+					for (let key in res.error) {
+						$("#" + key).text(res.error[key]);
 					}
 				} else {
 					if (res.response == "SUCCESS") {

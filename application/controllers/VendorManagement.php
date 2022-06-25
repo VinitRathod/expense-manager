@@ -13,6 +13,7 @@ class VendorManagement extends CI_Controller
 	private $address_regx = "/[a-zA-Z0-9\s,.]{3,100}/xm";
 	private $email_regx = "/[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/xm";
 	private $phoneno_regx = "/[0-9]{10}/xm";
+	private $bank_name_regx = "/[a-zA-Z]{3,}/xm";
 	private $error_add_ven = array(
 		'ven_id' => '',
 		'ven_name' => '',
@@ -123,6 +124,42 @@ class VendorManagement extends CI_Controller
 		}
 
 		return $error;
+	}
+
+	public function validateBank()
+	{
+		$data = array(
+			'c_bankname' => $this->input->post('bank_name'),
+			'c_ifsc' => $this->input->post('ifsc'),
+			'c_acno' => $this->input->post('acc_no'),
+		);
+		$error_arr = array(
+			'Bank Name' => '',
+			'IFSC Code' => '',
+			'Account Number' => '',
+		);
+		$error = false;
+
+		if (empty($data['c_bankname']) || !preg_match($this->bank_name_regx, $data['c_bankname'])) {
+			$error_arr['Bank Name'] = '*Invalid Bank Name Detected';
+			$error = true;
+		}
+
+		if (empty($data['c_ifsc']) || !preg_match($this->ifsc_regx, $data['c_ifsc'])) {
+			$error_arr['IFSC Code'] = '*Invalid IFSC Code Detected';
+			$error = true;
+		}
+
+		if (empty($data['c_acno']) || !preg_match($this->accno_regx, $data['c_acno'])) {
+			$error_arr['Account Number'] = '*Invalid Account Number Detected';
+			$error = true;
+		}
+
+		if($error){
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => $error_arr));
+		} else {
+			echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'response' => "SUCCESS"));
+		}
 	}
 
 
