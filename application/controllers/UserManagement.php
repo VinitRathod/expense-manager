@@ -41,37 +41,45 @@ class UserManagement extends CI_Controller
         echo json_encode(array('response' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
-    public function validate($name, $data,&$e_array, $id=0) {
+    public function validate($name, $data, &$e_array, $id = 0)
+    {
         $error = false;
         $edit = '';
-        if($id != 0) {
+        if ($id != 0) {
             $edit = '_edit';
         }
         if (count($name) > 2 || count($name) < 2 || !preg_match($this->usrname_regx, $name[0] . ' ' . $name[1])) {
-            $e_array['warn'.$edit.'_c_name'] = '*Invalid Name';
+            $e_array['warn' . $edit . '_c_name'] = '*Invalid Name';
             $error = true;
         }
 
         if ($this->usr->checkUsrnameExist($name[0], $data['c_lname'], $id)) {
-            $e_array['warn'.$edit.'_c_name'] = '*Duplicate User Name Is Not Allowed';
+            $e_array['warn' . $edit . '_c_name'] = '*Duplicate User Name Is Not Allowed';
             $error = true;
         }
 
         if (!preg_match($this->phoneno_regx, $data['c_phoneno'])) {
-            $e_array['warn'.$edit.'_c_phoneno'] = '*Invalid Phone Number';
+            $e_array['warn' . $edit . '_c_phoneno'] = '*Invalid Phone Number';
             $error = true;
         }
 
         if (!filter_var($data['c_email'], FILTER_VALIDATE_EMAIL)) {
-            $e_array['warn'.$edit.'_c_email'] = '*Invalid Email Address';
+            $e_array['warn' . $edit . '_c_email'] = '*Invalid Email Address';
             $error = true;
         }
 
-        if ($this->usr->checkEmailExist($data['c_email'],$id)) {
-            $e_array['warn'.$edit.'_c_email'] = '*Email Address Must Be Unique';
+        if ($this->usr->checkEmailExist($data['c_email'], $id)) {
+            $e_array['warn' . $edit . '_c_email'] = '*Email Address Must Be Unique';
             $error = true;
         }
-        
+
+        if ($id == 0) {
+            if (!(strlen($this->input->post('c_password')) >= 8 && strlen($this->input->post('c_password')) <= 20)) {
+                $e_array['warn' . $edit . '_c_password'] = '*Password Must Be At Least 8 Characters Upto 20 Characters';
+                $error = true;
+            }
+        }
+
         return $error;
     }
 
@@ -133,7 +141,7 @@ class UserManagement extends CI_Controller
             'c_email' => $this->input->post('c_email'),
             'c_phoneno' => $this->input->post('c_phoneno')
         );
-        $error = $this->validate($name, $data, $this->error_edit_user,$this->sec->encryptor('d', $id));
+        $error = $this->validate($name, $data, $this->error_edit_user, $this->sec->encryptor('d', $id));
         if (!$error) {
             $response = $this->usr->updateUser($this->sec->encryptor('d', $id), html_escape($data));
             if ($response) {
