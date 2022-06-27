@@ -42,6 +42,152 @@ class EmployeesManagement extends CI_Controller
         echo json_encode(array('output' => $output, 'csrf' => $this->security->get_csrf_hash()));
     }
 
+    private $emp_id_regx = "/[a-zA-Z]+[0-9]+/mxi";
+    private $emp_name_regx = "/[a-zA-Z]{3,10} [a-zA-Z]{3,10}/s";
+    // private $ven_nick_name_regx = "/[a-zA-Z]{3,}/xm";
+    // private $gst_regx = "/\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/xm";
+    private $panno_regx = "/[A-Z]{5}[0-9]{4}[A-Z]{1}/xm";
+    private $ifsc_regx = "/[A-Z]{4}[0-9]{7}/xm";
+    private $accno_regx = "/[0-9]{9,18}/xm";
+    private $address_regx = "/[a-zA-Z0-9\s,.]{3,100}/xm";
+    private $email_regx = "/[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/xm";
+    private $phoneno_regx = "/[0-9]{10}/xm";
+    private $bank_name_regx = "/[a-zA-Z]{3,}/xm";
+    private $error_add_emp = array(
+        'emp_id' => '',
+        'emp_name' => '',
+        // 'ven_nick_name' => '',
+        // 'address' => '',
+        // 'gst_no' => '',
+        'pan_no' => '',
+        'email' => '',
+        'mobileno' => '',
+        // 'document' => '',
+        'contact_id' => '',
+        'funds_id' => '',
+    );
+
+    private $error_edit_emp = array(
+        'edit_emp_id' => '',
+        'edit_emp_name' => '',
+        'edit_emp_contact' => '',
+        'edit_emp_pan' => '',
+        'edit_email' => '',
+    );
+
+    public function validate($data, &$e_array)
+    {
+        $error = false;
+        if (empty($data['c_empid']) || !preg_match($this->emp_id_regx, $data['c_empid'])) {
+            $e_array['emp_id'] = '*Invalid Employee ID';
+            $error = true;
+        }
+
+        if ($this->emp->checkEmpId($data['c_empid'], 0)) {
+            $e_array['emp_id'] = '*Employee ID Must Be Unique';
+            $error = true;
+        }
+
+        if (empty($data['c_fname']) || empty($data['c_lname']) || $data['c_fname'] == "" || $data['c_lname'] == "") {
+            $e_array['emp_name'] = '*Invalid Employee Name';
+            $error = true;
+        }
+
+        if (!preg_match($this->emp_name_regx, $data['c_fname'] . " " . $data['c_lname'])) {
+            $e_array['emp_name'] = '*Invalid Employee Name';
+            $error = true;
+        }
+
+        if (empty($data['c_panno']) || !preg_match($this->panno_regx, $data['c_panno'])) {
+            $e_array['pan_no'] = '*Invalid PAN No';
+            $error = true;
+        }
+
+        if (empty($data['c_email']) || !preg_match($this->email_regx, $data['c_email'])) {
+            $e_array['email'] = '*Invalid Email';
+            $error = true;
+        }
+
+        if (empty($data['c_contactno']) || !preg_match($this->phoneno_regx, $data['c_contactno'])) {
+            $e_array['mobileno'] = '*Invalid Mobile No';
+            $error = true;
+        }
+        return $error;
+    }
+
+    public function validateBank()
+    {
+        $data = array(
+            'c_bankname' => $this->input->post('bank_name'),
+            'c_ifsc' => $this->input->post('ifsc'),
+            'c_accountno' => $this->input->post('acc_no'),
+        );
+        $error_arr = array(
+            'Bank Name' => '',
+            'IFSC Code' => '',
+            'Account Number' => '',
+        );
+        $error = false;
+
+        if (empty($data['c_bankname']) || !preg_match($this->bank_name_regx, $data['c_bankname'])) {
+            $error_arr['Bank Name'] = '*Invalid Bank Name Detected';
+            $error = true;
+        }
+
+        if (empty($data['c_ifsc']) || !preg_match($this->ifsc_regx, $data['c_ifsc'])) {
+            $error_arr['IFSC Code'] = '*Invalid IFSC Code Detected';
+            $error = true;
+        }
+
+        if (empty($data['c_accountno']) || !preg_match($this->accno_regx, $data['c_accountno'])) {
+            $error_arr['Account Number'] = '*Invalid Account Number Detected';
+            $error = true;
+        }
+
+        if ($error) {
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => $error_arr));
+        } else {
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'output' => "SUCCESS"));
+        }
+    }
+
+    public function validateEdit($data, &$e_array, $id = 0)
+    {
+        $error = false;
+
+        if (empty($data['c_fname']) || empty($data['c_lname']) || $data['c_fname'] == "" || $data['c_lname'] == "") {
+            $e_array['edit_emp_name'] = '*Invalid Employee Name';
+            $error = true;
+        }
+
+        if (!preg_match($this->emp_name_regx, $data['c_fname'] . " " . $data['c_lname'])) {
+            $e_array['edit_emp_name'] = '*Invalid Employee Name';
+            $error = true;
+        }
+
+        if ($this->emp->checkEmpId($data['c_empid'], $id)) {
+            $e_array['edit_emp_name'] = '*Employee Id Must Be Unique';
+            $error = true;
+        }
+
+        if (empty($data['c_panno']) || !preg_match($this->panno_regx, $data['c_panno'])) {
+            $e_array['edit_emp_pan'] = '*Invalid PAN No';
+            $error = true;
+        }
+
+        if (empty($data['c_email']) || !preg_match($this->email_regx, $data['c_email'])) {
+            $e_array['edit_emp_email'] = '*Invalid Email';
+            $error = true;
+        }
+
+        if (empty($data['c_email']) || !preg_match($this->email_regx, $data['c_email'])) {
+            $e_array['edit_emp_contact'] = '*Invalid Contact Number';
+            $error = true;
+        }
+        return $error;
+    }
+
+
     public function empManagement()
     {
         $name = $this->session->userdata('username');
@@ -71,7 +217,14 @@ class EmployeesManagement extends CI_Controller
             'type' => "employee",
         );
         $res = $this->bank->curlReq(html_escape($details), $this->bank->contactURL);
-        $contactID = $res['id'];
+        $contactID = "";
+        if (isset($res['id'])) {
+            $contactID = $res['id'];
+        } else {
+            $this->error_add_emp['contact_id'] = "Operation failed!, Please check following details: name, email, mobile no.";
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => $this->error_add_emp));
+            return;
+        }
         // echo "<pre>";
         // print_r($res);
         // echo "</pre>";
@@ -94,7 +247,15 @@ class EmployeesManagement extends CI_Controller
                 )
             );
             $result = $this->bank->curlReq(html_escape($details), $this->bank->fundURL);
-            $fundID = $result['id'];
+            // $fundID = $result['id'];
+            $fundID = '';
+            if (isset($result['id'])) {
+                $fundID =  $result['id'];
+            } else {
+                $this->error_add_emp['funds_id'] = "Operation failed!, Please check following details: name, IFSC code, account number.";
+                echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => $this->error_add_emp));
+                return;
+            }
             $data = array(
                 'c_bankname' => $bankName[$i],
                 'c_ifsc' => $ifsc[$i],
@@ -116,16 +277,16 @@ class EmployeesManagement extends CI_Controller
             'c_email' => $this->input->post("c_email")
         );
 
-        if ($this->emp->insert(html_escape($emp_data))) {
-            echo json_encode(array('csrf' => $this->security->get_csrf_hash()));
+        if (!$this->validate($emp_data, $this->error_add_emp)) {
+            $insert = $this->emp->insert(html_escape($emp_data));
+            if ($insert) {
+                echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'output' => 'SUCCESS'));
+            } else {
+                echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'output' => 'ERROR'));
+            }
         } else {
-            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => true));
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => $this->error_add_emp));
         }
-
-        // if ($insert) {
-        //     redirect('/');
-        // }
-        // }
     }
 
     public function edit_Emp($id)
@@ -148,12 +309,19 @@ class EmployeesManagement extends CI_Controller
             'c_contactno' => $this->input->post('mobile'),
             'c_email' => $this->input->post('c_email'),
         );
-        $updateBasicResult = $this->emp->updateBasic($id, html_escape($data));
-        if ($updateBasicResult) {
-            echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
+
+        $error = $this->validateEdit($data, $this->error_edit_emp, $id);
+        if ($error) {
+            echo json_encode(array('csrf' => $this->security->get_csrf_hash(), 'error' => $this->error_edit_emp));
         } else {
-            echo "ERROR";
+            $updateBasicResult = $this->emp->updateBasic($id, html_escape($data));
+            if ($updateBasicResult) {
+                echo json_encode(array('output' => "SUCCESS", 'csrf' => $this->security->get_csrf_hash()));
+            } else {
+                echo json_encode(array('output' => "ERROR", 'csrf' => $this->security->get_csrf_hash()));
+            }
         }
+
         // echo json_encode($this->input->post('employeename'));
     }
 

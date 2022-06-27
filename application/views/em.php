@@ -40,7 +40,7 @@ $csrf = array(
 							<div class="form-group">
 								<label class="font-weight-regular"> Employee ID </label>
 								<input type="text" name="empid" class="form-control" id="empid" autocomplete="off" required />
-								<span id="employeeid" class="text-danger font-weight-regular">
+								<span id="emp_id" class="text-danger font-weight-regular">
 								</span>
 							</div>
 
@@ -49,26 +49,28 @@ $csrf = array(
 									Employee Name
 								</label>
 								<input type="text" name="employeename" pattern="[a-z A-Z]{3,}" class="form-control" id="employeename" autocomplete="off" required />
-								<span id="EName" name="EName" class="text-danger font-weight-regular"> </span>
+								<span id="emp_name" name="EName" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
 								<label for="pan" class="font-weight-regular"> PAN Number </label>
-								<div id="lblPANCard" class="error"></div>
+								<!-- <div id="pan_no" class="error"></div> -->
 								<input type="text" name="pan" class="form-control" onkeyup="validationPan()" id="pan" autocomplete="off" required />
+								<span id="pan_no" name="EName" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Mobile Number </label>
 								<div id="mobileno" name="mobileno" class="error"> </div>
 								<input type="text" name="mobile" class="form-control" onkeyup="validationmob()" placeholder="+91-9999999999" id="mobileNumber" required />
+								<span id="mobileno" name="EName" class="text-danger font-weight-regular"> </span>
 
 							</div>
 
 							<div class="form-group">
 								<label class="font-weight-regular"> Email </label>
 								<input type="email" name="c_email" class="form-control" id="c_email" autocomplete="off" />
-								<span id="emailids" class="text-danger font-weight-regular"> </span>
+								<span id="email" class="text-danger font-weight-regular"> </span>
 							</div>
 
 							<div class="form-group">
@@ -142,34 +144,33 @@ $csrf = array(
 						<div class="form-group">
 							<label class="font-weight-regular"> Employee ID </label>
 							<input type="text" name="empid" class="form-control" id="edit_empid" autocomplete="off" required />
-							<span id="employeeid" class="text-danger font-weight-regular">
-							</span>
+							<span id="edit_emp_id" class="text-danger font-weight-regular"></span>
 						</div>
 						<div class="form-group">
 							<label for="employeename" class="font-weight-regular">
 								Employee Name
 							</label>
 							<input type="text" name="employeename" pattern="[a-z A-Z]{3,}" class="form-control" id="editEmpName" autocomplete="off" required />
-							<span id="EName" name="EName" class="text-danger font-weight-regular"> </span>
+							<span id="edit_emp_name" name="EName" class="text-danger font-weight-regular"></span>
 						</div>
 
 						<div class="form-group">
 							<label for="pan" class="font-weight-regular"> PAN Number </label>
-							<div id="lblPANCardE" class="error"></div>
+							<!-- <div id="lblPANCardE" class="error"></div> -->
 							<input type="text" name="pan" class="form-control" onkeyup="validationPanE()" id="editPan" autocomplete="off" required />
+							<span id="edit_emp_pan" class="text-danger font-weight-regular"></span>
 						</div>
 
 						<div class="form-group">
 							<label class="font-weight-regular"> Mobile Number </label>
-							<div id="mobilenoE" name="mobileno" class="error"> </div>
 							<input type="text" placeholder="+91-9999999999" name="mobile" class="form-control" onkeyup="validationmobE()" id="edit_mobileno" required />
-
+							<span id="edit_emp_contact" class="text-danger font-weight-regular"></span>
 						</div>
 
 						<div class="form-group">
 							<label class="font-weight-regular"> Email </label>
 							<input type="email" name="c_email" class="form-control" id="edit_email" autocomplete="off" />
-							<span id="emailids" class="text-danger font-weight-regular"> </span>
+							<span id="edit_emp_email" class="text-danger font-weight-regular"> </span>
 						</div>
 						<input type="submit" name="submit" value="Edit Details" class="btn btn-primary" autocomplete="off" data-tw-dismiss="modal" />
 						<input type="reset" name="reset" value="Reset" class="btn btn-secondary" autocomplete="off" />
@@ -483,11 +484,56 @@ $csrf = array(
 		let bank_name = $("#intermediateBankName").val();
 		let ifsc = $("#intermediateIFSC").val();
 		let accno = $("#intermediateAccNo").val();
+		console.log(accno);
 		let accStat = $("#intermediateAccStat").val();
 
-		let index = document.getElementById("bankDetails_tbl").rows.length;
-		document.getElementById("bankDetails_tbl").deleteRow(index - 1);
-		$(".banktbl").append('<tr class="banks"><td>' + bank_name + '</td><td>' + ifsc + '</td><td>' + accno + '</td><td>' + accStat + '</td><td><button class="close" type="button" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td></tr>')
+		if (csrf_token == "") {
+			csrf_token = "<?= $csrf['value'] ?>";
+		}
+		$.ajax({
+			method: 'POST',
+			url: `<?php echo base_url() ?>EmployeesManagement/validateBank`,
+			data: {
+				'<?= $csrf['name'] ?>': csrf_token,
+				'bank_name': bank_name,
+				'ifsc': ifsc,
+				'acc_no': accno,
+			},
+			success: function(response) {
+				let res = JSON.parse(response);
+				if (res.csrf) {
+					csrf_token = res.csrf;
+				}
+				if (res.error) {
+					let error_str = "";
+					for (let key in res.error) {
+						if (res.error[key] != "") {
+							error_str += key + " : " + res.error[key] + "\n";
+						}
+					}
+					swal("Please Check For Following Fields!", error_str, "error").then(() => {
+						// some call back goes here...
+					});
+				} else {
+					if (res.output == "SUCCESS") {
+						let index = document.getElementById("bankDetails_tbl").rows.length;
+						document.getElementById("bankDetails_tbl").deleteRow(index - 1);
+						$(".banktbl").append('<tr class="banks"><td>' + bank_name + '</td><td>' + ifsc + '</td><td>' + accno + '</td><td>' + accStat + '</td><td><button class="close" type="button" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td></tr>')
+						// let index = document.getElementById("bankDetails_tbl").rows.length;
+						// document.getElementById("bankDetails_tbl").deleteRow(index - 1);
+						// $("#bankTbl").append('<tr class="banks"><td>' + bank_n + '</td><td>' + ifsc + '</td><td>' + acc_no + '</td><td>' + acc_stat + '</td><td><button type="button" class="close" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td></tr>');
+					} else {
+						swal("Error!", "Unknown Error Occured", "error").then(() => {
+							// some call back goes here...
+						});
+					}
+				}
+			},
+		});
+
+		// let index = document.getElementById("bankDetails_tbl").rows.length;
+		// document.getElementById("bankDetails_tbl").deleteRow(index - 1);
+		// $(".banktbl").append('<tr class="banks"><td>' + bank_name + '</td><td>' + ifsc + '</td><td>' + accno + '</td><td>' + accStat + '</td><td><button class="close" type="button" aria-label="Close" onclick="removeBank(this)"><span aria-hidden="true">&times;</span></button></td></tr>')
 		// alert("Hello world");
 	}
 
@@ -544,9 +590,33 @@ $csrf = array(
 				if (res.csrf) {
 					csrf_token = res.csrf;
 				}
-				console.log("data added successfully")
-				// loadEmp();
-				location.reload();
+				if (res.error) {
+					for (let key in res.error) {
+						if (key == 'contact_id' || key == 'funds_id') {
+							let msg = '';
+							if (res.error[key] != '') {
+								swal("Some Details Are Corrupted!", res.error[key], "error").then(() => {
+									// continue;
+								});
+							}
+						} else {
+							$("#" + key).html(res.error[key]);
+						}
+					}
+				} else {
+					if (res.output == "SUCCESS") {
+						swal("New Employee Added Successfully!", "", "success").then(() => {
+							location.reload();
+						});
+					} else {
+						swal("Some Error Occured!", "Please try again.", "error").then(() => {
+
+						});
+					}
+				}
+				// console.log("data added successfully")
+				// // loadEmp();
+				// location.reload();
 				// document.getElementById("add_emp").reset();
 
 			}
@@ -637,7 +707,7 @@ $csrf = array(
 	function validationmobE() {
 
 		var mobileNumber = document.getElementById("edit_mobileno");
-		var mobileno = document.getElementById("mobilenoE");
+		var mobileno = document.getElementById("edit_emp_contact");
 		var regexm = /^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/;
 		if (regexm.test(mobileNumber.value)) {
 			mobileno.innerHTML = "";
@@ -657,10 +727,10 @@ $csrf = array(
 		var lblPANCard = document.getElementById("lblPANCard")
 		var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
 		if (regex.test(txtPANCard.value.toUpperCase())) {
-			lblPANCard.innerHTML = "";
+			pan_no.innerHTML = "";
 			return true;
 		} else {
-			lblPANCard.innerHTML = "*Invalid PAN Card Number";
+			pan_no.innerHTML = "*Invalid PAN Card Number";
 			return false;
 		}
 
@@ -672,10 +742,10 @@ $csrf = array(
 		var lblPANCard = document.getElementById("lblPANCardE")
 		var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
 		if (regex.test(txtPANCard.value.toUpperCase())) {
-			lblPANCard.innerHTML = "";
+			pan_no.innerHTML = "";
 			return true;
 		} else {
-			lblPANCard.innerHTML = "*Invalid PAN Card Number";
+			pan_no.innerHTML = "*Invalid PAN Card Number";
 			return false;
 		}
 
@@ -717,12 +787,22 @@ $csrf = array(
 					csrf_token = res.csrf;
 				}
 				// console.log(response);
-				if (res.output == "SUCCESS") {
-					swal("Basic Details Of Employee Are Updates Successfully!", "", "success").then(() => {
-						// call back function, after success something to be done... goes here...
-						// loadEmp();
-						location.reload();
-					});
+				if (res.error) {
+					for (let key in res.error) {
+						$("#" + key).text(res.error[key]);
+					}
+				} else {
+					if (res.output == "SUCCESS") {
+						swal("Basic Details Of Employee Are Updated Successfully!", "", "success").then(() => {
+							// call back function, after success something to be done... goes here...
+							// loadVen();
+							location.reload();
+						});
+					} else {
+						swal("Some Error Occured!", "Please try again.", "error").then(() => {
+
+						});
+					}
 				}
 			}
 

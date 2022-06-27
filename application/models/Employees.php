@@ -117,4 +117,13 @@ class Employees extends CI_Model
         $this->db->where('c_id', $id);
         $this->db->update('t_employees', $data);
     }
+
+    public function checkEmpId($empid, $id)
+    {
+        if ($id != 0) {
+            return $this->db->where(array('c_empid' => $empid, 'c_id !=' => $id))->get('t_employees')->num_rows();
+        } else {
+            return $this->db->where('c_empid', $empid)->get('t_employees')->num_rows();
+        }
+    }
 }
